@@ -2,34 +2,39 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
 import { useAuth } from "../context/AuthContext";
 
-type LoginFormData = {
+type RegisterFormData = {
   username: string;
+  email: string;
   password: string;
 };
 
-type LoginFormErrors = Partial<Record<keyof LoginFormData, string>>;
+type RegisterFormErrors = Partial<Record<keyof RegisterFormData, string>>;
 
-const initialData: LoginFormData = {
+const initialData: RegisterFormData = {
   username: "",
+  email: "",
   password: "",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
-  const { login } = useAuth();
-  const [formData, setFormData] = useState<LoginFormData>(initialData);
-  const [errors, setErrors] = useState<LoginFormErrors>({});
-  const [toastError, setToastError] = useState("");
+  const { registerUser } = useAuth();
+  const [formData, setFormData] = useState<RegisterFormData>(initialData);
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
+  const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validate = (data: LoginFormData) => {
-    const nextErrors: LoginFormErrors = {};
+  const validate = (data: RegisterFormData) => {
+    const nextErrors: RegisterFormErrors = {};
 
     if (!data.username.trim()) {
       nextErrors.username = "Username is required.";
+    }
+
+    if (!data.email.trim()) {
+      nextErrors.email = "Email is required.";
     }
 
     if (!data.password) {
@@ -41,7 +46,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setToastError("");
+    setSubmitError("");
 
     const validationErrors = validate(formData);
     setErrors(validationErrors);
@@ -52,18 +57,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      await login(formData);
-      router.push("/");
-    } catch (error: unknown) {
-      const axiosError = error as AxiosError<{ message?: string }>;
-      const status = axiosError.response?.status;
-      const message = axiosError.response?.data?.message;
-
-      if (status === 401) {
-        setToastError(message ?? "Invalid username or password.");
-      } else {
-        setToastError(message ?? "Login failed.");
-      }
+      await registerUser(formData);
+      router.push("/login");
+    } catch {
+      setSubmitError("Registration failed.");
     } finally {
       setIsSubmitting(false);
     }
@@ -71,19 +68,11 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-md items-center px-6">
-      {toastError && (
-        <div
-          role="alert"
-          className="fixed right-4 top-4 rounded-md bg-red-600 px-4 py-3 text-sm font-medium text-white shadow-md"
-        >
-          {toastError}
-        </div>
-      )}
       <form
         onSubmit={handleSubmit}
         className="w-full space-y-4 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm"
       >
-        <h1 className="text-2xl font-semibold text-zinc-900">Login</h1>
+        <h1 className="text-2xl font-semibold text-zinc-900">Register</h1>
 
         <div className="space-y-1">
           <label htmlFor="username" className="text-sm font-medium text-zinc-800">
@@ -105,6 +94,25 @@ export default function LoginPage() {
         </div>
 
         <div className="space-y-1">
+          <label htmlFor="email" className="text-sm font-medium text-zinc-800">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            value={formData.email}
+            onChange={(event) => {
+              setFormData((prev) => ({ ...prev, email: event.target.value }));
+              setErrors((prev) => ({ ...prev, email: undefined }));
+            }}
+            className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-500"
+          />
+          {errors.email && <p className="text-sm text-red-600">{errors.email}</p>}
+        </div>
+
+        <div className="space-y-1">
           <label htmlFor="password" className="text-sm font-medium text-zinc-800">
             Password
           </label>
@@ -123,12 +131,14 @@ export default function LoginPage() {
           {errors.password && <p className="text-sm text-red-600">{errors.password}</p>}
         </div>
 
+        {submitError && <p className="text-sm text-red-600">{submitError}</p>}
+
         <button
           type="submit"
           disabled={isSubmitting}
           className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
         >
-          {isSubmitting ? "Logging in..." : "Login"}
+          {isSubmitting ? "Creating account..." : "Register"}
         </button>
       </form>
     </main>
