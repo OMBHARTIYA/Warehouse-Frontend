@@ -46,7 +46,7 @@ export function useUsers(user: User | null, authLoading: boolean) {
     setUpdatingUserId(targetId);
     try {
       await updateUserRole(targetId, nextRole);
-      toast.success("User updated");
+      toast.success("User role updated");
       await fetchUsers();
     } catch {
       setError("Could not update user role.");
@@ -79,7 +79,6 @@ export function useUsers(user: User | null, authLoading: boolean) {
       setError("Password must be at least 6 characters.");
       return;
     }
-    if (!window.confirm(`Reset password for ${targetUser.username ?? "this user"}?`)) return;
     setResettingPasswordUserId(targetId);
     setError(null);
     try {
@@ -95,5 +94,26 @@ export function useUsers(user: User | null, authLoading: boolean) {
     }
   };
 
-  return { users, isLoading, error, updatingUserId, deletingUserId, passwordFormUserId, newPassword, resettingPasswordUserId, setPasswordFormUserId, setNewPassword, handleRoleChange, handleDelete, handlePasswordReset, cancelPasswordReset: () => { setPasswordFormUserId(null); setNewPassword(""); }, openPasswordReset: (targetUser: AdminUser) => { const targetId = targetUser.id; if (targetId === undefined || targetId === null) return; setPasswordFormUserId(targetId); setNewPassword(""); } };
+  return {
+    users,
+    isLoading,
+    error,
+    updatingUserId,
+    deletingUserId,
+    passwordFormUserId,
+    newPassword,
+    resettingPasswordUserId,
+    setPasswordFormUserId,
+    setNewPassword,
+    handleRoleChange,
+    handleDelete,
+    handlePasswordReset,
+    cancelPasswordReset: () => { setPasswordFormUserId(null); setNewPassword(""); },
+    openPasswordReset: (targetUser: AdminUser) => {
+      const targetId = targetUser.id;
+      if (targetId === undefined || targetId === null) return;
+      setPasswordFormUserId(targetId);
+      setNewPassword("");
+    },
+  };
 }
