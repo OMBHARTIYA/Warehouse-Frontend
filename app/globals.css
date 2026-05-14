@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #eceded;
+  --foreground: #111827;
+  --surface: #f6f7f7;
+  --surface-2: #ffffff;
+  --surface-muted: #eef0ef;
+  --border-soft: #e2e8e5;
+  --brand-red: #b4232d;
+  --brand-red-strong: #8f1a22;
+  --brand-red-soft: #fbe9eb;
+  --brand-red-border: #f2c5ca;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand: var(--brand-red);
+  --color-brand-hover: var(--brand-red-strong);
+  --color-brand-soft: var(--brand-red-soft);
+  --color-brand-border: var(--brand-red-border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
 }
 
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+/* Remove Recharts click/focus selection boxes */
+.recharts-wrapper,
+.recharts-wrapper svg,
+.recharts-wrapper * {
+  outline: none !important;
+}
+
+.recharts-surface,
+.recharts-surface:focus,
+.recharts-surface:focus-visible,
+.recharts-sector,
+.recharts-sector:focus,
+.recharts-sector:focus-visible,
+.recharts-rectangle,
+.recharts-rectangle:focus,
+.recharts-rectangle:focus-visible,
+.recharts-layer,
+.recharts-layer:focus,
+.recharts-layer:focus-visible {
+  outline: none !important;
+}
+
+/* Prevent text selection inside charts */
+.recharts-wrapper * {
+  user-select: none;
+}
+
+/* Hide Recharts hover cursor overlay */
+.recharts-tooltip-cursor {
+  display: none;
 }

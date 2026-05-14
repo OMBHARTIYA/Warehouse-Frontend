@@ -1,5 +1,8 @@
 "use client";
 
+import TasksView from "../components/tasks/TasksView";
+
 export default function TasksPage() {
-  return <h2 className="text-2xl font-semibold text-zinc-900">Tasks</h2>;
+  return <TasksView />;
 }
+

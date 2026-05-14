@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import AppLayout from "./AppLayout";
+import AppLayout from "./layout/AppLayout";
 import { useAuth } from "../context/AuthContext";
 
 type RouteLayoutProps = {
