@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import type { DropResult } from "@hello-pangea/dnd";
 import { useAuth } from "@/app/context/AuthContext";
 import ConfirmDialog from "../common/ConfirmDialog";
+import EmptyState from "../common/states/EmptyState";
+import UndoBanner from "../common/feedback/UndoBanner";
 import ErrorMessage from "../ErrorMessage";
 import FilterDropdown from "../common/FilterDropdown";
 import LoadingSpinner from "../LoadingSpinner";
@@ -124,7 +126,7 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
 
       {isLoading && <LoadingSpinner label="Loading tasks..." />}
       {!isLoading && error && <ErrorMessage message={error} />}
-      {!isLoading && !error && tasks.length === 0 && <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm">No tasks found.</div>}
+      {!isLoading && !error && tasks.length === 0 && <EmptyState title="No tasks found." compact />}
 
       {!isLoading && !error && tasks.length > 0 && (
         <TaskFiltersBar
@@ -139,9 +141,7 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
         />
       )}
 
-      {!isLoading && !error && tasks.length > 0 && filters.filteredTasks.length === 0 && (
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm">No tasks match the selected filters.</div>
-      )}
+      {!isLoading && !error && tasks.length > 0 && filters.filteredTasks.length === 0 && (<EmptyState title="No tasks match the selected filters." compact />)}
 
       {!isLoading && !error && filters.filteredTasks.length > 0 && viewMode === "list" && (
         <TaskListView tasks={sortedListTasks} activeTaskActionId={mutations.activeTaskActionId} activeTaskActionType={mutations.activeTaskActionType} onEdit={modal.openEditModal} onDelete={setPendingDeleteTask} />
@@ -214,16 +214,13 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
         isBusy={mutations.activeTaskActionType === "delete"}
       />
 
-      {mutations.lastDeletedTask && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Task deleted.
-          <button type="button" className="ml-2 rounded bg-emerald-700 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-800" onClick={() => { void mutations.undoDeleteTask(); }}>
-            Undo
-          </button>
-        </div>
-      )}
+      {mutations.lastDeletedTask && <UndoBanner message="Task deleted." onUndo={() => { void mutations.undoDeleteTask(); }} />}
 
       <Link href="/projects" className="inline-block text-sm font-medium text-zinc-900 hover:underline">Back to Projects</Link>
     </section>
   );
 }
+
+
+
+

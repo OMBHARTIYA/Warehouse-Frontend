@@ -1,3 +1,4 @@
+import EmptyState from "../common/states/EmptyState";
 import ErrorMessage from "../ErrorMessage";
 import Skeleton from "../Skeleton";
 import TaskFilters from "./TaskFilters";
@@ -47,21 +48,15 @@ export default function TasksView() {
         </div>
       )}
 
-      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
-          <p className="text-base font-medium text-zinc-800">No tasks yet</p>
-          <p className="mt-1 text-sm text-zinc-500">Tasks will appear here when they are created.</p>
-        </div>
-      )}
+      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length === 0 && (<EmptyState title="No tasks yet" description="Tasks will appear here when they are created." />)}
 
-      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length > 0 && filters.filteredTasks.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
-          <p className="text-base font-medium text-zinc-800">No tasks match these filters</p>
-          <p className="mt-1 text-sm text-zinc-500">Try changing status/priority filters or reset them.</p>
-        </div>
-      )}
+      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length > 0 && filters.filteredTasks.length === 0 && (<EmptyState title="No tasks match these filters" description="Try changing status/priority filters or reset them." />)}
 
       {!tasksState.isLoading && !tasksState.error && filters.filteredTasks.length > 0 && <TasksTable tasks={filters.filteredTasks} />}
     </section>
   );
 }
+
+
+
+

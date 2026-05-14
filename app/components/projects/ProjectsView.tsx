@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import ConfirmDialog from "../common/ConfirmDialog";
+import EmptyState from "../common/states/EmptyState";
 import ErrorMessage from "../ErrorMessage";
 import Skeleton from "../Skeleton";
+import UndoBanner from "../common/feedback/UndoBanner";
 import ProjectCard from "./ProjectCard";
 import ProjectCreateForm from "./ProjectCreateForm";
 import ProjectFilters from "./ProjectFilters";
@@ -61,19 +63,9 @@ export default function ProjectsView() {
         />
       )}
 
-      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
-          <p className="text-base font-medium text-zinc-800">No projects yet</p>
-          <p className="mt-1 text-sm text-zinc-500">Create your first project to start organizing tasks.</p>
-        </div>
-      )}
+      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length === 0 && (<EmptyState title="No projects yet" description="Create your first project to start organizing tasks." />)}
 
-      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && filters.visibleProjects.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
-          <p className="text-base font-medium text-zinc-800">No projects match your search</p>
-          <p className="mt-1 text-sm text-zinc-500">Try a different name query or adjust sorting.</p>
-        </div>
-      )}
+      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && filters.visibleProjects.length === 0 && (<EmptyState title="No projects match your search" description="Try a different name query or adjust sorting." />)}
 
       {!projectsState.isLoading && !projectsState.error && filters.visibleProjects.length > 0 && (
         <div className="grid gap-4 md:grid-cols-2">
@@ -113,14 +105,11 @@ export default function ProjectsView() {
         isBusy={projectsState.activeActionType === "delete"}
       />
 
-      {projectsState.lastDeletedProject && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Project deleted.
-          <button type="button" className="ml-2 rounded bg-emerald-700 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-800" onClick={() => { void projectsState.undoDeleteProject(); }}>
-            Undo
-          </button>
-        </div>
-      )}
+      {projectsState.lastDeletedProject && <UndoBanner message="Project deleted." onUndo={() => { void projectsState.undoDeleteProject(); }} />}
     </section>
   );
 }
+
+
+
+
