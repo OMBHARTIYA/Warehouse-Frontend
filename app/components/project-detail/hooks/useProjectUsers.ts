@@ -14,6 +14,8 @@ export function useProjectUsers() {
         const response = await api.get("/api/users");
         const data = Array.isArray(response.data) ? response.data : response.data?.users;
         if (!ignore) setUsers(Array.isArray(data) ? data : []);
+      } catch {
+        if (!ignore) setUsers([]);
       } finally {
         if (!ignore) setIsUsersLoading(false);
       }
