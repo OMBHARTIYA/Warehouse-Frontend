@@ -11,26 +11,23 @@ type StatCardProps = {
 export function StatCard({ label, value, helperText, icon: Icon, isPrimary = false }: StatCardProps) {
   return (
     <div
-      className={`rounded-3xl border p-5 sm:p-6 ${
+      className={`group rounded-3xl border p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:p-6 ${
         isPrimary
-          ? "border-[var(--brand-red-soft)] bg-[var(--brand-red-soft)]/45 text-zinc-900"
+          ? "border-rose-200 bg-gradient-to-br from-rose-100 via-white to-red-50 text-zinc-900"
           : "border-[var(--border-soft)] bg-white text-zinc-900"
       }`}
     >
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm font-semibold tracking-tight text-zinc-700 sm:text-base">{label}</p>
         <span
-          className={`inline-flex h-8 w-8 items-center justify-center rounded-lg ${
-            isPrimary ? "bg-white/80 text-[var(--brand-red-strong)]" : "bg-zinc-100 text-zinc-600"
+          className={`inline-flex h-9 w-9 items-center justify-center rounded-xl ${
+            isPrimary ? "bg-white text-[var(--brand-red-strong)]" : "bg-zinc-100 text-zinc-600"
           }`}
         >
-          <Icon size={16} />
+          <Icon size={17} />
         </span>
       </div>
-      <p
-        className="mt-3 font-semibold leading-none text-zinc-900 sm:mt-4"
-        style={{ fontSize: "clamp(1.4rem, 3vw, 2.1rem)" }}
-      >
+      <p className="mt-4 font-semibold leading-none text-zinc-900" style={{ fontSize: "clamp(1.4rem, 3vw, 2.1rem)" }}>
         {value}
       </p>
       <p className="mt-2 text-xs text-zinc-600 sm:text-sm">{helperText}</p>
@@ -64,4 +61,3 @@ export default function StatsOverview({
     </section>
   );
 }
-

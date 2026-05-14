@@ -1,7 +1,58 @@
 import type { Task } from "./types";
-import { getPriorityBadgeClass, getStatusBadgeClass } from "./taskUtils";
+import {
+  formatEntityLabel,
+  formatPriorityLabel,
+  formatStatusLabel,
+  getPriorityBadgeClass,
+  getStatusBadgeClass,
+} from "./taskUtils";
 
 export default function TasksTable({ tasks }: { tasks: Task[] }) {
-  return <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm"><table className="min-w-[980px] text-left text-sm text-zinc-700 sm:min-w-full"><thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500"><tr><th className="px-4 py-3.5 font-semibold">S.No</th><th className="px-4 py-3.5 font-semibold">Title</th><th className="px-4 py-3.5 font-semibold">Description</th><th className="px-4 py-3.5 font-semibold">Status</th><th className="px-4 py-3.5 font-semibold">Priority</th><th className="px-4 py-3.5 font-semibold">Project</th><th className="px-4 py-3.5 font-semibold">Assignee</th><th className="px-4 py-3.5 font-semibold">Created</th></tr></thead><tbody>{tasks.map((task, index) => { const projectValue = task.project ?? task.projectId ?? task.project_id ?? "N/A"; const assigneeValue = task.assignee ?? task.assigneeId ?? task.assignee_id ?? "Unassigned"; return <tr key={task.id} className="border-t border-zinc-100 first:border-t-0 transition-colors hover:bg-zinc-50/70"><td className="px-4 py-3.5 font-medium text-zinc-900">{index + 1}</td><td className="px-4 py-3.5 font-medium text-zinc-900">{task.title}</td><td className="px-4 py-3.5 text-zinc-600">{task.description?.trim() ? task.description : "No description"}</td><td className="px-4 py-3.5 text-zinc-600"><span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize ring-1 ${getStatusBadgeClass(task.status)}`}>{task.status}</span></td><td className="px-4 py-3.5 text-zinc-600"><span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize ring-1 ${getPriorityBadgeClass(task.priority)}`}>{task.priority}</span></td><td className="px-4 py-3.5 text-zinc-600">{projectValue}</td><td className="px-4 py-3.5 text-zinc-600">{assigneeValue}</td><td className="whitespace-nowrap px-4 py-3.5 text-zinc-500">{task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}</td></tr>; })}</tbody></table></div>;
-}
+  return (
+    <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <table className="min-w-[980px] text-left text-sm text-zinc-700 sm:min-w-full">
+        <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
+          <tr>
+            <th className="px-4 py-3.5 font-semibold">S.No</th>
+            <th className="px-4 py-3.5 font-semibold">Title</th>
+            <th className="px-4 py-3.5 font-semibold">Description</th>
+            <th className="px-4 py-3.5 font-semibold">Status</th>
+            <th className="px-4 py-3.5 font-semibold">Priority</th>
+            <th className="px-4 py-3.5 font-semibold">Project</th>
+            <th className="px-4 py-3.5 font-semibold">Assignee</th>
+            <th className="px-4 py-3.5 font-semibold">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.map((task, index) => {
+            const projectValue = formatEntityLabel(task.project, formatEntityLabel(task.projectId ?? task.project_id, "N/A"));
+            const assigneeValue = formatEntityLabel(task.assignee, formatEntityLabel(task.assigneeId ?? task.assignee_id, "Unassigned"));
 
+            return (
+              <tr key={task.id} className="border-t border-zinc-100 first:border-t-0 transition-colors hover:bg-zinc-50/70">
+                <td className="px-4 py-3.5 font-medium text-zinc-900">{index + 1}</td>
+                <td className="px-4 py-3.5 font-medium text-zinc-900">{task.title}</td>
+                <td className="px-4 py-3.5 text-zinc-600">{task.description?.trim() ? task.description : "No description"}</td>
+                <td className="px-4 py-3.5 text-zinc-600">
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${getStatusBadgeClass(task.status)}`}>
+                    {formatStatusLabel(task.status)}
+                  </span>
+                </td>
+                <td className="px-4 py-3.5 text-zinc-600">
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${getPriorityBadgeClass(task.priority)}`}>
+                    {formatPriorityLabel(task.priority)}
+                  </span>
+                </td>
+                <td className="px-4 py-3.5 text-zinc-600">{projectValue}</td>
+                <td className="px-4 py-3.5 text-zinc-600">{assigneeValue}</td>
+                <td className="whitespace-nowrap px-4 py-3.5 text-zinc-500">
+                  {task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
