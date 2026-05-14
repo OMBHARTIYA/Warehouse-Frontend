@@ -7,7 +7,7 @@ type TopBarProps = {
 export default function TopBar({ onOpenMenu }: TopBarProps) {
   return (
     <header className="flex items-center justify-between border-b border-[var(--border-soft)] bg-[var(--surface)] p-4 md:hidden">
-      <h1 className="text-lg font-semibold text-zinc-900">Donezo</h1>
+      <h1 className="text-lg font-semibold text-zinc-900">JIRA</h1>
       <button
         type="button"
         onClick={onOpenMenu}

@@ -45,7 +45,9 @@ function ChartCard({ title, empty, emptyText, children }: ChartCardProps) {
       {empty ? (
         <p className="mt-3 text-sm text-zinc-500">{emptyText}</p>
       ) : (
-        <div className="mt-3 h-56 min-h-56 w-full sm:h-64">{children}</div>
+        <div className="mt-3 flex h-60 min-h-60 w-full items-center justify-center pb-2 sm:h-64 sm:min-h-64 sm:pb-0">
+          <div className="h-full w-full">{children}</div>
+        </div>
       )}
     </div>
   );
@@ -179,7 +181,7 @@ function StatusPieChart({
   onActiveChange: (index: number | undefined) => void;
 }) {
   return (
-    <ResponsiveContainer width="100%" height={288} minWidth={0}>
+    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
       <PieChart
         tabIndex={-1}
         style={{ outline: "none" }}
@@ -231,7 +233,7 @@ function PriorityBarChart({
   onActiveChange: (index: number | undefined) => void;
 }) {
   return (
-    <ResponsiveContainer width="100%" height={288} minWidth={0}>
+    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
       <BarChart
         data={data}
         tabIndex={-1}

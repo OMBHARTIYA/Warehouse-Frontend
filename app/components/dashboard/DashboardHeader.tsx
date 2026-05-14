@@ -114,7 +114,7 @@ export default function DashboardHeader({
           )}
         </div>
 
-        <div ref={actionsRef} className="relative flex w-full flex-wrap items-center justify-start gap-3 sm:w-auto sm:justify-end">
+        <div ref={actionsRef} className="relative flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end sm:gap-3">
           <button
             type="button"
             aria-label="Messages"
@@ -123,9 +123,9 @@ export default function DashboardHeader({
               setIsNotificationOpen(false);
               setIsProfileOpen(false);
             }}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:h-11 sm:w-11"
           >
-            <Mail size={18} aria-hidden="true" />
+            <Mail size={16} aria-hidden="true" className="sm:h-[18px] sm:w-[18px]" />
           </button>
 
           <button
@@ -136,9 +136,9 @@ export default function DashboardHeader({
               setIsMailOpen(false);
               setIsProfileOpen(false);
             }}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:h-11 sm:w-11"
           >
-            <Bell size={18} aria-hidden="true" />
+            <Bell size={16} aria-hidden="true" className="sm:h-[18px] sm:w-[18px]" />
           </button>
 
           <button
@@ -148,9 +148,9 @@ export default function DashboardHeader({
               setIsMailOpen(false);
               setIsNotificationOpen(false);
             }}
-            className="inline-flex items-center gap-3 rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-1.5 text-left transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+            className="inline-flex items-center gap-0 rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-1.5 py-1.5 text-left transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:gap-3 sm:px-3"
           >
-            <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>
+            <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold text-white ring-1 ring-zinc-200 sm:h-10 sm:w-10" style={avatarStyle}>
               {!isAvatarBroken ? (
                 <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} />
               ) : (
@@ -161,7 +161,7 @@ export default function DashboardHeader({
           </button>
 
           {isMailOpen && (
-            <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 mx-auto w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-[9.5rem] sm:mx-0 sm:w-64">
+            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-[9.5rem] sm:mx-0 sm:w-64 sm:max-w-none">
               <p className="text-sm font-medium text-zinc-900">Inbox</p>
               <p className="mt-1 text-xs text-zinc-600">No new messages.</p>
               <button
@@ -178,7 +178,7 @@ export default function DashboardHeader({
           )}
 
           {isNotificationOpen && (
-            <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 mx-auto w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-24 sm:mx-0 sm:w-64">
+            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-24 sm:mx-0 sm:w-64 sm:max-w-none">
               <p className="text-sm font-medium text-zinc-900">Notifications</p>
               <p className="mt-1 text-xs text-zinc-600">All caught up.</p>
               <button
@@ -195,7 +195,7 @@ export default function DashboardHeader({
           )}
 
           {isProfileOpen && (
-            <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 mx-auto w-[min(24rem,calc(100vw-2rem))] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:p-5">
+            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:max-w-none sm:p-5">
               <div className="flex items-center gap-4">
                 <span className="relative inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>
                   {!isAvatarBroken ? (
