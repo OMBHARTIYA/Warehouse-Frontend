@@ -53,7 +53,7 @@ export default function MobileSidebar({
           className="mt-6 flex flex-col gap-1.5"
         />
 
-        <SidebarFooter onLogout={onLogout} className="mt-8" />
+        <SidebarFooter onLogout={onLogout} username={username} className="mt-8" />
       </aside>
     </>
   );

@@ -16,7 +16,7 @@ export default function DashboardView() {
   if (!state.hasAnyData) return <><h2 className="text-2xl font-semibold text-zinc-900">Dashboard</h2><p className="mt-2 text-zinc-600">No statistics available yet.</p></>;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-7">
       <DashboardHeader
         searchQuery={state.searchQuery}
         searchSuggestions={state.searchSuggestions}
@@ -26,9 +26,15 @@ export default function DashboardView() {
         onSearchBlur={() => setTimeout(() => state.setIsSearchFocused(false), 120)}
       />
       <StatsOverview totalProjects={state.data?.totalProjects ?? 0} totalTasks={state.data?.totalTasks ?? 0} completedTasks={state.data?.completedTasks ?? 0} completionRate={percent(state.data?.completionRate ?? 0)} />
-      <ChartsSection tasksByStatus={state.tasksByStatus} priorityBars={state.priorityBars} />
-      <RecentTasksSection tasks={state.filteredRecentTasks} emptyMessage={state.normalizedQuery ? "No tasks match your search." : "No recent tasks."} />
-      <section className="grid min-w-0 gap-6 xl:grid-cols-2">
+      <section className="grid min-w-0 gap-5 xl:grid-cols-12">
+        <div className="xl:col-span-8">
+          <ChartsSection tasksByStatus={state.tasksByStatus} priorityBars={state.priorityBars} />
+        </div>
+        <div className="xl:col-span-4">
+          <RecentTasksSection tasks={state.filteredRecentTasks} emptyMessage={state.normalizedQuery ? "No tasks match your search." : "No recent tasks."} />
+        </div>
+      </section>
+      <section className="grid min-w-0 gap-5 xl:grid-cols-2">
         <ProjectStatsSection rows={state.projectStats} percent={percent} />
         <UserActivitySection rows={state.userActivity} percent={percent} />
       </section>

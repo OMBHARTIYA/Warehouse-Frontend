@@ -39,13 +39,13 @@ type ChartCardProps = {
 
 function ChartCard({ title, empty, emptyText, children }: ChartCardProps) {
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-all sm:p-6">
-      <h3 className="text-lg font-medium text-zinc-900">{title}</h3>
+    <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all sm:p-5">
+      <h3 className="text-base font-semibold tracking-tight text-zinc-900 sm:text-lg">{title}</h3>
 
       {empty ? (
         <p className="mt-3 text-sm text-zinc-500">{emptyText}</p>
       ) : (
-        <div className="mt-4 h-64 min-h-64 w-full sm:h-72">{children}</div>
+        <div className="mt-3 h-56 min-h-56 w-full sm:h-64">{children}</div>
       )}
     </div>
   );
@@ -291,7 +291,7 @@ export default function ChartsSection({
 
   return (
     <section className="space-y-4">
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         <ChartCard
           title="Tasks by Status"
           empty={tasksByStatus.length === 0}
