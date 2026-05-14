@@ -83,12 +83,12 @@ export function RecentTasksSection({ tasks, emptyMessage }: { tasks: RecentTask[
 
 export function ProjectStatsSection({ rows, percent }: { rows: ProjectStat[]; percent: (value: number) => string }) {
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+    <section className="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
       <h3 className="text-base font-semibold tracking-tight text-zinc-900 sm:text-lg">Project Statistics</h3>
       {rows.length === 0 ? (
         <p className="mt-3 text-sm text-zinc-500">No project statistics.</p>
       ) : (
-        <div className="mt-3 w-full overflow-x-auto">
+        <div className="mt-3 w-full max-w-full overflow-x-auto">
           <table className="min-w-[640px] text-left text-sm sm:min-w-full">
             <thead>
               <tr className="border-b border-zinc-200 text-xs uppercase tracking-wide text-zinc-500">
@@ -131,7 +131,7 @@ export function UserActivitySection({ rows, percent }: { rows: UserActivity[]; p
   return (
     <section className="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
       <h3 className="text-base font-semibold tracking-tight text-zinc-900 sm:text-lg">User Activity</h3>
-      <div className="mt-3 w-full overflow-x-auto">
+      <div className="mt-3 w-full max-w-full overflow-x-auto">
         <table className="min-w-[560px] text-left text-sm sm:min-w-full">
           <thead>
             <tr className="border-b border-zinc-200 text-xs uppercase tracking-wide text-zinc-500">
