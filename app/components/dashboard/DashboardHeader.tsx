@@ -1,4 +1,4 @@
-import { Bell, Mail, Plus, Search, SquarePlus } from "lucide-react";
+import { Bell, Mail, Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "@/app/context/AuthContext";
@@ -81,16 +81,6 @@ export default function DashboardHeader({
         <div className="w-full">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl lg:text-5xl">Dashboard</h2>
           <p className="mt-2 text-base text-zinc-500 sm:text-lg">Plan, prioritize, and accomplish your tasks with ease.</p>
-        </div>
-        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
-          <button type="button" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
-            <Plus size={16} aria-hidden="true" />
-            Add Project
-          </button>
-          <button type="button" className="inline-flex items-center gap-2 rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
-            <SquarePlus size={16} aria-hidden="true" />
-            Create Task
-          </button>
         </div>
       </div>
 
