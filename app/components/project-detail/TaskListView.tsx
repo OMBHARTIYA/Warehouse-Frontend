@@ -10,6 +10,10 @@ type TaskListViewProps = {
   onDelete: (task: Task) => void;
 };
 
+function assigneeLabel(task: Task) {
+  return task.assignee ?? task.assigneeName ?? task.assignee_name ?? "Unassigned";
+}
+
 export default function TaskListView({
   tasks,
   activeTaskActionId,
@@ -40,8 +44,8 @@ export default function TaskListView({
               <td className="px-4 py-3.5">
                 <PriorityBadge priority={task.priority} />
               </td>
-              <td className="px-4 py-3.5">{task.assignee ?? task.assigneeId ?? "Unassigned"}</td>
-              <td className="whitespace-nowrap px-4 py-3.5">{task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}</td>
+              <td className="px-4 py-3.5">{assigneeLabel(task)}</td>
+              <td className="whitespace-nowrap px-4 py-3.5">{task.created_at ? new Date(task.created_at).toLocaleDateString() : "N/A"}</td>
               <td className="px-4 py-3.5">
                 <div className="flex flex-wrap gap-2">
                   <button

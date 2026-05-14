@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import ConfirmDialog from "../common/ConfirmDialog";
+import FilterDropdown from "../common/FilterDropdown";
 import LoadingSpinner from "../LoadingSpinner";
 import UsersHeader from "./UsersHeader";
 import UsersTable from "./UsersTable";
@@ -18,7 +19,7 @@ export default function UsersView() {
   const filteredUsers = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
     return state.users.filter((u) => {
-      const roleOk = roleFilter === "all" ? true : (u.role === roleFilter);
+      const roleOk = roleFilter === "all" ? true : u.role === roleFilter;
       const text = `${u.username ?? ""} ${u.email ?? ""}`.toLowerCase();
       const queryOk = normalizedQuery.length === 0 ? true : text.includes(normalizedQuery);
       return roleOk && queryOk;
@@ -41,12 +42,18 @@ export default function UsersView() {
           <input id="users-search" type="search" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search by username or email" className="mt-1 h-11 w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 text-sm text-zinc-900 outline-none transition focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)]" />
         </div>
         <div className="sm:w-52">
-          <label htmlFor="users-role-filter" className="text-sm font-medium text-zinc-700">Role</label>
-          <select id="users-role-filter" value={roleFilter} onChange={(e) => setRoleFilter(e.target.value as "all" | "admin" | "user")} className="mt-1 h-11 w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 text-sm text-zinc-900 outline-none transition focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)]">
-            <option value="all">All roles</option>
-            <option value="admin">Admins</option>
-            <option value="user">Members</option>
-          </select>
+          <FilterDropdown
+            id="users-role-filter"
+            label="Role"
+            value={roleFilter}
+            onChange={setRoleFilter}
+            className="space-y-1.5 sm:w-52"
+            options={[
+              { value: "all", label: "All roles" },
+              { value: "admin", label: "Admins" },
+              { value: "user", label: "Members" },
+            ]}
+          />
         </div>
         <button type="button" onClick={() => { setSearchQuery(""); setRoleFilter("all"); }} className="h-11 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 sm:ml-auto">Reset Filters</button>
       </div>
@@ -75,9 +82,11 @@ export default function UsersView() {
           passwordFormUserId={state.passwordFormUserId}
           newPassword={state.newPassword}
           resettingPasswordUserId={state.resettingPasswordUserId}
-          onRoleChange={state.handleRoleChange}          onOpenPasswordReset={state.openPasswordReset}
+          onRoleChange={state.handleRoleChange}
+          onOpenPasswordReset={state.openPasswordReset}
           onCancelPasswordReset={state.cancelPasswordReset}
-          onPasswordChange={state.setNewPassword}          onRequestDelete={setPendingDeleteUser}
+          onPasswordChange={state.setNewPassword}
+          onRequestDelete={setPendingDeleteUser}
           onRequestReset={setPendingResetUser}
         />
       )}
@@ -112,4 +121,3 @@ export default function UsersView() {
     </section>
   );
 }
-

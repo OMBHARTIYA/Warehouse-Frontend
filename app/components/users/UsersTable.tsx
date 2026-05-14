@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { UserRole } from "@/types/auth";
 import { AdminUser, formatDate, getRoleValue } from "./types";
 
@@ -74,15 +75,15 @@ export default function UsersTable(props: UsersTableProps) {
                   </td>
                   <td className="px-4 py-4 text-zinc-600">{row.email ?? "-"}</td>
                   <td className="px-4 py-4 text-zinc-600">
-                    <div ref={openRoleRowId === String(rowId) ? roleMenuRef : null} className="relative w-36">
+                    <div ref={openRoleRowId === String(rowId) ? roleMenuRef : null} className="relative w-40">
                       <button
                         type="button"
                         disabled={props.updatingUserId === row.id}
                         onClick={() => setOpenRoleRowId((prev) => (prev === String(rowId) ? null : String(rowId)))}
-                        className="flex h-10 w-full items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-3 text-sm font-medium text-zinc-900 outline-none transition hover:bg-zinc-100 focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60"
+                        className="flex h-11 w-full items-center justify-between rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 text-sm font-medium text-zinc-900 outline-none transition hover:bg-white focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60"
                       >
                         <span>{roleValue === "admin" ? "Admin" : "Member"}</span>
-                        <span className="text-zinc-500">v</span>
+                        <ChevronDown size={16} className="text-zinc-500" aria-hidden="true" />
                       </button>
                       {openRoleRowId === String(rowId) && (
                         <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg">
