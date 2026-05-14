@@ -30,7 +30,7 @@ export default function TaskFiltersBar({
   ];
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm ring-1 ring-zinc-200/80 sm:flex-row sm:items-end sm:p-6">
+    <div className="flex flex-col gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:flex-row sm:flex-wrap sm:items-end sm:gap-3 sm:p-5">
       <FilterDropdown
         id="status-filter"
         label="Status"
@@ -49,7 +49,7 @@ export default function TaskFiltersBar({
       <button
         type="button"
         onClick={onReset}
-        className="h-11 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-red-200"
+        className="h-11 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-red-200"
       >
         Reset filters
       </button>

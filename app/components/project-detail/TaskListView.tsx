@@ -18,36 +18,36 @@ export default function TaskListView({
   onDelete,
 }: TaskListViewProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-zinc-200 bg-white shadow-sm">
-      <table className="min-w-full text-left text-sm text-zinc-700">
-        <thead className="bg-zinc-50 text-xs uppercase text-zinc-600">
+    <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <table className="min-w-[760px] text-left text-sm text-zinc-700 sm:min-w-full">
+        <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
           <tr>
-            <th className="px-4 py-3">Title</th>
-            <th className="px-4 py-3">Status</th>
-            <th className="px-4 py-3">Priority</th>
-            <th className="px-4 py-3">Assignee</th>
-            <th className="px-4 py-3">Created</th>
-            <th className="px-4 py-3">Actions</th>
+            <th className="px-4 py-3.5">Title</th>
+            <th className="px-4 py-3.5">Status</th>
+            <th className="px-4 py-3.5">Priority</th>
+            <th className="px-4 py-3.5">Assignee</th>
+            <th className="px-4 py-3.5">Created</th>
+            <th className="px-4 py-3.5">Actions</th>
           </tr>
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id} className="border-t border-zinc-200">
-              <td className="px-4 py-3 text-zinc-900">{task.title}</td>
-              <td className="px-4 py-3">
+            <tr key={task.id} className="border-t border-zinc-200 transition-colors hover:bg-zinc-50/70">
+              <td className="px-4 py-3.5 font-medium text-zinc-900">{task.title}</td>
+              <td className="px-4 py-3.5">
                 <StatusBadge status={task.status} />
               </td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3.5">
                 <PriorityBadge priority={task.priority} />
               </td>
-              <td className="px-4 py-3">{task.assignee ?? task.assigneeId ?? "Unassigned"}</td>
-              <td className="px-4 py-3">{task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}</td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3.5">{task.assignee ?? task.assigneeId ?? "Unassigned"}</td>
+              <td className="whitespace-nowrap px-4 py-3.5">{task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}</td>
+              <td className="px-4 py-3.5">
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
                     onClick={() => onEdit(task)}
-                    className="rounded-md border border-zinc-300 px-2 py-1 text-xs font-medium text-zinc-700"
+                    className="rounded-md border border-zinc-300 px-2.5 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100"
                   >
                     Edit
                   </button>
