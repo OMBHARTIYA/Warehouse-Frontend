@@ -60,7 +60,6 @@ export function useUsers(user: User | null, authLoading: boolean) {
     if (targetId === undefined || targetId === null) return;
     const currentUserId = user?.id;
     if (currentUserId !== undefined && currentUserId !== null && String(currentUserId) === String(targetId)) return;
-    if (!window.confirm(`Delete user ${targetUser.username ?? ""}?`)) return;
     setDeletingUserId(targetId);
     try {
       await deleteUser(targetId);
@@ -80,6 +79,7 @@ export function useUsers(user: User | null, authLoading: boolean) {
       setError("Password must be at least 6 characters.");
       return;
     }
+    if (!window.confirm(`Reset password for ${targetUser.username ?? "this user"}?`)) return;
     setResettingPasswordUserId(targetId);
     setError(null);
     try {

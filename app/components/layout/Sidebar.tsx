@@ -12,24 +12,26 @@ type SidebarProps = {
 
 export default function Sidebar({ username, navItems, pathname, onLogout }: SidebarProps) {
   return (
-    <aside className="hidden border-b border-[var(--border-soft)] bg-gradient-to-b from-[var(--surface)] to-[var(--surface-2)] p-4 md:flex md:h-full md:w-72 md:flex-col md:rounded-[28px] md:border md:p-6">
-      <div className="rounded-2xl border border-zinc-200/80 bg-white/70 p-3.5">
+    <aside className="hidden border-b border-[var(--border-soft)] bg-gradient-to-b from-[var(--surface)] via-[var(--surface)] to-[var(--surface-2)] p-4 md:flex md:h-full md:w-72 md:flex-col md:rounded-[28px] md:border md:p-6">
+      <div className="rounded-2xl border border-zinc-200/80 bg-gradient-to-br from-white via-white to-rose-50 p-4 shadow-sm">
         <div className="flex items-center gap-2.5">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)]">
-            <CheckSquare size={17} aria-hidden="true" />
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)]">
+            <CheckSquare size={18} aria-hidden="true" />
           </span>
-          <h1 className="text-xl font-semibold tracking-tight text-zinc-900">JIRA</h1>
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight text-zinc-900">JIRA</h1>
+            <p className="text-xs text-zinc-500">Project workspace</p>
+          </div>
         </div>
-        <p className="mt-2 break-words text-xs text-zinc-600">Signed in as {username}</p>
       </div>
 
-      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-500">Main</p>
+      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">Main</p>
 
       <SidebarNav
         navItems={navItems}
         pathname={pathname}
-        className="mt-2 flex flex-wrap gap-1.5 md:flex-col"
-        itemClassName="rounded-xl border border-transparent px-3 py-2 text-sm whitespace-nowrap"
+        className="mt-2 flex flex-wrap gap-2 md:flex-col"
+        itemClassName="whitespace-nowrap"
       />
 
       <SidebarFooter onLogout={onLogout} username={username} className="mt-auto pt-6" />

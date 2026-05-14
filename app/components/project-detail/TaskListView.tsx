@@ -7,7 +7,7 @@ type TaskListViewProps = {
   activeTaskActionId: string | number | null;
   activeTaskActionType: "edit" | "delete" | null;
   onEdit: (task: Task) => void;
-  onDelete: (taskId: string | number) => void;
+  onDelete: (task: Task) => void;
 };
 
 export default function TaskListView({
@@ -53,7 +53,7 @@ export default function TaskListView({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onDelete(task.id)}
+                    onClick={() => onDelete(task)}
                     disabled={activeTaskActionId === task.id && activeTaskActionType === "delete"}
                     className="rounded-md bg-red-600 px-2 py-1 text-xs font-medium text-white disabled:opacity-60"
                   >

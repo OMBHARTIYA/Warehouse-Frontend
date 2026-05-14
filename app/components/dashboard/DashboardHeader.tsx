@@ -1,4 +1,4 @@
-import { Bell, Mail, Search } from "lucide-react";
+import { Bell, Mail, Plus, Search, SquarePlus } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "@/app/context/AuthContext";
@@ -77,7 +77,24 @@ export default function DashboardHeader({
 
   return (
     <section className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div className="w-full">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl lg:text-5xl">Dashboard</h2>
+          <p className="mt-2 text-base text-zinc-500 sm:text-lg">Plan, prioritize, and accomplish your tasks with ease.</p>
+        </div>
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:justify-end">
+          <button type="button" className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
+            <Plus size={16} aria-hidden="true" />
+            Add Project
+          </button>
+          <button type="button" className="inline-flex items-center gap-2 rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
+            <SquarePlus size={16} aria-hidden="true" />
+            Create Task
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 border-t border-zinc-200 pt-5 lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="relative w-full lg:max-w-xl">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} aria-hidden="true" />
           <input
@@ -117,110 +134,28 @@ export default function DashboardHeader({
         </div>
 
         <div ref={actionsRef} className="relative flex w-full flex-wrap items-center justify-start gap-2 sm:w-auto sm:justify-end sm:gap-3">
-          <button
-            type="button"
-            aria-label="Messages"
-            onClick={() => {
-              setIsMailOpen((prev) => !prev);
-              setIsNotificationOpen(false);
-              setIsProfileOpen(false);
-            }}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:h-11 sm:w-11"
-          >
-            <Mail size={16} aria-hidden="true" className="sm:h-[18px] sm:w-[18px]" />
+          <button type="button" aria-label="Messages" onClick={() => { setIsMailOpen((prev) => !prev); setIsNotificationOpen(false); setIsProfileOpen(false); }} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
+            <Mail size={17} aria-hidden="true" />
           </button>
 
-          <button
-            type="button"
-            aria-label="Notifications"
-            onClick={() => {
-              setIsNotificationOpen((prev) => !prev);
-              setIsMailOpen(false);
-              setIsProfileOpen(false);
-            }}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:h-11 sm:w-11"
-          >
-            <Bell size={16} aria-hidden="true" className="sm:h-[18px] sm:w-[18px]" />
+          <button type="button" aria-label="Notifications" onClick={() => { setIsNotificationOpen((prev) => !prev); setIsMailOpen(false); setIsProfileOpen(false); }} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-soft)] bg-[var(--surface)] text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
+            <Bell size={17} aria-hidden="true" />
           </button>
 
-          <button
-            type="button"
-            onClick={() => {
-              setIsProfileOpen((prev) => !prev);
-              setIsMailOpen(false);
-              setIsNotificationOpen(false);
-            }}
-            className="inline-flex items-center gap-0 rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-1.5 py-1.5 text-left transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] sm:gap-3 sm:px-3"
-          >
-            <span className="relative inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold text-white ring-1 ring-zinc-200 sm:h-10 sm:w-10" style={avatarStyle}>
-              {!isAvatarBroken ? (
-                <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} />
-              ) : (
-                <span>{initials}</span>
-              )}
+          <button type="button" onClick={() => { setIsProfileOpen((prev) => !prev); setIsMailOpen(false); setIsNotificationOpen(false); }} className="inline-flex items-center gap-3 rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-2 py-1.5 text-left transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
+            <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>
+              {!isAvatarBroken ? <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}
             </span>
             <span className="hidden text-sm font-medium text-zinc-700 sm:inline">{displayName}</span>
           </button>
 
-          {isMailOpen && (
-            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-[9.5rem] sm:mx-0 sm:w-64 sm:max-w-none">
-              <p className="text-sm font-medium text-zinc-900">Inbox</p>
-              <p className="mt-1 text-xs text-zinc-600">No new messages.</p>
-              <button
-                type="button"
-                onClick={() => {
-                  toast.success("Inbox synced.");
-                  closeAllMenus();
-                }}
-                className="mt-3 w-full rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-              >
-                Refresh inbox
-              </button>
-            </div>
-          )}
+          {isMailOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-[9.5rem] sm:mx-0 sm:w-64 sm:max-w-none"><p className="text-sm font-medium text-zinc-900">Inbox</p><p className="mt-1 text-xs text-zinc-600">No new messages.</p><button type="button" onClick={() => { toast.success("Inbox synced."); closeAllMenus(); }} className="mt-3 w-full rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Refresh inbox</button></div>}
 
-          {isNotificationOpen && (
-            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-24 sm:mx-0 sm:w-64 sm:max-w-none">
-              <p className="text-sm font-medium text-zinc-900">Notifications</p>
-              <p className="mt-1 text-xs text-zinc-600">All caught up.</p>
-              <button
-                type="button"
-                onClick={() => {
-                  toast("No unread notifications.");
-                  closeAllMenus();
-                }}
-                className="mt-3 w-full rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
-              >
-                Mark all read
-              </button>
-            </div>
-          )}
+          {isNotificationOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-24 sm:mx-0 sm:w-64 sm:max-w-none"><p className="text-sm font-medium text-zinc-900">Notifications</p><p className="mt-1 text-xs text-zinc-600">All caught up.</p><button type="button" onClick={() => { toast("No unread notifications."); closeAllMenus(); }} className="mt-3 w-full rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Mark all read</button></div>}
 
-          {isProfileOpen && (
-            <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:max-w-none sm:p-5">
-              <div className="flex items-center gap-4">
-                <span className="relative inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>
-                  {!isAvatarBroken ? (
-                    <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} />
-                  ) : (
-                    <span>{initials}</span>
-                  )}
-                </span>
-                <div>
-                  <p className="text-base font-semibold text-zinc-900">{displayName}</p>
-                  <p className="text-sm text-zinc-600">{user?.email ?? "No email"}</p>
-                </div>
-              </div>
-            </div>
-          )}
+          {isProfileOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:max-w-none sm:p-5"><div className="flex items-center gap-4"><span className="relative inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>{!isAvatarBroken ? <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}</span><div><p className="text-base font-semibold text-zinc-900">{displayName}</p><p className="text-sm text-zinc-600">{user?.email ?? "No email"}</p></div></div></div>}
         </div>
-      </div>
-
-      <div className="mt-5 border-t border-zinc-200 pt-5">
-        <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl lg:text-5xl">Dashboard</h2>
-        <p className="mt-3 text-lg text-zinc-500">Plan, prioritize, and accomplish your tasks with ease.</p>
       </div>
     </section>
   );
 }
-

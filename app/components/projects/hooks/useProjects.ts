@@ -19,6 +19,7 @@ export default function useProjects(user: User | null) {
   const [actionError, setActionError] = useState("");
   const [activeActionProjectId, setActiveActionProjectId] = useState<string | number | null>(null);
   const [activeActionType, setActiveActionType] = useState<"edit" | "delete" | null>(null);
+  const [lastDeletedProject, setLastDeletedProject] = useState<Project | null>(null);
 
   const fetchProjects = async () => {
     setIsLoading(true);
@@ -93,15 +94,15 @@ export default function useProjects(user: User | null) {
     }
   };
 
-  const handleDeleteProject = async (projectId: string | number) => {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
-
+  const handleDeleteProject = async (project: Project) => {
+    const projectId = project.id;
     setActionError("");
     setActiveActionProjectId(projectId);
     setActiveActionType("delete");
     try {
       await deleteProject(projectId);
-      toast.success("Project deleted");
+      setLastDeletedProject(project);
+      toast.success("Project deleted. Undo is available below.");
       if (editingProjectId === projectId) cancelEditProject();
       await fetchProjects();
     } catch {
@@ -110,6 +111,14 @@ export default function useProjects(user: User | null) {
       setActiveActionProjectId(null);
       setActiveActionType(null);
     }
+  };
+
+  const undoDeleteProject = async () => {
+    if (!lastDeletedProject) return;
+    await createProject({ name: lastDeletedProject.name, description: lastDeletedProject.description ?? "" });
+    setLastDeletedProject(null);
+    toast.success("Project restored");
+    await fetchProjects();
   };
 
   const toggleCreate = () => {
@@ -132,6 +141,7 @@ export default function useProjects(user: User | null) {
     actionError,
     activeActionProjectId,
     activeActionType,
+    lastDeletedProject,
     setName,
     setDescription,
     setEditName,
@@ -142,6 +152,7 @@ export default function useProjects(user: User | null) {
     handleCreateProject,
     handleEditProject,
     handleDeleteProject,
+    undoDeleteProject,
     toggleCreate,
   };
 }
