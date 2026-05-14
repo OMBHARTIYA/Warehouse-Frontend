@@ -80,7 +80,7 @@ export default function UsersTable(props: UsersTableProps) {
                         className="flex h-10 w-full items-center justify-between rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 text-sm text-zinc-900 outline-none transition hover:bg-white focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60"
                       >
                         <span>{roleValue}</span>
-                        <span className="text-zinc-500">?</span>
+                        <span className="text-zinc-500">v</span>
                       </button>
                       {openRoleRowId === String(rowId) && (
                         <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-[var(--border-soft)] bg-white shadow-sm">
