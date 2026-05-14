@@ -27,16 +27,16 @@ export default function DashboardView() {
       />
       <StatsOverview totalProjects={state.data?.totalProjects ?? 0} totalTasks={state.data?.totalTasks ?? 0} completedTasks={state.data?.completedTasks ?? 0} completionRate={percent(state.data?.completionRate ?? 0)} />
       <section className="grid min-w-0 gap-5 xl:grid-cols-12">
-        <div className="xl:col-span-8">
+        <div className="space-y-5 xl:col-span-8">
           <ChartsSection tasksByStatus={state.tasksByStatus} priorityBars={state.priorityBars} />
+          <section className="grid min-w-0 gap-5 xl:grid-cols-2">
+            <ProjectStatsSection rows={state.projectStats} percent={percent} />
+            <UserActivitySection rows={state.userActivity} percent={percent} />
+          </section>
         </div>
         <div className="xl:col-span-4">
           <RecentTasksSection tasks={state.filteredRecentTasks} emptyMessage={state.normalizedQuery ? "No tasks match your search." : "No recent tasks."} />
         </div>
-      </section>
-      <section className="grid min-w-0 gap-5 xl:grid-cols-2">
-        <ProjectStatsSection rows={state.projectStats} percent={percent} />
-        <UserActivitySection rows={state.userActivity} percent={percent} />
       </section>
     </div>
   );
