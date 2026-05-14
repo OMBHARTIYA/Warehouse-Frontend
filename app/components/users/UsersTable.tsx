@@ -41,9 +41,9 @@ export default function UsersTable(props: UsersTableProps) {
   }, []);
 
   return (
-    <div className="overflow-x-auto rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-3">
-      <table className="min-w-full text-left text-sm text-zinc-700">
-        <thead className="text-xs uppercase text-zinc-500">
+    <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <table className="min-w-[860px] text-left text-sm text-zinc-700 sm:min-w-full">
+        <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
           <tr>
             <th className="px-4 py-3 font-medium">Username</th>
             <th className="px-4 py-3 font-medium">Email</th>
@@ -66,7 +66,7 @@ export default function UsersTable(props: UsersTableProps) {
 
             return (
               <Fragment key={String(rowId)}>
-                <tr className="border-t border-zinc-100 first:border-t-0 hover:bg-zinc-50/60">
+                <tr className="border-t border-zinc-100 first:border-t-0 transition-colors hover:bg-zinc-50/70">
                   <td className="px-4 py-3.5 font-medium text-zinc-900">{row.username ?? "-"}</td>
                   <td className="px-4 py-3.5 text-zinc-600">{row.email ?? "-"}</td>
                   <td className="px-4 py-3.5 text-zinc-600">
@@ -77,13 +77,13 @@ export default function UsersTable(props: UsersTableProps) {
                         onClick={() =>
                           setOpenRoleRowId((prev) => (prev === String(rowId) ? null : String(rowId)))
                         }
-                        className="flex h-10 w-full items-center justify-between rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3 text-sm text-zinc-900 outline-none transition hover:bg-white focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60"
+                        className="flex h-10 w-full items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-3 text-sm font-medium text-zinc-900 outline-none transition hover:bg-zinc-100 focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60"
                       >
                         <span>{roleValue}</span>
                         <span className="text-zinc-500">v</span>
                       </button>
                       {openRoleRowId === String(rowId) && (
-                        <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-[var(--border-soft)] bg-white shadow-sm">
+                        <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg">
                           {(["user", "admin"] as UserRole[]).map((role) => (
                             <li key={role}>
                               <button
@@ -109,14 +109,14 @@ export default function UsersTable(props: UsersTableProps) {
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         type="button"
-                        className="rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+                        className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
                         onClick={() => props.onOpenPasswordReset(row)}
                       >
                         Reset Password
                       </button>
                       <button
                         type="button"
-                        className="rounded-full border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3 py-2 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="rounded-lg border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3 py-1.5 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:opacity-50"
                         onClick={() => void props.onDelete(row)}
                         disabled={isCurrentUser || props.deletingUserId === row.id}
                         title={isCurrentUser ? "You cannot delete your own account." : undefined}
@@ -128,7 +128,7 @@ export default function UsersTable(props: UsersTableProps) {
                 </tr>
                 {props.passwordFormUserId === row.id && (
                   <tr>
-                    <td colSpan={5} className="border-t border-zinc-100 bg-[var(--surface)] px-4 py-4">
+                    <td colSpan={5} className="border-t border-zinc-100 bg-zinc-50 px-4 py-4">
                       <div className="flex flex-wrap items-center gap-2.5">
                         <input
                           type="password"
@@ -140,7 +140,7 @@ export default function UsersTable(props: UsersTableProps) {
                         />
                         <button
                           type="button"
-                          className="rounded-full border border-[var(--border-soft)] bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+                          className="rounded-lg border border-zinc-200 bg-white px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
                           onClick={props.onCancelPasswordReset}
                           disabled={props.resettingPasswordUserId === row.id}
                         >
@@ -148,7 +148,7 @@ export default function UsersTable(props: UsersTableProps) {
                         </button>
                         <button
                           type="button"
-                          className="rounded-full border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-4 py-2 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:opacity-50"
+                          className="rounded-lg border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:opacity-50"
                           onClick={() => void props.onPasswordReset(row)}
                           disabled={props.resettingPasswordUserId === row.id || props.newPassword.trim().length < 6}
                         >
