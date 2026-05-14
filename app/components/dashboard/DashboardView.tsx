@@ -7,6 +7,7 @@ import { percent, useDashboardStats } from "./hooks/useDashboardStats";
 
 export default function DashboardView() {
   const state = useDashboardStats();
+  const hasUserActivity = state.userActivity.length > 0;
 
   if (state.loading) {
     return <div className="space-y-8"><section><h2 className="text-2xl font-semibold text-zinc-900">Dashboard</h2><p className="mt-2 text-zinc-600">Loading statistics...</p></section><section className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">{Array.from({ length: 4 }).map((_, index) => <div key={index} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6"><Skeleton className="h-4 w-28" /><Skeleton className="mt-3 h-8 w-16" /></div>)}</section></div>;
@@ -29,9 +30,9 @@ export default function DashboardView() {
       <section className="grid min-w-0 gap-5 xl:grid-cols-12">
         <div className="min-w-0 space-y-5 xl:col-span-9">
           <ChartsSection tasksByStatus={state.tasksByStatus} priorityBars={state.priorityBars} />
-          <section className="grid min-w-0 gap-5 xl:grid-cols-2">
+          <section className={`grid min-w-0 gap-5 ${hasUserActivity ? "xl:grid-cols-2" : "xl:grid-cols-1"}`}>
             <ProjectStatsSection rows={state.projectStats} percent={percent} />
-            <UserActivitySection rows={state.userActivity} percent={percent} />
+            {hasUserActivity && <UserActivitySection rows={state.userActivity} percent={percent} />}
           </section>
         </div>
         <div className="min-w-0 xl:col-span-3">

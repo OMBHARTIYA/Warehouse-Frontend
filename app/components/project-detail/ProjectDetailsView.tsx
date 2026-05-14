@@ -17,6 +17,7 @@ import { useProjectUsers } from "./hooks/useProjectUsers";
 import { useTaskModalFocus } from "./hooks/useTaskModalFocus";
 import { useTaskModalState } from "./hooks/useTaskModalState";
 import { useTaskMutations } from "./hooks/useTaskMutations";
+import { useAuth } from "@/app/context/AuthContext";
 import type { Task, TaskPriority, TaskStatus } from "./types";
 import { useTaskFilters } from "./useTaskFilters";
 
@@ -45,8 +46,9 @@ function sortTasks(tasks: Task[], sortBy: TaskSort) {
 export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   const [viewMode, setViewMode] = useState<"list" | "board">("list");
   const [sortBy, setSortBy] = useState<TaskSort>("newest");
+  const { user } = useAuth();
   const modal = useTaskModalState();
-  const { users, isUsersLoading } = useProjectUsers();
+  const { users, isUsersLoading } = useProjectUsers(user?.role === "admin");
   const { project, isProjectLoading, projectError } = useProjectDetails(projectId);
   const { tasks, setTasks, isLoading, error, loadTasks } = useProjectTasks(projectId);
   const filters = useTaskFilters(tasks);

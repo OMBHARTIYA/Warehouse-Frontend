@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import type { User } from "../types";
 
-export function useProjectUsers() {
+export function useProjectUsers(canFetchUsers: boolean) {
   const [users, setUsers] = useState<User[]>([]);
-  const [isUsersLoading, setIsUsersLoading] = useState(true);
+  const [isUsersLoading, setIsUsersLoading] = useState(false);
 
   useEffect(() => {
     let ignore = false;
+    if (!canFetchUsers) return () => { ignore = true; };
+
     const loadUsers = async () => {
       setIsUsersLoading(true);
       try {
@@ -22,7 +24,10 @@ export function useProjectUsers() {
     };
     void loadUsers();
     return () => { ignore = true; };
-  }, []);
+  }, [canFetchUsers]);
 
-  return { users, isUsersLoading };
+  return {
+    users: canFetchUsers ? users : [],
+    isUsersLoading: canFetchUsers ? isUsersLoading : false,
+  };
 }
