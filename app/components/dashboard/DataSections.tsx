@@ -109,8 +109,8 @@ export function ProjectStatsSection({ rows, percent }: { rows: ProjectStat[]; pe
                   <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums text-zinc-700">{project.completedTasks ?? 0}</td>
                   <td className="whitespace-nowrap px-2 py-2.5 text-zinc-700">
                     <span className="inline-flex w-full items-center justify-end gap-2">
-                      <CompletionDonut value={project.completionRate ?? 0} />
                       <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 tabular-nums text-zinc-800">{percent(project.completionRate ?? 0)}</span>
+                      <CompletionDonut value={project.completionRate ?? 0} />
                     </span>
                   </td>
                   <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums text-zinc-700">{project.criticalTaskCount ?? project.criticalTasks ?? 0}</td>
@@ -151,8 +151,8 @@ export function UserActivitySection({ rows, percent }: { rows: UserActivity[]; p
                   <td className="whitespace-nowrap px-2 py-2.5 text-right tabular-nums text-zinc-700">{user.completedTasks ?? user.completed_tasks ?? 0}</td>
                   <td className="whitespace-nowrap px-2 py-2.5 text-zinc-700">
                     <span className="inline-flex w-full items-center justify-end gap-2">
-                      <CompletionDonut value={user.completionRate ?? user.completion_rate ?? 0} />
                       <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 tabular-nums text-zinc-800">{percent(user.completionRate ?? user.completion_rate ?? 0)}</span>
+                      <CompletionDonut value={user.completionRate ?? user.completion_rate ?? 0} />
                     </span>
                   </td>
                 </tr>
