@@ -47,7 +47,11 @@ export default function RouteLayout({ children }: RouteLayoutProps) {
   }
 
   if (!user) {
-    return null;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-zinc-100">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-300 border-t-zinc-900" />
+      </div>
+    );
   }
 
   return <AppLayout>{children}</AppLayout>;

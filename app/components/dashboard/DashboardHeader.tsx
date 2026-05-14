@@ -81,6 +81,8 @@ export default function DashboardHeader({
         <div className="relative w-full lg:max-w-xl">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} aria-hidden="true" />
           <input
+            id="dashboard-task-search"
+            name="dashboardTaskSearch"
             type="search"
             aria-label="Search tasks"
             placeholder="Search task"

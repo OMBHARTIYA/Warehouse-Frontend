@@ -181,7 +181,7 @@ function StatusPieChart({
   onActiveChange: (index: number | undefined) => void;
 }) {
   return (
-    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+    <ResponsiveContainer width="100%" height={240} minWidth={1} minHeight={1}>
       <PieChart
         tabIndex={-1}
         style={{ outline: "none" }}
@@ -233,7 +233,7 @@ function PriorityBarChart({
   onActiveChange: (index: number | undefined) => void;
 }) {
   return (
-    <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+    <ResponsiveContainer width="100%" height={240} minWidth={1} minHeight={1}>
       <BarChart
         data={data}
         tabIndex={-1}
