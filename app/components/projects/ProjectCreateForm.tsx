@@ -11,7 +11,7 @@ export default function ProjectCreateForm({ name, description, createError, isSu
       onNameChange={onNameChange}
       onDescriptionChange={onDescriptionChange}
       onSubmit={onSubmit}
-      formClassName="space-y-4 rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6"
+      formClassName="space-y-4 rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm sm:p-6"
       nameId="project-name"
       descriptionId="project-description"
       submitLabel="Create Project"
@@ -19,4 +19,3 @@ export default function ProjectCreateForm({ name, description, createError, isSu
     />
   );
 }
-

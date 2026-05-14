@@ -9,16 +9,18 @@ import ProjectFilters from "./ProjectFilters";
 import ProjectsHeader from "./ProjectsHeader";
 import useProjectFilters from "./hooks/useProjectFilters";
 import useProjects from "./hooks/useProjects";
+import type { Project } from "./types";
 
 export default function ProjectsView() {
   const { user } = useAuth();
   const projectsState = useProjects(user);
   const filters = useProjectFilters(projectsState.projects);
-  const [pendingDeleteProjectId, setPendingDeleteProjectId] = useState<import("./types").Project | null>(null);
+  const [pendingDeleteProject, setPendingDeleteProject] = useState<Project | null>(null);
 
   return (
     <section className="space-y-6">
       <ProjectsHeader isCreateFormVisible={projectsState.isCreateFormVisible} onToggleCreate={projectsState.toggleCreate} />
+
       {projectsState.isCreateFormVisible && (
         <ProjectCreateForm
           name={projectsState.name}
@@ -30,6 +32,7 @@ export default function ProjectsView() {
           onSubmit={projectsState.handleCreateProject}
         />
       )}
+
       {projectsState.isLoading && (
         <div className="grid gap-4">
           {Array.from({ length: 3 }).map((_, index) => (
@@ -42,11 +45,13 @@ export default function ProjectsView() {
           ))}
         </div>
       )}
+
       {!projectsState.isLoading && projectsState.error && (
         <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
           <ErrorMessage message={projectsState.error} />
         </div>
       )}
+
       {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && (
         <ProjectFilters
           searchQuery={filters.searchQuery}
@@ -55,18 +60,23 @@ export default function ProjectsView() {
           onSortChange={filters.setSortBy}
         />
       )}
+
       {!projectsState.isLoading && !projectsState.error && projectsState.projects.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
-          <p className="text-sm text-zinc-500">No projects found.</p>
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
+          <p className="text-base font-medium text-zinc-800">No projects yet</p>
+          <p className="mt-1 text-sm text-zinc-500">Create your first project to start organizing tasks.</p>
         </div>
       )}
+
       {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && filters.visibleProjects.length === 0 && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
-          <p className="text-sm text-zinc-500">No projects match your search.</p>
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-white p-8 text-center shadow-sm">
+          <p className="text-base font-medium text-zinc-800">No projects match your search</p>
+          <p className="mt-1 text-sm text-zinc-500">Try a different name query or adjust sorting.</p>
         </div>
       )}
+
       {!projectsState.isLoading && !projectsState.error && filters.visibleProjects.length > 0 && (
-        <div className="grid gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           {filters.visibleProjects.map((project) => (
             <ProjectCard
               key={project.id}
@@ -79,7 +89,7 @@ export default function ProjectsView() {
               isSaving={projectsState.activeActionProjectId === project.id && projectsState.activeActionType === "edit"}
               isDeleting={projectsState.activeActionProjectId === project.id && projectsState.activeActionType === "delete"}
               onStartEdit={projectsState.startEditProject}
-              onDelete={(project) => setPendingDeleteProjectId(project)}
+              onDelete={setPendingDeleteProject}
               onEditNameChange={projectsState.setEditName}
               onEditDescriptionChange={projectsState.setEditDescription}
               onEditSubmit={projectsState.handleEditProject}
@@ -90,20 +100,27 @@ export default function ProjectsView() {
       )}
 
       <ConfirmDialog
-        isOpen={pendingDeleteProjectId !== null}
+        isOpen={pendingDeleteProject !== null}
         title="Delete project"
         message="Are you sure you want to delete this item? This action cannot be undone."
         confirmLabel="Delete project"
-        onCancel={() => setPendingDeleteProjectId(null)}
+        onCancel={() => setPendingDeleteProject(null)}
         onConfirm={async () => {
-          if (pendingDeleteProjectId === null) return;
-          await projectsState.handleDeleteProject(pendingDeleteProjectId);
-          setPendingDeleteProjectId(null);
+          if (!pendingDeleteProject) return;
+          await projectsState.handleDeleteProject(pendingDeleteProject);
+          setPendingDeleteProject(null);
         }}
         isBusy={projectsState.activeActionType === "delete"}
       />
-    {projectsState.lastDeletedProject && <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">Project deleted. <button type="button" className="ml-2 rounded bg-emerald-700 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-800" onClick={() => { void projectsState.undoDeleteProject(); }}>Undo</button></div>} </section>
+
+      {projectsState.lastDeletedProject && (
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          Project deleted.
+          <button type="button" className="ml-2 rounded bg-emerald-700 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-800" onClick={() => { void projectsState.undoDeleteProject(); }}>
+            Undo
+          </button>
+        </div>
+      )}
+    </section>
   );
 }
-
-
