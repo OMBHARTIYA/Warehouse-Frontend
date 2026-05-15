@@ -49,7 +49,14 @@ export default function UsersTable(props: UsersTableProps) {
   return (
     <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
       <div className="overflow-x-auto">
-        <table className="min-w-[980px] text-left text-sm text-zinc-700">
+        <table className="min-w-[900px] table-fixed text-left text-sm text-zinc-700">
+          <colgroup>
+            <col className="w-[22%]" />
+            <col className="w-[25%]" />
+            <col className="w-[17%]" />
+            <col className="w-[18%]" />
+            <col className="w-[18%]" />
+          </colgroup>
           <thead className="bg-gradient-to-r from-zinc-50 to-white text-[11px] uppercase tracking-[0.14em] text-zinc-500">
             <tr>
               <th className="px-4 py-4 font-bold">User</th>
@@ -69,17 +76,19 @@ export default function UsersTable(props: UsersTableProps) {
                 <Fragment key={String(rowId)}>
                   <tr className="group transition-colors hover:bg-rose-50/30">
                     <td className="px-4 py-4 text-zinc-900">
-                      <div className="flex items-center gap-3">
-                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-xs font-bold text-[var(--brand-red-strong)] ring-1 ring-rose-100 transition group-hover:bg-rose-100">{initialsOf(row)}</span>
+                      <div className="flex min-w-0 items-center gap-3">
+                        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-rose-50 text-xs font-bold text-[var(--brand-red-strong)] ring-1 ring-rose-100 transition group-hover:bg-rose-100">{initialsOf(row)}</span>
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)]">{row.username ?? "-"}</p>
-                          {isCurrentUser && <p className="mt-0.5 text-xs font-medium text-zinc-500">Current account</p>}
+                          {isCurrentUser && <p className="mt-0.5 truncate text-xs font-medium text-zinc-500">Current account</p>}
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-zinc-600">{row.email ?? "-"}</td>
                     <td className="px-4 py-4 text-zinc-600">
-                      <div ref={openRoleRowId === String(rowId) ? roleMenuRef : null} className="relative w-40">
+                      <span className="block truncate">{row.email ?? "-"}</span>
+                    </td>
+                    <td className="px-4 py-4 text-zinc-600">
+                      <div ref={openRoleRowId === String(rowId) ? roleMenuRef : null} className="relative w-36">
                         <button
                           type="button"
                           disabled={props.updatingUserId === row.id}
@@ -113,7 +122,7 @@ export default function UsersTable(props: UsersTableProps) {
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 font-medium text-zinc-500">{formatDate(row.created_at ?? row.createdAt)}</td>
                     <td className="px-4 py-4 text-right text-zinc-600">
-                      <div className="flex flex-wrap items-center justify-end gap-2">
+                      <div className="inline-flex flex-wrap items-center justify-end gap-2">
                         <button type="button" className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]" onClick={() => props.onOpenPasswordReset(row)}>
                           Reset Password
                         </button>
