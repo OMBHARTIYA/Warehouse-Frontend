@@ -28,32 +28,34 @@ export default function MobileSidebar({
     <>
       <button
         type="button"
-        className="fixed inset-0 z-30 bg-black/40 md:hidden"
+        className="fixed inset-0 z-30 bg-black/50 backdrop-blur-[2px] md:hidden"
         onClick={onClose}
         aria-label="Close navigation menu"
       />
-      <aside className="fixed inset-y-0 left-0 z-40 m-3 w-[calc(100%-1.5rem)] max-w-72 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm md:hidden">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-bold text-zinc-900">Task-Manager-App</h1>
+      <aside className="fixed inset-y-0 left-0 z-40 m-3 flex w-[calc(100%-1.5rem)] max-w-72 flex-col overflow-y-auto rounded-[28px] border border-zinc-200 bg-white p-5 shadow-2xl shadow-black/20 dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:shadow-black/50 md:hidden">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-bold text-zinc-900 dark:text-zinc-50">Task-Manager-App</h1>
+            <p className="mt-1 break-words text-sm text-zinc-600 dark:text-zinc-300">Signed in as {username}</p>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-zinc-300 px-2 py-1 text-sm text-zinc-700 hover:bg-zinc-100"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-zinc-300 bg-white text-zinc-700 transition hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:bg-zinc-800"
             aria-label="Close navigation menu"
           >
-            <X size={16} aria-hidden="true" />
+            <X size={18} aria-hidden="true" />
           </button>
         </div>
-        <p className="mt-1 break-words text-sm text-zinc-600">Signed in as {username}</p>
 
         <SidebarNav
           navItems={navItems}
           pathname={pathname}
           onItemClick={onClose}
-          className="mt-6 flex flex-col gap-1.5"
+          className="mt-6 flex flex-col gap-2"
         />
 
-        <SidebarFooter onLogout={onLogout} username={username} className="mt-8" />
+        <SidebarFooter onLogout={onLogout} username={username} className="mt-auto pt-6" />
       </aside>
     </>
   );
