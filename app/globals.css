@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
 :root {
   color-scheme: light;
@@ -16,7 +16,8 @@
   --brand-red-border: #f2c5ca;
 }
 
-html.dark {
+html.dark,
+html[data-theme="dark"] {
   color-scheme: dark;
   --background: #0f1115;
   --foreground: #f4f4f5;
