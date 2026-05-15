@@ -7,8 +7,12 @@ type TaskListViewProps = {
   activeTaskActionId: string | number | null;
   activeTaskActionType: "edit" | "delete" | null;
   onEdit: (task: Task) => void;
-  onDelete: (taskId: string | number) => void;
+  onDelete: (task: Task) => void;
 };
+
+function assigneeLabel(task: Task) {
+  return task.assignee ?? task.assigneeName ?? task.assignee_name ?? "Unassigned";
+}
 
 export default function TaskListView({
   tasks,
@@ -40,8 +44,8 @@ export default function TaskListView({
               <td className="px-4 py-3.5">
                 <PriorityBadge priority={task.priority} />
               </td>
-              <td className="px-4 py-3.5">{task.assignee ?? task.assigneeId ?? "Unassigned"}</td>
-              <td className="whitespace-nowrap px-4 py-3.5">{task.created_at ? new Date(task.created_at).toLocaleString() : "N/A"}</td>
+              <td className="px-4 py-3.5">{assigneeLabel(task)}</td>
+              <td className="whitespace-nowrap px-4 py-3.5">{task.created_at ? new Date(task.created_at).toLocaleDateString() : "N/A"}</td>
               <td className="px-4 py-3.5">
                 <div className="flex flex-wrap gap-2">
                   <button
@@ -53,7 +57,7 @@ export default function TaskListView({
                   </button>
                   <button
                     type="button"
-                    onClick={() => onDelete(task.id)}
+                    onClick={() => onDelete(task)}
                     disabled={activeTaskActionId === task.id && activeTaskActionType === "delete"}
                     className="rounded-md bg-red-600 px-2 py-1 text-xs font-medium text-white disabled:opacity-60"
                   >

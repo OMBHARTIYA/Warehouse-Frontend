@@ -46,7 +46,7 @@ export function useUsers(user: User | null, authLoading: boolean) {
     setUpdatingUserId(targetId);
     try {
       await updateUserRole(targetId, nextRole);
-      toast.success("User updated");
+      toast.success("User role updated");
       await fetchUsers();
     } catch {
       setError("Could not update user role.");
@@ -60,7 +60,6 @@ export function useUsers(user: User | null, authLoading: boolean) {
     if (targetId === undefined || targetId === null) return;
     const currentUserId = user?.id;
     if (currentUserId !== undefined && currentUserId !== null && String(currentUserId) === String(targetId)) return;
-    if (!window.confirm(`Delete user ${targetUser.username ?? ""}?`)) return;
     setDeletingUserId(targetId);
     try {
       await deleteUser(targetId);
@@ -95,5 +94,26 @@ export function useUsers(user: User | null, authLoading: boolean) {
     }
   };
 
-  return { users, isLoading, error, updatingUserId, deletingUserId, passwordFormUserId, newPassword, resettingPasswordUserId, setPasswordFormUserId, setNewPassword, handleRoleChange, handleDelete, handlePasswordReset, cancelPasswordReset: () => { setPasswordFormUserId(null); setNewPassword(""); }, openPasswordReset: (targetUser: AdminUser) => { const targetId = targetUser.id; if (targetId === undefined || targetId === null) return; setPasswordFormUserId(targetId); setNewPassword(""); } };
+  return {
+    users,
+    isLoading,
+    error,
+    updatingUserId,
+    deletingUserId,
+    passwordFormUserId,
+    newPassword,
+    resettingPasswordUserId,
+    setPasswordFormUserId,
+    setNewPassword,
+    handleRoleChange,
+    handleDelete,
+    handlePasswordReset,
+    cancelPasswordReset: () => { setPasswordFormUserId(null); setNewPassword(""); },
+    openPasswordReset: (targetUser: AdminUser) => {
+      const targetId = targetUser.id;
+      if (targetId === undefined || targetId === null) return;
+      setPasswordFormUserId(targetId);
+      setNewPassword("");
+    },
+  };
 }

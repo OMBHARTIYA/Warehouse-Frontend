@@ -1,4 +1,25 @@
-export default function TasksHeader() {
-  return <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6"><div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h2 className="text-4xl font-semibold tracking-tight text-zinc-900">Tasks</h2></div></div></div>;
-}
+export default function TasksHeader({ total, visible, completed, unassigned }: { total: number; visible: number; completed: number; unassigned: number; }) {
+  const cards = [
+    { label: "Total Tasks", value: total, tone: "from-rose-100 via-pink-50 to-white" },
+    { label: "Visible", value: visible, tone: "from-orange-100 via-amber-50 to-white" },
+    { label: "Completed", value: completed, tone: "from-emerald-100 via-green-50 to-white" },
+    { label: "Unassigned", value: unassigned, tone: "from-violet-100 via-purple-50 to-white" },
+  ];
 
+  return (
+    <section className="space-y-4 rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
+      <div>
+        <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">Tasks</h2>
+        <p className="mt-2 text-sm text-zinc-500 sm:text-base">Track assignments, priorities, and delivery status across all projects.</p>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {cards.map((card) => (
+          <article key={card.label} className={`rounded-2xl border border-white/70 bg-gradient-to-br ${card.tone} p-4`}>
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-600">{card.label}</p>
+            <p className="mt-2 text-2xl font-bold text-zinc-900">{card.value}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}

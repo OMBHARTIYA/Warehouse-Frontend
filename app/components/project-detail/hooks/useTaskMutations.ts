@@ -10,6 +10,7 @@ export function useTaskMutations(projectId: string, reload: () => Promise<void>,
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeTaskActionId, setActiveTaskActionId] = useState<string | number | null>(null);
   const [activeTaskActionType, setActiveTaskActionType] = useState<"edit" | "delete" | null>(null);
+  const [lastDeletedTask, setLastDeletedTask] = useState<Task | null>(null);
 
   const onCreate = async (payload: { title: string; description: string; priority: TaskPriority; assigneeId: string }) => {
     if (!projectId) return setCreateError("Project id is missing.");
@@ -38,12 +39,31 @@ export function useTaskMutations(projectId: string, reload: () => Promise<void>,
     finally { setActiveTaskActionId(null); setActiveTaskActionType(null); }
   };
 
-  const onDelete = async (taskId: string | number) => {
-    if (!window.confirm("Are you sure you want to delete this task?")) return;
+  const onDelete = async (task: Task) => {
+    const taskId = task.id;
     setDeleteError(""); setActiveTaskActionId(taskId); setActiveTaskActionType("delete");
-    try { await deleteTask(taskId); toast.success("Task deleted"); await reload(); }
-    catch { setDeleteError("Failed to delete task."); }
+    try {
+      await deleteTask(taskId);
+      setLastDeletedTask(task);
+      toast.success("Task deleted. Undo is available below.");
+      await reload();
+    } catch { setDeleteError("Failed to delete task."); }
     finally { setActiveTaskActionId(null); setActiveTaskActionType(null); }
+  };
+
+  const undoDeleteTask = async () => {
+    if (!lastDeletedTask) return;
+    await createTask({
+      title: lastDeletedTask.title,
+      description: lastDeletedTask.description ?? "",
+      priority: String(lastDeletedTask.priority),
+      status: "todo",
+      projectId,
+      assigneeId: (lastDeletedTask.assigneeId ?? lastDeletedTask.assignee_id ?? null) as string | null,
+    });
+    setLastDeletedTask(null);
+    toast.success("Task restored");
+    await reload();
   };
 
   const onBoardDragEnd = async (taskId: string, nextStatus: TaskStatus, tasks: Task[]) => {
@@ -56,5 +76,5 @@ export function useTaskMutations(projectId: string, reload: () => Promise<void>,
     } catch { setTasks(previousTasks); await reload(); }
   };
 
-  return { createError, editError, deleteError, isSubmitting, activeTaskActionId, activeTaskActionType, onCreate, onEdit, onDelete, onBoardDragEnd };
+  return { createError, editError, deleteError, isSubmitting, activeTaskActionId, activeTaskActionType, lastDeletedTask, onCreate, onEdit, onDelete, undoDeleteTask, onBoardDragEnd };
 }
