@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import RouteLayout from "./components/RouteLayout";
+import ThemeProvider from "./components/common/ThemeProvider";
 import ToastProvider from "./components/ToastProvider";
 
 const geistSans = Geist({
@@ -24,12 +25,15 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          <ToastProvider />
-          <RouteLayout>{children}</RouteLayout>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <ToastProvider />
+            <RouteLayout>{children}</RouteLayout>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
