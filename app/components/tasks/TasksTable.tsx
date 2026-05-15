@@ -68,12 +68,12 @@ export default function TasksTable({ tasks }: { tasks: Task[] }) {
                     </p>
                   </td>
                   <td className="px-4 py-4 align-middle">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getStatusBadgeClass(task.status)}`}>
+                    <span className={`inline-flex whitespace-nowrap items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getStatusBadgeClass(task.status)}`}>
                       {formatStatusLabel(task.status)}
                     </span>
                   </td>
                   <td className="px-4 py-4 align-middle">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getPriorityBadgeClass(task.priority)}`}>
+                    <span className={`inline-flex whitespace-nowrap items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getPriorityBadgeClass(task.priority)}`}>
                       {formatPriorityLabel(task.priority)}
                     </span>
                   </td>
