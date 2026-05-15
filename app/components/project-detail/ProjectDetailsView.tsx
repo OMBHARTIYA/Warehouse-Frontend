@@ -79,32 +79,32 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
 
   return (
     <section className="space-y-5">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl">Project Details</h2>
-        <div className="inline-flex items-center rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600">
-          Project ID: <span className="ml-1 font-semibold text-zinc-700">{projectId}</span>
+      <div className="space-y-2 rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm transition-colors dark:bg-[var(--surface-2)] dark:shadow-black/20 sm:p-6">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">Project Details</h2>
+        <div className="inline-flex items-center rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300">
+          Project ID: <span className="ml-1 font-semibold text-zinc-700 dark:text-zinc-100">{projectId}</span>
         </div>
       </div>
 
-      {isProjectLoading && <p className="text-zinc-600">Loading project details...</p>}
-      {!isProjectLoading && projectError && <p className="text-red-600">{projectError}</p>}
+      {isProjectLoading && <p className="text-zinc-600 dark:text-zinc-300">Loading project details...</p>}
+      {!isProjectLoading && projectError && <p className="text-red-600 dark:text-rose-300">{projectError}</p>}
       {!isProjectLoading && !projectError && project && (
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-700 shadow-sm sm:p-5">
-          <p className="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">{project.name?.trim() || "Untitled project"}</p>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-600">{project.description?.trim() || "No description"}</p>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-700 shadow-sm transition-colors dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:text-zinc-300 dark:shadow-black/20 sm:p-5">
+          <p className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-2xl">{project.name?.trim() || "Untitled project"}</p>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{project.description?.trim() || "No description"}</p>
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">Owner: {ownerLabel}</span>
-            {project.created_at && <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600">Created: {new Date(project.created_at).toLocaleDateString()}</span>}
+            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200">Owner: {ownerLabel}</span>
+            {project.created_at && <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-300">Created: {new Date(project.created_at).toLocaleDateString()}</span>}
           </div>
         </div>
       )}
 
-      <div className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-4">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm transition-colors dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:shadow-black/20 sm:p-4">
         <div className="flex flex-wrap items-center gap-2">
-          <button type="button" onClick={() => modal.setIsCreateModalOpen(true)} className="rounded-lg bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800">New task</button>
-          <div className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-1">
-            <button type="button" onClick={() => setViewMode("board")} className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${viewMode === "board" ? "bg-zinc-900 text-white" : "text-zinc-700 hover:bg-white"}`}>Board</button>
-            <button type="button" onClick={() => setViewMode("list")} className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${viewMode === "list" ? "bg-zinc-900 text-white" : "text-zinc-700 hover:bg-white"}`}>List</button>
+          <button type="button" onClick={() => modal.setIsCreateModalOpen(true)} className="rounded-lg bg-zinc-900 px-3.5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-white">New task</button>
+          <div className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50 p-1 dark:border-zinc-700 dark:bg-zinc-900/70">
+            <button type="button" onClick={() => setViewMode("board")} className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${viewMode === "board" ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950" : "text-zinc-700 hover:bg-white dark:text-zinc-300 dark:hover:bg-zinc-800"}`}>Board</button>
+            <button type="button" onClick={() => setViewMode("list")} className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${viewMode === "list" ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-950" : "text-zinc-700 hover:bg-white dark:text-zinc-300 dark:hover:bg-zinc-800"}`}>List</button>
           </div>
           {viewMode === "list" && (
             <FilterDropdown
@@ -146,7 +146,7 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
       {!isLoading && !error && filters.filteredTasks.length > 0 && viewMode === "list" && (
         <TaskListView tasks={sortedListTasks} activeTaskActionId={mutations.activeTaskActionId} activeTaskActionType={mutations.activeTaskActionType} onEdit={modal.openEditModal} onDelete={setPendingDeleteTask} />
       )}
-      {mutations.deleteError && <p className="text-sm text-red-600">{mutations.deleteError}</p>}
+      {mutations.deleteError && <p className="text-sm text-red-600 dark:text-rose-300">{mutations.deleteError}</p>}
       {!isLoading && !error && filters.filteredTasks.length > 0 && viewMode === "board" && <TaskBoardView columns={boardColumns} onDragEnd={handleBoardDragEnd} />}
 
       <TaskCreateModal
@@ -216,7 +216,7 @@ export default function ProjectDetailsView({ projectId }: ProjectDetailsViewProp
 
       {mutations.lastDeletedTask && <UndoBanner message="Task deleted." onUndo={() => { void mutations.undoDeleteTask(); }} />}
 
-      <Link href="/projects" className="inline-block text-sm font-medium text-zinc-900 hover:underline">Back to Projects</Link>
+      <Link href="/projects" className="inline-block text-sm font-medium text-zinc-900 hover:underline dark:text-zinc-300 dark:hover:text-zinc-100">Back to Projects</Link>
     </section>
   );
 }
