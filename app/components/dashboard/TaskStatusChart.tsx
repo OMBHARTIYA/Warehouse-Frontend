@@ -56,9 +56,9 @@ function StatusTooltip({
   const value = item?.value ?? 0;
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg">
-      <p className="font-medium text-zinc-900">{formatStatusLabel(label)}</p>
-      <p className="text-zinc-600">Count: {value}</p>
+    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10">
+      <p className="font-semibold text-zinc-900">{formatStatusLabel(label)}</p>
+      <p className="text-zinc-600">{value} tasks</p>
     </div>
   );
 }
@@ -140,9 +140,13 @@ function renderStatusLabel({
   const angle = -midAngle * RADIAN;
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
-  const x = centerX + (outerRadius + 32) * cos + (cos >= 0 ? 8 : -8);
-  const y = centerY + (outerRadius + 32) * sin + (Math.abs(sin) < 0.15 ? 8 : 0);
-  const textAnchor = cos >= 0 ? "start" : "end";
+  const isLeft = cos < -0.18;
+  const isRight = cos > 0.18;
+  const labelRadius = outerRadius + 26;
+  const rawX = centerX + labelRadius * cos + (isRight ? 8 : isLeft ? -8 : 0);
+  const x = isLeft ? Math.max(rawX, 150) : rawX;
+  const y = centerY + labelRadius * sin + (sin < -0.8 ? -2 : Math.abs(sin) < 0.15 ? 6 : 0);
+  const textAnchor = isLeft ? "end" : isRight ? "start" : "middle";
   const label = formatStatusLabel(payload?.label ?? "");
   const percentage = Math.round(percent * 100);
 
@@ -164,10 +168,10 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
   return (
     <ChartCard title="Tasks by Status" empty={tasksByStatus.length === 0} emptyText="No status data.">
       <div className="flex h-full min-h-0 flex-col">
-        <div className="min-h-0 flex-1">
+        <div className="min-h-0 flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2">
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart
-              margin={{ top: 18, right: 70, bottom: 12, left: 70 }}
+              margin={{ top: 22, right: 82, bottom: 12, left: 92 }}
               tabIndex={-1}
               style={{ outline: "none" }}
               onMouseLeave={() => setActiveIndex(undefined)}
@@ -178,8 +182,8 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                 nameKey="label"
                 cx="50%"
                 cy="50%"
-                innerRadius={58}
-                outerRadius={88}
+                innerRadius={56}
+                outerRadius={84}
                 paddingAngle={2}
                 // Recharts runtime supports this prop; local v3 typings omit it.
                 // @ts-expect-error activeIndex is intentionally passed for active slice behavior.
@@ -191,7 +195,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                   setActiveIndex(index);
                 }}
                 label={renderStatusLabel}
-                labelLine={{ strokeWidth: 1.5, strokeOpacity: 0.45 }}
+                labelLine={{ strokeWidth: 1.5, strokeOpacity: 0.38 }}
                 isAnimationActive
               >
                 {chartData.map((entry, index) => (
@@ -211,11 +215,11 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
           </ResponsiveContainer>
         </div>
 
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-700">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-700">
           {chartData.map((entry) => (
             <div key={entry.label} className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full" style={{ backgroundColor: entry.color }} />
-              <span className="font-medium">{entry.label}</span>
+              <span className="font-semibold">{entry.label}</span>
             </div>
           ))}
         </div>
