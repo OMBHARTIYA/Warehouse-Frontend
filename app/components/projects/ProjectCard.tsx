@@ -30,19 +30,19 @@ function getCompletionPercent(summary?: ProjectTaskSummary, fallback?: { total?:
   return Math.round((completed / total) * 100);
 }
 
-function StatPill({ label, value, tone = "default" }: { label: string; value: string | number; tone?: "default" | "success" | "warning" | "danger" }) {
+function StatChip({ label, value, tone = "default" }: { label: string; value: string | number; tone?: "default" | "success" | "warning" | "danger" }) {
   const toneClasses = {
-    default: "border-zinc-200 bg-white text-zinc-900",
+    default: "border-zinc-200 bg-white text-zinc-700",
     success: "border-emerald-100 bg-emerald-50 text-emerald-700",
     warning: "border-amber-100 bg-amber-50 text-amber-700",
     danger: "border-rose-100 bg-rose-50 text-rose-700",
   }[tone];
 
   return (
-    <div className={`rounded-xl border px-2.5 py-1.5 shadow-sm ${toneClasses}`}>
-      <p className="text-[9px] font-bold uppercase tracking-wide text-zinc-500">{label}</p>
-      <p className="text-sm font-bold leading-5">{value}</p>
-    </div>
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[11px] font-semibold shadow-sm ${toneClasses}`}>
+      <span className="text-zinc-500">{label}</span>
+      <span className="font-bold">{value}</span>
+    </span>
   );
 }
 
@@ -59,7 +59,7 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
   return (
     <article className="group relative overflow-hidden rounded-3xl border border-[var(--border-soft)] bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md sm:p-5">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-rose-500 via-orange-400 to-amber-300 opacity-80" />
-      <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-10 -translate-y-10 rounded-full bg-rose-100/45 blur-2xl transition-opacity group-hover:opacity-90" />
+      <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-10 -translate-y-10 rounded-full bg-rose-100/40 blur-2xl transition-opacity group-hover:opacity-90" />
 
       {isEditing ? (
         <ProjectEditForm
@@ -99,39 +99,34 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
             </div>
           </div>
 
-          <div className="relative z-10 pointer-events-none mt-3 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-700 shadow-sm">
+          <div className="relative z-10 pointer-events-none mt-3 flex flex-wrap items-center gap-2 text-[11px] font-medium text-zinc-600">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
               Owner: {ownerLabel}
             </span>
-            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-600 shadow-sm">Created: {new Date(project.created_at).toLocaleDateString()}</span>
+            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm">Created: {new Date(project.created_at).toLocaleDateString()}</span>
           </div>
 
           {hasTaskInfo && (
-            <div className="relative z-10 pointer-events-none mt-3 rounded-2xl border border-zinc-100 bg-gradient-to-br from-zinc-50 to-white p-2.5 shadow-inner shadow-zinc-100/70">
-              <div className="grid grid-cols-4 gap-1.5">
-                <StatPill label="Tasks" value={totalTasks ?? 0} />
-                <StatPill label="Done" value={completedTasks ?? 0} tone="success" />
-                <StatPill label="Run" value={taskSummary?.inProgress ?? 0} tone="warning" />
-                <StatPill label="Crit" value={taskSummary?.critical ?? 0} tone="danger" />
+            <div className="relative z-10 pointer-events-none mt-3 space-y-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <StatChip label="Tasks" value={totalTasks ?? 0} />
+                <StatChip label="Done" value={completedTasks ?? 0} tone="success" />
+                <StatChip label="Run" value={taskSummary?.inProgress ?? 0} tone="warning" />
+                <StatChip label="Crit" value={taskSummary?.critical ?? 0} tone="danger" />
+                <span className="ml-auto text-xs font-bold text-zinc-900">{completionPercent}%</span>
               </div>
 
-              <div className="mt-2">
-                <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-zinc-600">
-                  <span>Progress</span>
-                  <span className="text-zinc-900">{completionPercent}%</span>
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all"
-                    style={{ width: `${completionPercent}%` }}
-                  />
-                </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all"
+                  style={{ width: `${completionPercent}%` }}
+                />
               </div>
             </div>
           )}
 
-          <div className="relative z-10 mt-3 flex flex-wrap items-center justify-between gap-2">
+          <div className="relative z-10 mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3">
             <span className="pointer-events-none text-xs font-semibold text-zinc-500 transition-colors group-hover:text-[var(--brand-red-strong)]">
               Open details →
             </span>
