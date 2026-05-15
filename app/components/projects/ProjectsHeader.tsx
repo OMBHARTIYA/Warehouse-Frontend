@@ -6,16 +6,16 @@ export default function ProjectsHeader({
   onToggleCreate: () => void;
 }) {
   return (
-    <header className="rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm sm:p-6">
+    <header className="rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm transition-colors dark:bg-[var(--surface-2)] dark:shadow-black/20 sm:p-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-red-strong)]">
             Workspace
           </p>
-          <h2 className="mt-1 text-3xl font-semibold tracking-tight text-zinc-900 sm:text-4xl">
+          <h2 className="mt-1 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
             Projects
           </h2>
-          <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-500 sm:text-base">
+          <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-500 dark:text-zinc-300 sm:text-base">
             Manage your workspace projects, ownership, and delivery progress.
           </p>
         </div>
