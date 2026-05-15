@@ -22,12 +22,31 @@ function applyTheme(theme: Theme) {
 }
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
   useEffect(() => {
-    const initialTheme = getInitialTheme();
-    setTheme(initialTheme);
-    applyTheme(initialTheme);
+    applyTheme(theme);
+    window.localStorage.setItem(STORAGE_KEY, theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const syncStoredTheme = () => {
+      const storedTheme = getInitialTheme();
+      setTheme(storedTheme);
+      applyTheme(storedTheme);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") syncStoredTheme();
+    };
+
+    window.addEventListener("focus", syncStoredTheme);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("focus", syncStoredTheme);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   const nextTheme = theme === "dark" ? "light" : "dark";
@@ -35,8 +54,6 @@ export default function ThemeToggle() {
 
   const handleToggle = () => {
     setTheme(nextTheme);
-    window.localStorage.setItem(STORAGE_KEY, nextTheme);
-    applyTheme(nextTheme);
   };
 
   return (
