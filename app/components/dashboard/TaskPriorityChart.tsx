@@ -19,6 +19,14 @@ type PriorityBar = {
   color: string;
 };
 
+type PriorityValueLabelProps = {
+  x?: number | string;
+  y?: number | string;
+  width?: number | string;
+  value?: number | string;
+  payload?: { color?: string };
+};
+
 const PRIORITY_COLORS: Record<string, string> = {
   critical: "#dc2626",
   high: "#f97316",
@@ -46,19 +54,44 @@ function PriorityTooltip({
   payload,
 }: {
   active?: boolean;
-  payload?: Array<{ name?: string; value?: number; payload?: { label?: string } }>;
+  payload?: Array<{ name?: string; value?: number; payload?: { label?: string; color?: string } }>;
 }) {
   if (!active || !payload?.length) return null;
 
   const item = payload[0];
   const label = item?.name ?? item?.payload?.label ?? "";
   const value = item?.value ?? 0;
+  const color = item?.payload?.color ?? "#52525b";
 
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10">
-      <p className="font-semibold text-zinc-900">{formatPriorityLabel(label)}</p>
-      <p className="text-zinc-600">{value} tasks</p>
+      <div className="flex items-center gap-2">
+        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+        <p className="font-semibold text-zinc-900">{formatPriorityLabel(label)}</p>
+      </div>
+      <p className="mt-1 text-zinc-600">{value} tasks</p>
     </div>
+  );
+}
+
+function PriorityValueLabel({ x = 0, y = 0, width = 0, value, payload }: PriorityValueLabelProps) {
+  if (value === undefined || value === null) return null;
+
+  const labelX = Number(x) + Number(width) / 2;
+  const labelY = Number(y) - 10;
+  const color = payload?.color ?? "#3f3f46";
+
+  return (
+    <text
+      x={labelX}
+      y={labelY}
+      textAnchor="middle"
+      dominantBaseline="middle"
+      fill={color}
+      className="text-xs font-bold sm:text-sm"
+    >
+      {value}
+    </text>
   );
 }
 
@@ -108,7 +141,7 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
         <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
           <BarChart
             data={chartData}
-            margin={{ top: 26, right: 18, bottom: 12, left: -8 }}
+            margin={{ top: 28, right: 18, bottom: 12, left: -8 }}
             barCategoryGap="26%"
             tabIndex={-1}
             style={{ outline: "none" }}
@@ -156,12 +189,7 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
               maxBarSize={58}
               isAnimationActive
             >
-              <LabelList
-                dataKey="count"
-                position="top"
-                offset={8}
-                className="fill-zinc-700 text-xs font-semibold"
-              />
+              <LabelList dataKey="count" position="top" offset={10} content={<PriorityValueLabel />} />
               {chartData.map((entry, index) => (
                 <Cell
                   key={entry.label}
