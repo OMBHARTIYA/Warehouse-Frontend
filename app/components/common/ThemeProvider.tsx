@@ -5,6 +5,7 @@ import { useEffect, type ReactNode } from "react";
 type Theme = "light" | "dark";
 
 const STORAGE_KEY = "jira-theme";
+const THEME_EVENT = "jira-theme-change";
 
 function getStoredTheme(): Theme {
   if (typeof window === "undefined") return "light";
@@ -37,11 +38,13 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
 
     window.addEventListener("storage", handleStorage);
     window.addEventListener("focus", syncTheme);
+    window.addEventListener(THEME_EVENT, syncTheme);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("storage", handleStorage);
       window.removeEventListener("focus", syncTheme);
+      window.removeEventListener(THEME_EVENT, syncTheme);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
