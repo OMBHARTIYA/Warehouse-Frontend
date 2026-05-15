@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Bell, Mail, Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -134,7 +135,7 @@ export default function DashboardHeader({
 
           <button type="button" onClick={() => { setIsProfileOpen((prev) => !prev); setIsMailOpen(false); setIsNotificationOpen(false); }} className="inline-flex items-center gap-3 rounded-full border border-[var(--border-soft)] bg-[var(--surface)] px-2 py-1.5 text-left transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
             <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>
-              {!isAvatarBroken ? <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}
+              {!isAvatarBroken ? <Image src={avatarUrl} alt={`${displayName} avatar`} fill unoptimized sizes="40px" className="object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}
             </span>
             <span className="hidden text-sm font-medium text-zinc-700 sm:inline">{displayName}</span>
           </button>
@@ -143,7 +144,7 @@ export default function DashboardHeader({
 
           {isNotificationOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-3 shadow-sm sm:left-auto sm:right-24 sm:mx-0 sm:w-64 sm:max-w-none"><p className="text-sm font-medium text-zinc-900">Notifications</p><p className="mt-1 text-xs text-zinc-600">All caught up.</p><button type="button" onClick={() => { toast("No unread notifications."); closeAllMenus(); }} className="mt-3 w-full rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50">Mark all read</button></div>}
 
-          {isProfileOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:max-w-none sm:p-5"><div className="flex items-center gap-4"><span className="relative inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>{!isAvatarBroken ? <img src={avatarUrl} alt={`${displayName} avatar`} className="h-full w-full object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}</span><div><p className="text-base font-semibold text-zinc-900">{displayName}</p><p className="text-sm text-zinc-600">{user?.email ?? "No email"}</p></div></div></div>}
+          {isProfileOpen && <div className="absolute left-2 right-2 top-[calc(100%+0.5rem)] z-30 mx-auto max-w-[calc(100vw-1rem)] rounded-xl border border-zinc-200 bg-white p-4 shadow-sm sm:left-auto sm:right-0 sm:mx-0 sm:w-[24rem] sm:max-w-none sm:p-5"><div className="flex items-center gap-4"><span className="relative inline-flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm font-semibold text-white ring-1 ring-zinc-200" style={avatarStyle}>{!isAvatarBroken ? <Image src={avatarUrl} alt={`${displayName} avatar`} fill unoptimized sizes="56px" className="object-cover" onError={() => setIsAvatarBroken(true)} /> : <span>{initials}</span>}</span><div><p className="text-base font-semibold text-zinc-900">{displayName}</p><p className="text-sm text-zinc-600">{user?.email ?? "No email"}</p></div></div></div>}
         </div>
       </div>
     </section>
