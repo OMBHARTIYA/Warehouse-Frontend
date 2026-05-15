@@ -49,13 +49,13 @@ export default function UsersTable(props: UsersTableProps) {
   return (
     <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
       <div className="overflow-x-auto">
-        <table className="min-w-[900px] table-fixed text-left text-sm text-zinc-700">
+        <table className="min-w-[960px] table-fixed text-left text-sm text-zinc-700">
           <colgroup>
-            <col className="w-[22%]" />
-            <col className="w-[25%]" />
+            <col className="w-[20%]" />
+            <col className="w-[24%]" />
+            <col className="w-[15%]" />
             <col className="w-[17%]" />
-            <col className="w-[18%]" />
-            <col className="w-[18%]" />
+            <col className="w-[24%]" />
           </colgroup>
           <thead className="bg-gradient-to-r from-zinc-50 to-white text-[11px] uppercase tracking-[0.14em] text-zinc-500">
             <tr>
@@ -122,15 +122,15 @@ export default function UsersTable(props: UsersTableProps) {
                     </td>
                     <td className="whitespace-nowrap px-4 py-4 font-medium text-zinc-500">{formatDate(row.created_at ?? row.createdAt)}</td>
                     <td className="px-4 py-4 text-right text-zinc-600">
-                      <div className="inline-flex flex-wrap items-center justify-end gap-2">
-                        <button type="button" className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]" onClick={() => props.onOpenPasswordReset(row)}>
+                      <div className="inline-flex flex-nowrap items-center justify-end gap-2">
+                        <button type="button" className="whitespace-nowrap rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]" onClick={() => props.onOpenPasswordReset(row)}>
                           Reset Password
                         </button>
-                        <button type="button" className="rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:bg-rose-300 disabled:opacity-80" onClick={() => props.onRequestDelete(row)} disabled={isCurrentUser || props.deletingUserId === row.id} title={isCurrentUser ? "You cannot delete your own account." : undefined}>
+                        <button type="button" className="whitespace-nowrap rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:cursor-not-allowed disabled:bg-rose-300 disabled:opacity-80" onClick={() => props.onRequestDelete(row)} disabled={isCurrentUser || props.deletingUserId === row.id} title={isCurrentUser ? "You cannot delete your own account." : undefined}>
                           {props.deletingUserId === row.id ? "Deleting..." : "Delete"}
                         </button>
                       </div>
-                      {isCurrentUser && <p className="mt-1 text-xs text-zinc-500">You cannot delete your own account.</p>}
+                      {isCurrentUser && <p className="ml-auto mt-1 max-w-48 text-xs text-zinc-500">You cannot delete your own account.</p>}
                     </td>
                   </tr>
                   {props.passwordFormUserId === row.id && (
