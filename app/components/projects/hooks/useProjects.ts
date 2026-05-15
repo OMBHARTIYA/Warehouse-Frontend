@@ -1,11 +1,51 @@
 import { FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import type { User } from "@/types/auth";
+import { getTasks } from "../../tasks/services/taskService";
+import type { Task } from "../../tasks/types";
 import { createProject, deleteProject, getProjects, updateProject } from "../services/projectService";
-import type { Project } from "../types";
+import type { Project, ProjectTaskSummary } from "../types";
+
+function createEmptySummary(): ProjectTaskSummary {
+  return {
+    total: 0,
+    completed: 0,
+    inProgress: 0,
+    critical: 0,
+  };
+}
+
+function normalizeValue(value: unknown) {
+  return String(value ?? "").replace(/_/g, " ").trim().toLowerCase();
+}
+
+function getTaskProjectId(task: Task) {
+  return task.projectId ?? task.project_id;
+}
+
+function buildTaskSummaries(tasks: Task[]) {
+  return tasks.reduce<Record<string, ProjectTaskSummary>>((summaries, task) => {
+    const projectId = getTaskProjectId(task);
+    if (projectId === undefined || projectId === null) return summaries;
+
+    const key = String(projectId);
+    const summary = summaries[key] ?? createEmptySummary();
+    const status = normalizeValue(task.status);
+    const priority = normalizeValue(task.priority);
+
+    summary.total += 1;
+    if (status === "done") summary.completed += 1;
+    if (status === "in progress" || status === "inprogress") summary.inProgress += 1;
+    if (priority === "critical") summary.critical += 1;
+
+    summaries[key] = summary;
+    return summaries;
+  }, {});
+}
 
 export default function useProjects(user: User | null) {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [projectTaskSummaries, setProjectTaskSummaries] = useState<Record<string, ProjectTaskSummary>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isCreateFormVisible, setIsCreateFormVisible] = useState(false);
@@ -25,7 +65,9 @@ export default function useProjects(user: User | null) {
     setIsLoading(true);
     setError("");
     try {
-      setProjects(await getProjects());
+      const [nextProjects, nextTasks] = await Promise.all([getProjects(), getTasks().catch(() => [])]);
+      setProjects(nextProjects);
+      setProjectTaskSummaries(buildTaskSummaries(nextTasks));
     } catch {
       setError("Failed to load projects.");
     } finally {
@@ -128,6 +170,7 @@ export default function useProjects(user: User | null) {
 
   return {
     projects,
+    projectTaskSummaries,
     isLoading,
     error,
     isCreateFormVisible,

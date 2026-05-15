@@ -73,6 +73,7 @@ export default function ProjectsView() {
             <ProjectCard
               key={project.id}
               project={project}
+              taskSummary={projectsState.projectTaskSummaries[String(project.id)]}
               canManage={projectsState.canManageProject(project)}
               isEditing={projectsState.editingProjectId === project.id}
               editName={projectsState.editName}

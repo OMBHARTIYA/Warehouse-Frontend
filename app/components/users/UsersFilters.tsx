@@ -9,40 +9,68 @@ type UsersFiltersProps = {
 };
 
 export default function UsersFilters({ searchQuery, roleFilter, onSearchChange, onRoleChange, onReset }: UsersFiltersProps) {
+  const hasActiveFilters = searchQuery.trim().length > 0 || roleFilter !== "all";
+
   return (
-    <div className="flex flex-col gap-3 rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm sm:flex-row sm:items-end sm:p-6">
-      <div className="sm:w-80">
-        <label htmlFor="users-search" className="text-sm font-medium text-zinc-700">Search users</label>
-        <input
-          id="users-search"
-          type="search"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search by username or email"
-          className="mt-1 h-11 w-full rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 text-sm text-zinc-900 outline-none transition focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)]"
-        />
+    <section className="rounded-3xl border border-[var(--border-soft)] bg-white p-4 shadow-sm sm:p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="grid flex-1 gap-4 sm:grid-cols-[minmax(0,1fr)_220px] lg:max-w-3xl">
+          <div className="space-y-1.5">
+            <label htmlFor="users-search" className="text-sm font-medium text-zinc-700">
+              Search users
+            </label>
+            <div className="relative">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                ⌕
+              </span>
+              <input
+                id="users-search"
+                type="search"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                placeholder="Search by username or email"
+                className="h-11 w-full rounded-2xl border border-[var(--border-soft)] bg-[var(--surface)] py-2 pl-9 pr-3.5 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[var(--brand-red-border)] focus:bg-white focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+              />
+            </div>
+          </div>
+
+          <FilterDropdown
+            id="users-role-filter"
+            label="Role"
+            value={roleFilter}
+            onChange={onRoleChange}
+            className="space-y-1.5"
+            options={[
+              { value: "all", label: "All roles" },
+              { value: "admin", label: "Admins" },
+              { value: "user", label: "Members" },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+          {hasActiveFilters && (
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-xs font-semibold text-[var(--brand-red-strong)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand-red)]" />
+              Filters active
+            </span>
+          )}
+
+          <button
+            type="button"
+            onClick={onReset}
+            disabled={!hasActiveFilters}
+            className={`h-11 rounded-2xl px-4 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] ${
+              hasActiveFilters
+                ? "border border-[var(--brand-red-border)] bg-[var(--brand-red)] text-white hover:-translate-y-0.5 hover:bg-[var(--brand-red-strong)] hover:shadow-md"
+                : "border border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50"
+            }`}
+            title={hasActiveFilters ? "Clear selected filters" : "No filters are active"}
+          >
+            Reset Filters
+          </button>
+        </div>
       </div>
-
-      <FilterDropdown
-        id="users-role-filter"
-        label="Role"
-        value={roleFilter}
-        onChange={onRoleChange}
-        className="space-y-1.5 sm:w-52"
-        options={[
-          { value: "all", label: "All roles" },
-          { value: "admin", label: "Admins" },
-          { value: "user", label: "Members" },
-        ]}
-      />
-
-      <button
-        type="button"
-        onClick={onReset}
-        className="h-11 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 sm:ml-auto"
-      >
-        Reset Filters
-      </button>
-    </div>
+    </section>
   );
 }
