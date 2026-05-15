@@ -46,13 +46,13 @@ export default function UsersView() {
       />
 
       {state.error && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
-          <p className="text-sm text-red-700">{state.error}</p>
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 shadow-sm dark:shadow-black/20 sm:p-6">
+          <p className="text-sm font-medium text-red-700 dark:text-rose-300">{state.error}</p>
         </div>
       )}
 
       {state.isLoading ? (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 shadow-sm dark:shadow-black/20 sm:p-6">
           <LoadingSpinner label="Loading users..." />
         </div>
       ) : filteredUsers.length === 0 ? (<EmptyState title="No users found" description="Try adjusting search or role filters." />) : (
