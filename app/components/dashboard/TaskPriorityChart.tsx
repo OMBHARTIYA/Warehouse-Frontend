@@ -138,8 +138,8 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
 
   return (
     <ChartCard title="Tasks by Priority" empty={priorityBars.length === 0} emptyText="No priority data.">
-      <div className="h-full w-full rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
-        <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+      <div className="h-full min-h-[1px] w-full min-w-[1px] overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
+        <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1} debounce={50}>
           <BarChart
             data={chartData}
             margin={{ top: 28, right: 18, bottom: 12, left: -8 }}
