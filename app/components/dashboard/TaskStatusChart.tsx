@@ -56,9 +56,9 @@ function StatusTooltip({
   const value = item?.value ?? 0;
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10">
-      <p className="font-semibold text-zinc-900">{formatStatusLabel(label)}</p>
-      <p className="text-zinc-600">{value} tasks</p>
+    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10 dark:border-zinc-700 dark:bg-zinc-900 dark:shadow-black/30">
+      <p className="font-semibold text-zinc-900 dark:text-zinc-100">{formatStatusLabel(label)}</p>
+      <p className="text-zinc-600 dark:text-zinc-400">{value} tasks</p>
     </div>
   );
 }
@@ -113,10 +113,10 @@ function ActiveStatusSlice(props: {
         }}
       />
 
-      <text x={safeCx} y={safeCy - 6} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-900 text-sm font-semibold">
+      <text x={safeCx} y={safeCy - 6} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-900 text-sm font-semibold dark:fill-zinc-100">
         {safeValue}
       </text>
-      <text x={safeCx} y={safeCy + 14} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-500 text-[11px] font-medium">
+      <text x={safeCx} y={safeCy + 14} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-500 text-[11px] font-medium dark:fill-zinc-400">
         {safeLabel}
       </text>
     </g>
@@ -168,7 +168,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
   return (
     <ChartCard title="Tasks by Status" empty={tasksByStatus.length === 0} emptyText="No status data.">
       <div className="flex h-full min-h-0 flex-col">
-        <div className="min-h-0 flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2">
+        <div className="min-h-0 flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
           <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <PieChart
               margin={{ top: 22, right: 82, bottom: 12, left: 92 }}
@@ -203,7 +203,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                     key={`status-${entry.label}`}
                     fill={entry.color}
                     fillOpacity={activeIndex === undefined || activeIndex === index ? 1 : 0.55}
-                    stroke="#fff"
+                    stroke="var(--surface-2)"
                     strokeWidth={3}
                     style={{ outline: "none" }}
                   />
@@ -215,7 +215,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
           </ResponsiveContainer>
         </div>
 
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-700">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-700 dark:text-zinc-300">
           {chartData.map((entry) => (
             <div key={entry.label} className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full" style={{ backgroundColor: entry.color }} />
