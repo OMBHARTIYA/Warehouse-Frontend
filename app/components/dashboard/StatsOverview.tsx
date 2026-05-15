@@ -10,15 +10,15 @@ type StatCardProps = {
 
 export function StatCard({ label, value, helperText, icon: Icon, gradient }: StatCardProps) {
   return (
-    <div className={`group relative overflow-hidden rounded-3xl border border-white/60 p-6 text-zinc-900 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-700 dark:text-zinc-50 dark:shadow-black/20 dark:hover:shadow-black/30 ${gradient}`}>
+    <div className={`group relative overflow-hidden rounded-3xl border border-white/60 p-4 text-zinc-900 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-700 dark:text-zinc-50 dark:shadow-black/20 dark:hover:shadow-black/30 sm:p-6 ${gradient}`}>
       <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/25 blur-2xl dark:bg-white/10" aria-hidden="true" />
       <div className="relative flex items-start justify-between gap-3">
         <p className="text-sm font-semibold tracking-tight text-zinc-700 dark:text-zinc-200 sm:text-base">{label}</p>
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/75 text-zinc-700 backdrop-blur dark:bg-zinc-900/60 dark:text-zinc-100">
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/75 text-zinc-700 backdrop-blur dark:bg-zinc-900/60 dark:text-zinc-100 sm:h-10 sm:w-10">
           <Icon size={18} />
         </span>
       </div>
-      <p className="relative mt-4 text-4xl font-bold leading-none tracking-tight text-zinc-900 dark:text-zinc-50">{value}</p>
+      <p className="relative mt-3 text-3xl font-bold leading-none tracking-tight text-zinc-900 dark:text-zinc-50 sm:mt-4 sm:text-4xl">{value}</p>
       <p className="relative mt-2 text-sm text-zinc-700 dark:text-zinc-300">{helperText}</p>
     </div>
   );
@@ -43,7 +43,7 @@ export default function StatsOverview({
   ] as const;
 
   return (
-    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <section className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
       {cards.map((card) => (
         <StatCard key={card.label} {...card} />
       ))}
