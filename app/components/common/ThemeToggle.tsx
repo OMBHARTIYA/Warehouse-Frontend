@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 type Theme = "light" | "dark";
 
 const STORAGE_KEY = "jira-theme";
+const THEME_EVENT = "jira-theme-change";
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
@@ -19,6 +20,7 @@ function getInitialTheme(): Theme {
 function applyTheme(theme: Theme) {
   document.documentElement.classList.toggle("dark", theme === "dark");
   document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
 }
 
 export default function ThemeToggle() {
@@ -26,7 +28,6 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     applyTheme(theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
   useEffect(() => {
@@ -40,11 +41,15 @@ export default function ThemeToggle() {
       if (document.visibilityState === "visible") syncStoredTheme();
     };
 
+    const handleThemeChange = () => syncStoredTheme();
+
     window.addEventListener("focus", syncStoredTheme);
+    window.addEventListener(THEME_EVENT, handleThemeChange);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("focus", syncStoredTheme);
+      window.removeEventListener(THEME_EVENT, handleThemeChange);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
@@ -53,7 +58,10 @@ export default function ThemeToggle() {
   const isDark = theme === "dark";
 
   const handleToggle = () => {
+    window.localStorage.setItem(STORAGE_KEY, nextTheme);
+    applyTheme(nextTheme);
     setTheme(nextTheme);
+    window.dispatchEvent(new Event(THEME_EVENT));
   };
 
   return (
