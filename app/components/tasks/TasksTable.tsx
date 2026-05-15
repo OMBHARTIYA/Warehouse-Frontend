@@ -55,11 +55,11 @@ export default function TasksTable({ tasks }: { tasks: Task[] }) {
               const assigneeAvatarClass = getAssigneeAvatarClass(assigneeValue);
 
               return (
-                <tr key={task.id} className="group transition-colors hover:bg-zinc-50/70">
-                  <td className="px-4 py-4 align-middle font-semibold text-zinc-400 group-hover:text-zinc-600">{index + 1}</td>
+                <tr key={task.id} className="group transition-colors hover:bg-rose-50/30">
+                  <td className="px-4 py-4 align-middle font-semibold text-zinc-400 group-hover:text-[var(--brand-red-strong)]">{index + 1}</td>
                   <td className="px-4 py-4 align-middle">
                     <div className="max-w-[220px]">
-                      <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-zinc-950">{task.title}</p>
+                      <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)]">{task.title}</p>
                     </div>
                   </td>
                   <td className="px-4 py-4 align-middle">
