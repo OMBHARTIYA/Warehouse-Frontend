@@ -27,50 +27,71 @@ function resolveAssigneeName(task: Task): string {
 
 export default function TasksTable({ tasks }: { tasks: Task[] }) {
   return (
-    <div className="overflow-x-auto rounded-3xl border border-zinc-200 bg-white shadow-sm">
-      <table className="min-w-[980px] text-left text-sm text-zinc-700">
-        <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
-          <tr>
-            <th className="px-4 py-3.5 font-semibold">#</th>
-            <th className="px-4 py-3.5 font-semibold">Title</th>
-            <th className="px-4 py-3.5 font-semibold">Description</th>
-            <th className="px-4 py-3.5 font-semibold">Status</th>
-            <th className="px-4 py-3.5 font-semibold">Priority</th>
-            <th className="px-4 py-3.5 font-semibold">Project</th>
-            <th className="px-4 py-3.5 font-semibold">Assignee</th>
-            <th className="px-4 py-3.5 font-semibold text-right">Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task, index) => {
-            const projectValue = resolveProjectName(task);
-            const assigneeValue = resolveAssigneeName(task);
+    <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
+      <div className="overflow-x-auto">
+        <table className="min-w-[980px] text-left text-sm text-zinc-700">
+          <thead className="bg-gradient-to-r from-zinc-50 to-white text-[11px] uppercase tracking-[0.14em] text-zinc-500">
+            <tr>
+              <th className="w-12 px-4 py-4 font-bold">#</th>
+              <th className="px-4 py-4 font-bold">Title</th>
+              <th className="px-4 py-4 font-bold">Description</th>
+              <th className="px-4 py-4 font-bold">Status</th>
+              <th className="px-4 py-4 font-bold">Priority</th>
+              <th className="px-4 py-4 font-bold">Project</th>
+              <th className="px-4 py-4 font-bold">Assignee</th>
+              <th className="px-4 py-4 text-right font-bold">Created</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-zinc-100">
+            {tasks.map((task, index) => {
+              const projectValue = resolveProjectName(task);
+              const assigneeValue = resolveAssigneeName(task);
 
-            return (
-              <tr key={task.id} className="border-t border-zinc-100 first:border-t-0 transition-colors hover:bg-zinc-50/80">
-                <td className="px-4 py-4 font-medium text-zinc-500">{index + 1}</td>
-                <td className="px-4 py-4 font-semibold text-zinc-900">{task.title}</td>
-                <td className="max-w-xs px-4 py-4 text-zinc-600">{task.description?.trim() ? task.description : "No description"}</td>
-                <td className="px-4 py-4">
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${getStatusBadgeClass(task.status)}`}>
-                    {formatStatusLabel(task.status)}
-                  </span>
-                </td>
-                <td className="px-4 py-4">
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${getPriorityBadgeClass(task.priority)}`}>
-                    {formatPriorityLabel(task.priority)}
-                  </span>
-                </td>
-                <td className="px-4 py-4 font-medium text-zinc-700">{projectValue}</td>
-                <td className="px-4 py-4 text-zinc-700">{assigneeValue}</td>
-                <td className="whitespace-nowrap px-4 py-4 text-right text-zinc-500">
-                  {task.created_at ? new Date(task.created_at).toLocaleDateString() : "N/A"}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+              return (
+                <tr key={task.id} className="group transition-colors hover:bg-rose-50/30">
+                  <td className="px-4 py-4 align-middle font-semibold text-zinc-400 group-hover:text-[var(--brand-red-strong)]">{index + 1}</td>
+                  <td className="px-4 py-4 align-middle">
+                    <div className="max-w-[220px]">
+                      <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)]">{task.title}</p>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 align-middle">
+                    <p className="line-clamp-2 max-w-xs text-sm leading-5 text-zinc-500">
+                      {task.description?.trim() ? task.description : "No description"}
+                    </p>
+                  </td>
+                  <td className="px-4 py-4 align-middle">
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getStatusBadgeClass(task.status)}`}>
+                      {formatStatusLabel(task.status)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 align-middle">
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${getPriorityBadgeClass(task.priority)}`}>
+                      {formatPriorityLabel(task.priority)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 align-middle">
+                    <span className="inline-flex max-w-[180px] truncate rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-semibold text-zinc-700">
+                      {projectValue}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 align-middle text-zinc-700">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-50 text-[10px] font-bold uppercase text-[var(--brand-red-strong)] ring-1 ring-rose-100">
+                        {assigneeValue.charAt(0)}
+                      </span>
+                      <span className="max-w-[130px] truncate font-medium">{assigneeValue}</span>
+                    </span>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-4 text-right align-middle text-sm font-medium text-zinc-500">
+                    {task.created_at ? new Date(task.created_at).toLocaleDateString() : "N/A"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
