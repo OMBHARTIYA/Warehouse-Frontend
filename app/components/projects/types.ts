@@ -10,4 +10,11 @@ export type Project = {
   created_at: string;
 };
 
+export type ProjectTaskSummary = {
+  total: number;
+  completed: number;
+  inProgress: number;
+  critical: number;
+};
+
 export type SortBy = "name-asc" | "name-desc" | "date-asc" | "date-desc";
