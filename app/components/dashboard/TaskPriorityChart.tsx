@@ -24,7 +24,7 @@ type PriorityValueLabelProps = {
   y?: number | string;
   width?: number | string;
   value?: number | string;
-  payload?: { color?: string };
+  index?: number;
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -74,27 +74,6 @@ function PriorityTooltip({
   );
 }
 
-function PriorityValueLabel({ x = 0, y = 0, width = 0, value, payload }: PriorityValueLabelProps) {
-  if (value === undefined || value === null) return null;
-
-  const labelX = Number(x) + Number(width) / 2;
-  const labelY = Number(y) - 10;
-  const color = payload?.color ?? "#3f3f46";
-
-  return (
-    <text
-      x={labelX}
-      y={labelY}
-      textAnchor="middle"
-      dominantBaseline="middle"
-      fill={color}
-      className="text-xs font-bold sm:text-sm"
-    >
-      {value}
-    </text>
-  );
-}
-
 function ActiveBarShape(props: {
   x?: number;
   y?: number;
@@ -134,6 +113,28 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
     label: formatPriorityLabel(entry.label),
     color: getPriorityColor(entry.label, entry.color),
   }));
+
+  function PriorityValueLabel({ x = 0, y = 0, width = 0, value, index = 0 }: PriorityValueLabelProps) {
+    if (value === undefined || value === null) return null;
+
+    const labelX = Number(x) + Number(width) / 2;
+    const labelY = Number(y) - 10;
+    const color = chartData[index]?.color ?? "#3f3f46";
+
+    return (
+      <text
+        x={labelX}
+        y={labelY}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill={color}
+        style={{ fill: color }}
+        className="text-xs font-bold sm:text-sm"
+      >
+        {value}
+      </text>
+    );
+  }
 
   return (
     <ChartCard title="Tasks by Priority" empty={priorityBars.length === 0} emptyText="No priority data.">
