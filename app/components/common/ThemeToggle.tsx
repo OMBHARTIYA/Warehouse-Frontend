@@ -43,26 +43,26 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={handleToggle}
-      className="flex w-full items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      className="flex w-full items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white/80 px-3 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:border-zinc-600 dark:hover:bg-zinc-800/80"
       aria-label={`Switch to ${nextTheme} mode`}
       title={`Switch to ${nextTheme} mode`}
     >
-      <span className="inline-flex items-center gap-2">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)] dark:bg-rose-950/70 dark:text-rose-200">
+      <span className="inline-flex min-w-0 items-center gap-2">
+        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)] dark:bg-rose-950/70 dark:text-rose-200">
           {isDark ? <Moon size={14} aria-hidden="true" /> : <Sun size={14} aria-hidden="true" />}
         </span>
-        <span>{isDark ? "Dark" : "Light"}</span>
+        <span className="truncate">{isDark ? "Dark" : "Light"}</span>
       </span>
 
       <span
         aria-hidden="true"
-        className={`relative h-6 w-11 rounded-full border transition-colors ${
-          isDark ? "border-rose-800 bg-rose-950/80" : "border-zinc-200 bg-zinc-100"
+        className={`relative h-5 w-10 shrink-0 rounded-full border transition-colors ${
+          isDark ? "border-rose-700/70 bg-rose-950/80" : "border-zinc-200 bg-zinc-100"
         }`}
       >
         <span
-          className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white shadow-sm transition-transform dark:bg-rose-200 ${
-            isDark ? "translate-x-[1.25rem]" : "translate-x-0.5"
+          className={`absolute left-0.5 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white shadow-sm transition-transform dark:bg-rose-200 ${
+            isDark ? "translate-x-5" : "translate-x-0"
           }`}
         />
       </span>
