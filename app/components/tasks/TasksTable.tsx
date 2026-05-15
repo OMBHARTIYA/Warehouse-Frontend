@@ -25,6 +25,12 @@ function resolveAssigneeName(task: Task): string {
   );
 }
 
+function getAssigneeAvatarClass(assigneeValue: string) {
+  return assigneeValue.toLowerCase() === "unassigned"
+    ? "bg-zinc-100 text-zinc-500 ring-zinc-200"
+    : "bg-rose-50 text-[var(--brand-red-strong)] ring-rose-100";
+}
+
 export default function TasksTable({ tasks }: { tasks: Task[] }) {
   return (
     <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
@@ -46,13 +52,14 @@ export default function TasksTable({ tasks }: { tasks: Task[] }) {
             {tasks.map((task, index) => {
               const projectValue = resolveProjectName(task);
               const assigneeValue = resolveAssigneeName(task);
+              const assigneeAvatarClass = getAssigneeAvatarClass(assigneeValue);
 
               return (
-                <tr key={task.id} className="group transition-colors hover:bg-rose-50/30">
-                  <td className="px-4 py-4 align-middle font-semibold text-zinc-400 group-hover:text-[var(--brand-red-strong)]">{index + 1}</td>
+                <tr key={task.id} className="group transition-colors hover:bg-zinc-50/70">
+                  <td className="px-4 py-4 align-middle font-semibold text-zinc-400 group-hover:text-zinc-600">{index + 1}</td>
                   <td className="px-4 py-4 align-middle">
                     <div className="max-w-[220px]">
-                      <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)]">{task.title}</p>
+                      <p className="truncate font-semibold text-zinc-900 transition-colors group-hover:text-zinc-950">{task.title}</p>
                     </div>
                   </td>
                   <td className="px-4 py-4 align-middle">
@@ -77,7 +84,7 @@ export default function TasksTable({ tasks }: { tasks: Task[] }) {
                   </td>
                   <td className="px-4 py-4 align-middle text-zinc-700">
                     <span className="inline-flex items-center gap-2">
-                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-50 text-[10px] font-bold uppercase text-[var(--brand-red-strong)] ring-1 ring-rose-100">
+                      <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold uppercase ring-1 ${assigneeAvatarClass}`}>
                         {assigneeValue.charAt(0)}
                       </span>
                       <span className="max-w-[130px] truncate font-medium">{assigneeValue}</span>
