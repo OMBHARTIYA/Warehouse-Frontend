@@ -15,7 +15,7 @@ export default function ChartCard({ title, empty, emptyText, children }: ChartCa
       {empty ? (
         <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">{emptyText}</p>
       ) : (
-        <div className="mt-3 flex h-72 min-h-72 min-w-[1px] overflow-hidden pb-2 sm:h-80 sm:min-h-80 sm:pb-0">
+        <div className="mt-3 flex h-72 min-h-72 w-full min-w-[1px] overflow-hidden pb-2 sm:h-80 sm:min-h-80 sm:pb-0">
           <div className="h-full min-h-[1px] w-full min-w-[1px]">{children}</div>
         </div>
       )}

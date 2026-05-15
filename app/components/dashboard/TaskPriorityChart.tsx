@@ -24,7 +24,7 @@ type PriorityValueLabelProps = {
   y?: number | string;
   width?: number | string;
   value?: number | string;
-  index?: number;
+  fill?: string;
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -106,6 +106,27 @@ function ActiveBarShape(props: {
   );
 }
 
+function PriorityValueLabel({ x = 0, y = 0, width = 0, value, fill = "#3f3f46" }: PriorityValueLabelProps) {
+  if (value === undefined || value === null) return null;
+
+  const labelX = Number(x) + Number(width) / 2;
+  const labelY = Number(y) - 10;
+
+  return (
+    <text
+      x={labelX}
+      y={labelY}
+      textAnchor="middle"
+      dominantBaseline="middle"
+      fill={fill}
+      style={{ fill }}
+      className="text-xs font-bold sm:text-sm"
+    >
+      {value}
+    </text>
+  );
+}
+
 export default function TaskPriorityChart({ priorityBars }: { priorityBars: PriorityBar[] }) {
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
   const chartData = priorityBars.map((entry) => ({
@@ -114,32 +135,10 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
     color: getPriorityColor(entry.label, entry.color),
   }));
 
-  function PriorityValueLabel({ x = 0, y = 0, width = 0, value, index = 0 }: PriorityValueLabelProps) {
-    if (value === undefined || value === null) return null;
-
-    const labelX = Number(x) + Number(width) / 2;
-    const labelY = Number(y) - 10;
-    const color = chartData[index]?.color ?? "#3f3f46";
-
-    return (
-      <text
-        x={labelX}
-        y={labelY}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill={color}
-        style={{ fill: color }}
-        className="text-xs font-bold sm:text-sm"
-      >
-        {value}
-      </text>
-    );
-  }
-
   return (
     <ChartCard title="Tasks by Priority" empty={priorityBars.length === 0} emptyText="No priority data.">
       <div className="h-full min-h-[1px] w-full min-w-[1px] overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
-        <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1} debounce={50}>
+        <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
           <BarChart
             data={chartData}
             margin={{ top: 28, right: 18, bottom: 12, left: -8 }}
