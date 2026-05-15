@@ -167,9 +167,9 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
 
   return (
     <ChartCard title="Tasks by Status" empty={tasksByStatus.length === 0} emptyText="No status data.">
-      <div className="flex h-full min-h-0 flex-col">
-        <div className="min-h-0 flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
-          <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+      <div className="flex h-full min-h-[1px] min-w-[1px] flex-col overflow-hidden">
+        <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
+          <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1} debounce={50}>
             <PieChart
               margin={{ top: 22, right: 82, bottom: 12, left: 92 }}
               tabIndex={-1}
