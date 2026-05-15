@@ -32,15 +32,15 @@ function getCompletionPercent(summary?: ProjectTaskSummary, fallback?: { total?:
 
 function StatChip({ label, value, tone = "default" }: { label: string; value: string | number; tone?: "default" | "success" | "warning" | "danger" }) {
   const toneClasses = {
-    default: "border-zinc-200 bg-white text-zinc-700",
-    success: "border-emerald-100 bg-emerald-50 text-emerald-700",
-    warning: "border-amber-100 bg-amber-50 text-amber-700",
-    danger: "border-rose-100 bg-rose-50 text-rose-700",
+    default: "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200",
+    success: "border-emerald-100 bg-emerald-50 text-emerald-700 dark:border-emerald-900/70 dark:bg-emerald-950/40 dark:text-emerald-300",
+    warning: "border-amber-100 bg-amber-50 text-amber-700 dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300",
+    danger: "border-rose-100 bg-rose-50 text-rose-700 dark:border-rose-900/70 dark:bg-rose-950/40 dark:text-rose-300",
   }[tone];
 
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[11px] font-semibold shadow-sm ${toneClasses}`}>
-      <span className="text-zinc-500">{label}</span>
+      <span className="text-zinc-500 dark:text-zinc-400">{label}</span>
       <span className="font-bold">{value}</span>
     </span>
   );
@@ -57,9 +57,9 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
   const projectHref = `/projects/${project.id}`;
 
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-[var(--border-soft)] bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md sm:p-5">
+    <article className="group relative overflow-hidden rounded-3xl border border-[var(--border-soft)] bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md dark:bg-[var(--surface-2)] dark:shadow-black/20 dark:hover:border-rose-900/70 dark:hover:shadow-black/30 sm:p-5">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-rose-500 via-orange-400 to-amber-300 opacity-80" />
-      <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-10 -translate-y-10 rounded-full bg-rose-100/40 blur-2xl transition-opacity group-hover:opacity-90" />
+      <div className="pointer-events-none absolute right-0 top-0 h-24 w-24 translate-x-10 -translate-y-10 rounded-full bg-rose-100/40 blur-2xl transition-opacity group-hover:opacity-90 dark:bg-rose-950/30" />
 
       {isEditing ? (
         <ProjectEditForm
@@ -78,33 +78,33 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
           <Link
             href={projectHref}
             aria-label={`Open ${project.name} project details`}
-            className="absolute inset-0 z-0 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] focus:ring-offset-2"
+            className="absolute inset-0 z-0 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] focus:ring-offset-2 dark:focus:ring-offset-zinc-950"
           />
 
           <div className="relative z-10 pointer-events-none flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="min-w-0 truncate text-lg font-semibold tracking-tight text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)] sm:text-xl">
+              <h3 className="min-w-0 truncate text-lg font-semibold tracking-tight text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)] dark:text-zinc-50 sm:text-xl">
                 {project.name}
               </h3>
-              <p className="mt-1 line-clamp-1 text-sm leading-5 text-zinc-600">{project.description?.trim() ? project.description : "No description"}</p>
+              <p className="mt-1 line-clamp-1 text-sm leading-5 text-zinc-600 dark:text-zinc-300">{project.description?.trim() ? project.description : "No description"}</p>
             </div>
 
             <div className="group/avatar pointer-events-auto relative">
-              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-50 to-rose-100 text-xs font-bold text-[var(--brand-red-strong)] shadow-sm ring-1 ring-rose-100">
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-50 to-rose-100 text-xs font-bold text-[var(--brand-red-strong)] shadow-sm ring-1 ring-rose-100 dark:from-rose-950 dark:to-zinc-900 dark:text-rose-200 dark:ring-rose-900/70">
                 {ownerInitial}
               </span>
-              <div className="pointer-events-none absolute right-0 top-10 z-20 w-max max-w-56 rounded-lg border border-zinc-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-zinc-700 opacity-0 shadow-lg backdrop-blur transition group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100">
+              <div className="pointer-events-none absolute right-0 top-10 z-20 w-max max-w-56 rounded-lg border border-zinc-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-zinc-700 opacity-0 shadow-lg backdrop-blur transition group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100 dark:border-zinc-700 dark:bg-zinc-900/95 dark:text-zinc-200">
                 {ownerLabel}
               </div>
             </div>
           </div>
 
-          <div className="relative z-10 pointer-events-none mt-3 flex flex-wrap items-center gap-2 text-[11px] font-medium text-zinc-600">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm">
+          <div className="relative z-10 pointer-events-none mt-3 flex flex-wrap items-center gap-2 text-[11px] font-medium text-zinc-600 dark:text-zinc-300">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70">
               <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
               Owner: {ownerLabel}
             </span>
-            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm">Created: {new Date(project.created_at).toLocaleDateString()}</span>
+            <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2 py-0.5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70">Created: {new Date(project.created_at).toLocaleDateString()}</span>
           </div>
 
           {hasTaskInfo && (
@@ -114,10 +114,10 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
                 <StatChip label="Done" value={completedTasks ?? 0} tone="success" />
                 <StatChip label="Run" value={taskSummary?.inProgress ?? 0} tone="warning" />
                 <StatChip label="Crit" value={taskSummary?.critical ?? 0} tone="danger" />
-                <span className="ml-auto text-xs font-bold text-zinc-900">{completionPercent}%</span>
+                <span className="ml-auto text-xs font-bold text-zinc-900 dark:text-zinc-100">{completionPercent}%</span>
               </div>
 
-              <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200">
+              <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-rose-500 to-orange-400 transition-all"
                   style={{ width: `${completionPercent}%` }}
@@ -126,20 +126,20 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
             </div>
           )}
 
-          <div className="relative z-10 mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3">
-            <span className="pointer-events-none text-xs font-semibold text-zinc-500 transition-colors group-hover:text-[var(--brand-red-strong)]">
+          <div className="relative z-10 mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3 dark:border-zinc-800">
+            <span className="pointer-events-none text-xs font-semibold text-zinc-500 transition-colors group-hover:text-[var(--brand-red-strong)] dark:text-zinc-400">
               Open details →
             </span>
 
             {canManage && (
               <div className="flex flex-wrap items-center gap-2">
-                <button type="button" onClick={() => onStartEdit(project)} className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">Edit</button>
+                <button type="button" onClick={() => onStartEdit(project)} className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-200 dark:hover:bg-zinc-800">Edit</button>
                 <button type="button" onClick={() => onDelete(project)} disabled={isDeleting} className="rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60">{isDeleting ? "Deleting..." : "Delete"}</button>
               </div>
             )}
           </div>
 
-          {actionError && <p className="relative z-10 mt-2 text-sm text-red-600">{actionError}</p>}
+          {actionError && <p className="relative z-10 mt-2 text-sm text-red-600 dark:text-rose-300">{actionError}</p>}
         </>
       )}
     </article>
