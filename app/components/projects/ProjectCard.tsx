@@ -47,9 +47,10 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
   const completedTasks = taskSummary?.completed ?? stats.completed;
   const completionPercent = getCompletionPercent(taskSummary, stats);
   const hasTaskInfo = typeof totalTasks === "number" || Boolean(taskSummary);
+  const projectHref = `/projects/${project.id}`;
 
   return (
-    <article className="group rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md sm:p-6">
+    <article className="group relative rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:shadow-md sm:p-6">
       {isEditing ? (
         <ProjectEditForm
           projectId={project.id}
@@ -64,33 +65,37 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
         />
       ) : (
         <>
-          <div className="flex items-start justify-between gap-3">
+          <Link
+            href={projectHref}
+            aria-label={`Open ${project.name} project details`}
+            className="absolute inset-0 z-0 rounded-3xl focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] focus:ring-offset-2"
+          />
+
+          <div className="relative z-10 pointer-events-none flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="min-w-0 text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">
-                <Link href={`/projects/${project.id}`} className="inline-flex min-w-0 items-center gap-1.5 truncate transition-colors hover:text-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">
-                  {project.name}
-                </Link>
+              <h3 className="min-w-0 text-xl font-semibold tracking-tight text-zinc-900 transition-colors group-hover:text-[var(--brand-red-strong)] sm:text-2xl">
+                {project.name}
               </h3>
               <p className="mt-2 line-clamp-2 text-sm leading-6 text-zinc-600">{project.description?.trim() ? project.description : "No description"}</p>
             </div>
 
-            <div className="group/avatar relative">
+            <div className="group/avatar pointer-events-auto relative">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-50 to-rose-100 text-sm font-bold text-[var(--brand-red-strong)] shadow-sm ring-1 ring-rose-100">
                 {ownerInitial}
               </span>
-              <div className="pointer-events-none absolute right-0 top-12 z-10 w-max max-w-56 rounded-lg border border-zinc-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-zinc-700 opacity-0 shadow-lg backdrop-blur transition group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100">
+              <div className="pointer-events-none absolute right-0 top-12 z-20 w-max max-w-56 rounded-lg border border-zinc-200 bg-white/95 px-2.5 py-1.5 text-xs font-medium text-zinc-700 opacity-0 shadow-lg backdrop-blur transition group-hover/avatar:opacity-100 group-focus-within/avatar:opacity-100">
                 {ownerLabel}
               </div>
             </div>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center gap-2">
+          <div className="relative z-10 pointer-events-none mt-4 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-700">Owner: {ownerLabel}</span>
             <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600">Created: {new Date(project.created_at).toLocaleDateString()}</span>
           </div>
 
           {hasTaskInfo && (
-            <div className="mt-5 rounded-2xl border border-zinc-100 bg-gradient-to-br from-zinc-50 to-white p-3.5">
+            <div className="relative z-10 pointer-events-none mt-5 rounded-2xl border border-zinc-100 bg-gradient-to-br from-zinc-50 to-white p-3.5">
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 <StatPill label="Tasks" value={totalTasks ?? 0} />
                 <StatPill label="Done" value={completedTasks ?? 0} />
@@ -114,13 +119,13 @@ export default function ProjectCard({ project, taskSummary, canManage, isEditing
           )}
 
           {canManage && (
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="relative z-10 mt-4 flex flex-wrap items-center gap-2">
               <button type="button" onClick={() => onStartEdit(project)} className="rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-2 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">Edit</button>
               <button type="button" onClick={() => onDelete(project)} disabled={isDeleting} className="rounded-xl border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-red-strong)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] disabled:opacity-60">{isDeleting ? "Deleting..." : "Delete"}</button>
             </div>
           )}
 
-          {actionError && <p className="mt-2 text-sm text-red-600">{actionError}</p>}
+          {actionError && <p className="relative z-10 mt-2 text-sm text-red-600">{actionError}</p>}
         </>
       )}
     </article>
