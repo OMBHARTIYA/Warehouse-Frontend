@@ -77,8 +77,6 @@ function ActiveStatusSlice(props: {
   startAngle?: number;
   endAngle?: number;
   fill?: string;
-  payload?: { label?: string };
-  value?: number;
 }) {
   const {
     cx,
@@ -88,19 +86,13 @@ function ActiveStatusSlice(props: {
     startAngle,
     endAngle,
     fill,
-    payload,
-    value,
   } = props;
 
-  const safeCx = cx ?? 0;
-  const safeCy = cy ?? 0;
   const safeInnerRadius = innerRadius ?? 0;
   const safeOuterRadius = outerRadius ?? 0;
   const safeStartAngle = startAngle ?? 0;
   const safeEndAngle = endAngle ?? 0;
   const safeFill = fill ?? "#16a34a";
-  const safeLabel = formatStatusLabel(payload?.label ?? "");
-  const safeValue = value ?? 0;
 
   return (
     <g tabIndex={-1} style={{ outline: "none" }}>
@@ -118,13 +110,6 @@ function ActiveStatusSlice(props: {
           transition: "all 180ms ease",
         }}
       />
-
-      <text x={safeCx} y={safeCy - 6} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-900 text-sm font-semibold dark:fill-zinc-100">
-        {safeValue}
-      </text>
-      <text x={safeCx} y={safeCy + 14} textAnchor="middle" dominantBaseline="middle" className="fill-zinc-500 text-[11px] font-medium dark:fill-zinc-400">
-        {safeLabel}
-      </text>
     </g>
   );
 }
@@ -170,8 +155,11 @@ function renderStatusLabel({
   const bendY = centerY + connectorBendRadius * sin;
 
   const labelPaddingX = textAnchor === "end" ? 78 : textAnchor === "start" ? 78 : 42;
-  const labelX = clamp(centerX + labelRadius * cos, chartLeft + labelPaddingX, chartRight - labelPaddingX);
+  let labelX = clamp(centerX + labelRadius * cos, chartLeft + labelPaddingX, chartRight - labelPaddingX);
   const labelY = clamp(centerY + labelRadius * sin, chartTop + 18, chartBottom - 18);
+  if (label.toLowerCase() === "in progress") {
+    labelX = clamp(labelX + 18, chartLeft + labelPaddingX, chartRight - labelPaddingX);
+  }
   const endX = labelX + (textAnchor === "end" ? 8 : textAnchor === "start" ? -8 : 0);
 
   return (
