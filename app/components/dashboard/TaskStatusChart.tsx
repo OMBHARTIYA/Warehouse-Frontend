@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Tooltip } from "recharts";
 import ChartCard from "./ChartCard";
 import type { MetricRow } from "./types";
@@ -11,6 +11,24 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 const FALLBACK_STATUS_COLORS = ["#16a34a", "#f59e0b", "#e11d48", "#7c3aed"];
+const RADIAN = Math.PI / 180;
+
+type StatusLabelProps = {
+  cx?: number | string;
+  cy?: number | string;
+  midAngle?: number;
+  outerRadius?: number;
+  percent?: number;
+  fill?: string;
+  payload?: { label?: string };
+  value?: number;
+  viewBox?: {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+  };
+};
 
 function formatStatusLabel(label: string) {
   const normalized = label.replace(/_/g, " ").trim().toLowerCase();
@@ -111,37 +129,91 @@ function ActiveStatusSlice(props: {
   );
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function renderStatusLabel({
+  cx = 0,
+  cy = 0,
+  midAngle = 0,
+  outerRadius = 0,
+  percent = 0,
+  fill = "#16a34a",
+  payload,
+  value = 0,
+  viewBox,
+}: StatusLabelProps) {
+  if (!value || percent <= 0) return null;
+
+  const centerX = Number(cx);
+  const centerY = Number(cy);
+  const angle = -midAngle * RADIAN;
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const label = formatStatusLabel(payload?.label ?? "");
+  const percentage = Math.round(percent * 100);
+  const textAnchor = cos < -0.18 ? "end" : cos > 0.18 ? "start" : "middle";
+
+  const chartLeft = viewBox?.x ?? 0;
+  const chartTop = viewBox?.y ?? 0;
+  const chartRight = chartLeft + (viewBox?.width ?? 520);
+  const chartBottom = chartTop + (viewBox?.height ?? 260);
+
+  const connectorStartRadius = outerRadius + 4;
+  const connectorBendRadius = outerRadius + 18;
+  const labelRadius = outerRadius + 36;
+
+  const startX = centerX + connectorStartRadius * cos;
+  const startY = centerY + connectorStartRadius * sin;
+  const bendX = centerX + connectorBendRadius * cos;
+  const bendY = centerY + connectorBendRadius * sin;
+
+  const labelPaddingX = textAnchor === "end" ? 78 : textAnchor === "start" ? 78 : 42;
+  const labelX = clamp(centerX + labelRadius * cos, chartLeft + labelPaddingX, chartRight - labelPaddingX);
+  const labelY = clamp(centerY + labelRadius * sin, chartTop + 18, chartBottom - 18);
+  const endX = labelX + (textAnchor === "end" ? 8 : textAnchor === "start" ? -8 : 0);
+
+  return (
+    <g className="pointer-events-none">
+      <polyline
+        points={`${startX},${startY} ${bendX},${bendY} ${endX},${labelY}`}
+        fill="none"
+        stroke={fill}
+        strokeWidth={1.5}
+        strokeOpacity={0.42}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <text
+        x={labelX}
+        y={labelY}
+        textAnchor={textAnchor}
+        dominantBaseline="central"
+        fill={fill}
+        className="text-xs font-semibold sm:text-sm"
+      >
+        {label} {percentage}%
+      </text>
+    </g>
+  );
+}
+
 export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: MetricRow[] }) {
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
-  const [isCompact, setIsCompact] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 640px)");
-    const update = () => setIsCompact(mediaQuery.matches);
-    update();
-    mediaQuery.addEventListener("change", update);
-    return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
   const chartData = tasksByStatus.map((item, index) => ({
     ...item,
     label: formatStatusLabel(item.label),
     color: getStatusColor(item.label, index),
   }));
-  const totalTasks = chartData.reduce((sum, item) => sum + item.count, 0);
-  const activeItem = activeIndex === undefined ? null : chartData[activeIndex] ?? null;
-  const centerTitle = activeItem?.label ?? "Total";
-  const centerValue = activeItem?.count ?? totalTasks;
-  const centerPercent =
-    totalTasks > 0 ? Math.round(((activeItem?.count ?? totalTasks) / totalTasks) * 100) : 0;
 
   return (
     <ChartCard title="Tasks by Status" empty={tasksByStatus.length === 0} emptyText="No status data.">
       <div className="flex h-full min-h-[1px] min-w-[1px] flex-col overflow-hidden">
-        <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl border border-zinc-200/70 bg-[radial-gradient(circle_at_top,_#ffffff_0%,_#f3f4f6_58%,_#e5e7eb_100%)] pt-2 dark:border-zinc-700/70 dark:bg-[radial-gradient(circle_at_top,_#18181b_0%,_#111827_55%,_#09090b_100%)]">
+        <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
           <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
             <PieChart
-              margin={isCompact ? { top: 16, right: 18, bottom: 12, left: 18 } : { top: 24, right: 28, bottom: 18, left: 28 }}
+              margin={{ top: 24, right: 96, bottom: 18, left: 104 }}
               tabIndex={-1}
               style={{ outline: "none" }}
               onMouseLeave={() => setActiveIndex(undefined)}
@@ -152,9 +224,9 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                 nameKey="label"
                 cx="50%"
                 cy="50%"
-                innerRadius={62}
-                outerRadius={88}
-                paddingAngle={3}
+                innerRadius={56}
+                outerRadius={84}
+                paddingAngle={2}
                 // Recharts runtime supports this prop; local v3 typings omit it.
                 // @ts-expect-error activeIndex is intentionally passed for active slice behavior.
                 activeIndex={activeIndex}
@@ -164,7 +236,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                   event?.stopPropagation?.();
                   setActiveIndex(index);
                 }}
-                label={false}
+                label={renderStatusLabel}
                 labelLine={false}
                 isAnimationActive
               >
@@ -180,34 +252,16 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                 ))}
               </Pie>
 
-              <text x="50%" y="48%" textAnchor="middle" dominantBaseline="central" className="fill-zinc-900 text-3xl font-bold tracking-tight dark:fill-zinc-50">
-                {centerValue}
-              </text>
-              <text x="50%" y="59%" textAnchor="middle" dominantBaseline="central" className="fill-zinc-500 text-xs font-semibold uppercase tracking-[0.18em] dark:fill-zinc-400">
-                {centerTitle} {centerPercent}%
-              </text>
-
               <Tooltip cursor={false} content={<StatusTooltip />} />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-zinc-700 dark:text-zinc-300">
           {chartData.map((entry) => (
-            <div
-              key={entry.label}
-              className="rounded-xl border border-zinc-200 bg-zinc-50/75 px-3 py-2 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900/60 dark:text-zinc-200"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
-                  <span className="text-sm font-semibold">{entry.label}</span>
-                </div>
-                <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                  {totalTasks > 0 ? Math.round((entry.count / totalTasks) * 100) : 0}%
-                </span>
-              </div>
-              <p className="mt-1 text-lg font-bold tracking-tight">{entry.count}</p>
+            <div key={entry.label} className="flex items-center gap-2">
+              <span className="h-3 w-3 rounded-full" style={{ backgroundColor: entry.color }} />
+              <span className="font-semibold">{entry.label}</span>
             </div>
           ))}
         </div>
