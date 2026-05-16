@@ -22,6 +22,12 @@ type StatusLabelProps = {
   fill?: string;
   payload?: { label?: string };
   value?: number;
+  viewBox?: {
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+  };
 };
 
 function formatStatusLabel(label: string) {
@@ -123,6 +129,10 @@ function ActiveStatusSlice(props: {
   );
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
 function renderStatusLabel({
   cx = 0,
   cy = 0,
@@ -132,6 +142,7 @@ function renderStatusLabel({
   fill = "#16a34a",
   payload,
   value = 0,
+  viewBox,
 }: StatusLabelProps) {
   if (!value || percent <= 0) return null;
 
@@ -140,20 +151,51 @@ function renderStatusLabel({
   const angle = -midAngle * RADIAN;
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
-  const isLeft = cos < -0.18;
-  const isRight = cos > 0.18;
-  const labelRadius = outerRadius + 26;
-  const rawX = centerX + labelRadius * cos + (isRight ? 8 : isLeft ? -8 : 0);
-  const x = isLeft ? Math.max(rawX, 150) : rawX;
-  const y = centerY + labelRadius * sin + (sin < -0.8 ? -2 : Math.abs(sin) < 0.15 ? 6 : 0);
-  const textAnchor = isLeft ? "end" : isRight ? "start" : "middle";
   const label = formatStatusLabel(payload?.label ?? "");
   const percentage = Math.round(percent * 100);
+  const textAnchor = cos < -0.18 ? "end" : cos > 0.18 ? "start" : "middle";
+
+  const chartLeft = viewBox?.x ?? 0;
+  const chartTop = viewBox?.y ?? 0;
+  const chartRight = chartLeft + (viewBox?.width ?? 520);
+  const chartBottom = chartTop + (viewBox?.height ?? 260);
+
+  const connectorStartRadius = outerRadius + 4;
+  const connectorBendRadius = outerRadius + 18;
+  const labelRadius = outerRadius + 36;
+
+  const startX = centerX + connectorStartRadius * cos;
+  const startY = centerY + connectorStartRadius * sin;
+  const bendX = centerX + connectorBendRadius * cos;
+  const bendY = centerY + connectorBendRadius * sin;
+
+  const labelPaddingX = textAnchor === "end" ? 78 : textAnchor === "start" ? 78 : 42;
+  const labelX = clamp(centerX + labelRadius * cos, chartLeft + labelPaddingX, chartRight - labelPaddingX);
+  const labelY = clamp(centerY + labelRadius * sin, chartTop + 18, chartBottom - 18);
+  const endX = labelX + (textAnchor === "end" ? 8 : textAnchor === "start" ? -8 : 0);
 
   return (
-    <text x={x} y={y} textAnchor={textAnchor} dominantBaseline="central" fill={fill} className="text-xs font-semibold sm:text-sm">
-      {label} {percentage}%
-    </text>
+    <g className="pointer-events-none">
+      <polyline
+        points={`${startX},${startY} ${bendX},${bendY} ${endX},${labelY}`}
+        fill="none"
+        stroke={fill}
+        strokeWidth={1.5}
+        strokeOpacity={0.42}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <text
+        x={labelX}
+        y={labelY}
+        textAnchor={textAnchor}
+        dominantBaseline="central"
+        fill={fill}
+        className="text-xs font-semibold sm:text-sm"
+      >
+        {label} {percentage}%
+      </text>
+    </g>
   );
 }
 
@@ -171,7 +213,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
         <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
           <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
             <PieChart
-              margin={{ top: 22, right: 82, bottom: 12, left: 92 }}
+              margin={{ top: 24, right: 96, bottom: 18, left: 104 }}
               tabIndex={-1}
               style={{ outline: "none" }}
               onMouseLeave={() => setActiveIndex(undefined)}
@@ -195,7 +237,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                   setActiveIndex(index);
                 }}
                 label={renderStatusLabel}
-                labelLine={{ strokeWidth: 1.5, strokeOpacity: 0.38 }}
+                labelLine={false}
                 isAnimationActive
               >
                 {chartData.map((entry, index) => (
