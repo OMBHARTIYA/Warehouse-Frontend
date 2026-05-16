@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Tooltip } from "recharts";
 import ChartCard from "./ChartCard";
 import type { MetricRow } from "./types";
@@ -201,6 +201,16 @@ function renderStatusLabel({
 
 export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: MetricRow[] }) {
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const update = () => setIsCompact(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
   const chartData = tasksByStatus.map((item, index) => ({
     ...item,
     label: formatStatusLabel(item.label),
@@ -213,7 +223,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
         <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
           <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
             <PieChart
-              margin={{ top: 24, right: 96, bottom: 18, left: 104 }}
+              margin={isCompact ? { top: 16, right: 18, bottom: 12, left: 18 } : { top: 24, right: 96, bottom: 18, left: 104 }}
               tabIndex={-1}
               style={{ outline: "none" }}
               onMouseLeave={() => setActiveIndex(undefined)}
@@ -236,7 +246,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
                   event?.stopPropagation?.();
                   setActiveIndex(index);
                 }}
-                label={renderStatusLabel}
+                label={isCompact ? false : renderStatusLabel}
                 labelLine={false}
                 isAnimationActive
               >
