@@ -28,7 +28,7 @@ export default function TasksView() {
       )}
 
       {tasksState.isLoading && (
-        <div className="overflow-x-auto rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm sm:p-6">
+        <div className="overflow-x-auto rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-sm transition-colors dark:bg-[var(--surface-2)] dark:shadow-black/20 sm:p-6">
           <div className="min-w-full">
             <Skeleton className="h-5 w-24" />
             <div className="mt-4 space-y-3">
@@ -43,7 +43,7 @@ export default function TasksView() {
       )}
 
       {!tasksState.isLoading && tasksState.error && (
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 sm:p-6">
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 shadow-sm dark:shadow-black/20 sm:p-6">
           <ErrorMessage message={tasksState.error} />
         </div>
       )}

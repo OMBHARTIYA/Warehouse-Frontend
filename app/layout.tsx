@@ -3,12 +3,27 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import RouteLayout from "./components/RouteLayout";
+import ThemeProvider from "./components/common/ThemeProvider";
 import ToastProvider from "./components/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
+const themeScript = `
+(function() {
+  try {
+    var storedTheme = window.localStorage.getItem('jira-theme');
+    var theme = storedTheme === 'dark' || storedTheme === 'light'
+      ? storedTheme
+      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+  } catch (error) {}
+})();
+`;
 
 export const metadata: Metadata = {
   title: "JIRA",
@@ -24,12 +39,18 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${geistSans.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          <ToastProvider />
-          <RouteLayout>{children}</RouteLayout>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <ToastProvider />
+            <RouteLayout>{children}</RouteLayout>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

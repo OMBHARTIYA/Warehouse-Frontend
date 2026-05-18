@@ -24,7 +24,7 @@ type PriorityValueLabelProps = {
   y?: number | string;
   width?: number | string;
   value?: number | string;
-  index?: number;
+  fill?: string;
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -64,12 +64,12 @@ function PriorityTooltip({
   const color = item?.payload?.color ?? "#52525b";
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10">
+    <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10 dark:border-zinc-700 dark:bg-zinc-900 dark:shadow-black/30">
       <div className="flex items-center gap-2">
         <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
-        <p className="font-semibold text-zinc-900">{formatPriorityLabel(label)}</p>
+        <p className="font-semibold text-zinc-900 dark:text-zinc-100">{formatPriorityLabel(label)}</p>
       </div>
-      <p className="mt-1 text-zinc-600">{value} tasks</p>
+      <p className="mt-1 text-zinc-600 dark:text-zinc-400">{value} tasks</p>
     </div>
   );
 }
@@ -106,6 +106,27 @@ function ActiveBarShape(props: {
   );
 }
 
+function PriorityValueLabel({ x = 0, y = 0, width = 0, value, fill = "#3f3f46" }: PriorityValueLabelProps) {
+  if (value === undefined || value === null) return null;
+
+  const labelX = Number(x) + Number(width) / 2;
+  const labelY = Number(y) - 10;
+
+  return (
+    <text
+      x={labelX}
+      y={labelY}
+      textAnchor="middle"
+      dominantBaseline="middle"
+      fill={fill}
+      style={{ fill }}
+      className="text-xs font-bold sm:text-sm"
+    >
+      {value}
+    </text>
+  );
+}
+
 export default function TaskPriorityChart({ priorityBars }: { priorityBars: PriorityBar[] }) {
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
   const chartData = priorityBars.map((entry) => ({
@@ -114,32 +135,10 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
     color: getPriorityColor(entry.label, entry.color),
   }));
 
-  function PriorityValueLabel({ x = 0, y = 0, width = 0, value, index = 0 }: PriorityValueLabelProps) {
-    if (value === undefined || value === null) return null;
-
-    const labelX = Number(x) + Number(width) / 2;
-    const labelY = Number(y) - 10;
-    const color = chartData[index]?.color ?? "#3f3f46";
-
-    return (
-      <text
-        x={labelX}
-        y={labelY}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fill={color}
-        style={{ fill: color }}
-        className="text-xs font-bold sm:text-sm"
-      >
-        {value}
-      </text>
-    );
-  }
-
   return (
     <ChartCard title="Tasks by Priority" empty={priorityBars.length === 0} emptyText="No priority data.">
-      <div className="h-full w-full rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2">
-        <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
+      <div className="h-full min-h-[1px] w-full min-w-[1px] overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
+        <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
           <BarChart
             data={chartData}
             margin={{ top: 28, right: 18, bottom: 12, left: -8 }}
@@ -160,14 +159,15 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
               }
             }}
           >
-            <CartesianGrid vertical={false} stroke="#e4e4e7" strokeDasharray="4 6" />
+            <CartesianGrid vertical={false} stroke="var(--border-soft)" strokeDasharray="4 6" />
             <XAxis
               dataKey="label"
               axisLine={false}
               tickLine={false}
               tickMargin={12}
               interval={0}
-              tick={{ fill: "#52525b", fontSize: 13, fontWeight: 600 }}
+              tick={{ fill: "currentColor", fontSize: 13, fontWeight: 600 }}
+              className="text-zinc-600 dark:text-zinc-300"
             />
             <YAxis
               allowDecimals={false}
@@ -175,11 +175,12 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
               tickLine={false}
               tickMargin={8}
               width={34}
-              tick={{ fill: "#71717a", fontSize: 12, fontWeight: 500 }}
+              tick={{ fill: "currentColor", fontSize: 12, fontWeight: 500 }}
+              className="text-zinc-500 dark:text-zinc-400"
             />
 
             <Tooltip
-              cursor={{ fill: "rgba(244, 244, 245, 0.65)", radius: 16 }}
+              cursor={{ fill: "rgba(113, 113, 122, 0.12)", radius: 16 }}
               content={<PriorityTooltip />}
             />
 

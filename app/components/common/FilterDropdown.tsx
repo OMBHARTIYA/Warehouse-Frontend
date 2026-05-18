@@ -46,7 +46,7 @@ export default function FilterDropdown<T extends string>({
 
   return (
     <div className={className ?? "space-y-1.5 sm:w-56"}>
-      <label htmlFor={id} className="text-sm font-medium text-zinc-700">
+      <label htmlFor={id} className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
         {label}
       </label>
       <div ref={rootRef} className="relative">
@@ -54,13 +54,13 @@ export default function FilterDropdown<T extends string>({
           id={id}
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex h-11 w-full items-center justify-between rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 py-2 text-sm text-zinc-900 outline-none transition hover:bg-white focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)]"
+          className="flex h-11 w-full items-center justify-between rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 py-2 text-sm text-zinc-900 outline-none transition hover:bg-white focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:bg-zinc-900 dark:focus:bg-zinc-900"
         >
           <span className="truncate">{selectedLabel}</span>
-          <span className="text-zinc-500" aria-hidden="true">v</span>
+          <span className="text-zinc-500 dark:text-zinc-400" aria-hidden="true">v</span>
         </button>
         {isOpen && (
-          <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 max-h-64 overflow-y-auto rounded-xl border border-[var(--border-soft)] bg-white shadow-sm">
+          <ul className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 max-h-64 overflow-y-auto rounded-xl border border-[var(--border-soft)] bg-white shadow-sm dark:bg-zinc-900 dark:shadow-black/30">
             {options.map((option) => (
               <li key={option.value}>
                 <button
@@ -71,8 +71,8 @@ export default function FilterDropdown<T extends string>({
                   }}
                   className={`w-full px-3.5 py-2 text-left text-sm transition ${
                     value === option.value
-                      ? "bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)]"
-                      : "text-zinc-700 hover:bg-zinc-50"
+                      ? "bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)] dark:bg-rose-950/70 dark:text-rose-200"
+                      : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
                   }`}
                 >
                   {option.label}

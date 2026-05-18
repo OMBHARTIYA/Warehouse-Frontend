@@ -18,7 +18,7 @@ export default function ProjectEditForm({ projectId, editName, editDescription, 
       submittingLabel="Saving..."
       footer={
         <div className="flex flex-wrap gap-2.5 pt-1">
-          <button type="button" onClick={onCancel} disabled={isSaving} className="rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]">Cancel</button>
+          <button type="button" onClick={onCancel} disabled={isSaving} className="rounded-lg border border-[var(--border-soft)] bg-[var(--surface)] px-3.5 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:text-zinc-200 dark:hover:bg-zinc-800">Cancel</button>
         </div>
       }
     />
