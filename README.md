@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Warehouse Management App
 
-## Getting Started
+A practical warehouse management application built from the existing task-manager foundation and adapted for small-scale company operations.
 
-First, run the development server:
+## Project Objective
+Create a live, multi-user warehouse system that supports:
+- warehouse/location management
+- product catalog management
+- stock visibility by warehouse
+- inventory movement tracking (inbound, outbound, transfer, adjustment)
+- basic operational dashboard
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Current Architecture
+- Frontend: Next.js (this repository)
+- Backend: Node.js + Express (local backend project)
+- Auth: JWT-based
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Domain Transformation Plan
+- `projects` -> `warehouses`
+- `tasks` -> `inventory movements`
+- Keep `users` for roles and permissions
+- Add `products`, `stock`, and movement history tables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment Strategy (Free Validation Stage)
+For initial 2-3 user testing:
+- Frontend: Vercel Hobby (free)
+- Backend: Render free service or Railway trial
+- Database: Neon/Supabase free Postgres
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Important Note
+The current backend uses a local `sql.js` file database. Before live testing, migrate to managed Postgres for reliable cloud persistence.
 
-## Learn More
+## Roadmap
+1. Backend DB migration to Postgres
+2. Warehouse/Product/Stock/Movement APIs
+3. Frontend modules for warehouse workflows
+4. Deploy frontend/backend with environment variables
+5. Validate end-to-end with 2-3 users
 
-To learn more about Next.js, take a look at the following resources:
+## Project Document
+Detailed plan: `PROJECT_OVERVIEW.md`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Owner
+GitHub: `OMBHARTIYA`
