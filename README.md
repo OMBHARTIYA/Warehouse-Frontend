@@ -1,4 +1,4 @@
-# Warehouse Management App
+# Warehouse Management App 
 
 A practical warehouse management application built from the existing task-manager foundation and adapted for small-scale company operations.
 
