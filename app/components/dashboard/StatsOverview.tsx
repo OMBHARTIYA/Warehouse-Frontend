@@ -1,4 +1,4 @@
-import { CheckCircle2, FolderKanban, ListChecks, TrendingUp } from "lucide-react";
+import { AlertTriangle, Boxes, Building2, TrendingUp } from "lucide-react";
 
 type StatCardProps = {
   label: string;
@@ -25,21 +25,23 @@ export function StatCard({ label, value, helperText, icon: Icon, gradient }: Sta
 }
 
 export default function StatsOverview({
-  totalProjects,
-  totalTasks,
-  completedTasks,
+  totalWarehouses,
+  totalProducts,
+  totalUnits,
+  lowStockItems,
   completionRate,
 }: {
-  totalProjects: number;
-  totalTasks: number;
-  completedTasks: number;
+  totalWarehouses: number;
+  totalProducts: number;
+  totalUnits: number;
+  lowStockItems: number;
   completionRate: string;
 }) {
   const cards = [
-    { label: "Total Projects", value: totalProjects, helperText: "All tracked projects", icon: FolderKanban, gradient: "bg-gradient-to-br from-rose-100 via-pink-50 to-white dark:from-rose-950/60 dark:via-zinc-900 dark:to-zinc-950" },
-    { label: "Total Tasks", value: totalTasks, helperText: "Across all projects", icon: ListChecks, gradient: "bg-gradient-to-br from-orange-100 via-amber-50 to-white dark:from-amber-950/50 dark:via-zinc-900 dark:to-zinc-950" },
-    { label: "Completed Tasks", value: completedTasks, helperText: "Finished and marked done", icon: CheckCircle2, gradient: "bg-gradient-to-br from-emerald-100 via-green-50 to-white dark:from-emerald-950/50 dark:via-zinc-900 dark:to-zinc-950" },
-    { label: "Completion Rate", value: completionRate, helperText: "Share of completed work", icon: TrendingUp, gradient: "bg-gradient-to-br from-violet-100 via-purple-50 to-white dark:from-violet-950/50 dark:via-zinc-900 dark:to-zinc-950" },
+    { label: "Total Warehouses", value: totalWarehouses, helperText: "Active storage locations", icon: Building2, gradient: "bg-gradient-to-br from-rose-100 via-pink-50 to-white dark:from-rose-950/60 dark:via-zinc-900 dark:to-zinc-950" },
+    { label: "Tracked Products", value: totalProducts, helperText: `${totalUnits.toLocaleString()} units currently on hand`, icon: Boxes, gradient: "bg-gradient-to-br from-orange-100 via-amber-50 to-white dark:from-amber-950/50 dark:via-zinc-900 dark:to-zinc-950" },
+    { label: "Low Stock Items", value: lowStockItems, helperText: "Products at or below reorder level", icon: AlertTriangle, gradient: "bg-gradient-to-br from-emerald-100 via-green-50 to-white dark:from-emerald-950/50 dark:via-zinc-900 dark:to-zinc-950" },
+    { label: "Stock Health", value: completionRate, helperText: "Movement completion versus catalog size", icon: TrendingUp, gradient: "bg-gradient-to-br from-violet-100 via-purple-50 to-white dark:from-violet-950/50 dark:via-zinc-900 dark:to-zinc-950" },
   ] as const;
 
   return (

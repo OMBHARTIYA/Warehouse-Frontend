@@ -69,7 +69,7 @@ function PriorityTooltip({
         <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
         <p className="font-semibold text-zinc-900 dark:text-zinc-100">{formatPriorityLabel(label)}</p>
       </div>
-      <p className="mt-1 text-zinc-600 dark:text-zinc-400">{value} tasks</p>
+      <p className="mt-1 text-zinc-600 dark:text-zinc-400">{value} stock records</p>
     </div>
   );
 }
@@ -136,7 +136,7 @@ export default function TaskPriorityChart({ priorityBars }: { priorityBars: Prio
   }));
 
   return (
-    <ChartCard title="Tasks by Priority" empty={priorityBars.length === 0} emptyText="No priority data.">
+    <ChartCard title="Stock Health" empty={priorityBars.length === 0} emptyText="No stock health data.">
       <div className="h-full min-h-[1px] w-full min-w-[1px] overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white px-1 pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
         <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>
           <BarChart

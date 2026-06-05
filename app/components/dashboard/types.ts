@@ -14,6 +14,9 @@ export type RecentTask = {
   assigneeName?: string;
   createdAt?: string;
   updatedAt?: string;
+  warehouseName?: string;
+  quantity?: number;
+  productName?: string;
 };
 
 export type ProjectStat = {

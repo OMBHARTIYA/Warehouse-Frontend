@@ -3,9 +3,11 @@ import api from "@/lib/api";
 import type { MetricRow, ProjectStat, RecentTask, UserActivity } from "../types";
 
 type DashboardStatistics = {
-  totalProjects?: number;
-  totalTasks?: number;
-  completedTasks?: number;
+  totalWarehouses?: number;
+  totalProducts?: number;
+  totalUnits?: number;
+  lowStockItems?: number;
+  completedMovements?: number;
   completionRate?: number;
   tasksByStatus?: MetricRow[];
   tasksByPriority?: MetricRow[];
@@ -31,6 +33,9 @@ function normalizeRecentTasks(value: unknown): RecentTask[] {
       assigneeName: (source.assigneeName ?? source.assignee_name) as string | undefined,
       createdAt: (source.createdAt ?? source.created_at) as string | undefined,
       updatedAt: (source.updatedAt ?? source.updated_at) as string | undefined,
+      warehouseName: (source.warehouseName ?? source.warehouse_name) as string | undefined,
+      quantity: toNumber(source.quantity),
+      productName: (source.productName ?? source.product_name) as string | undefined,
     });
   }
   return rows;
@@ -114,9 +119,11 @@ function normalizeStatistics(payload: unknown): DashboardStatistics | null {
   const dataRoot = (typeof root.data === "object" && root.data !== null ? (root.data as Record<string, unknown>) : null) ?? (typeof root.statistics === "object" && root.statistics !== null ? (root.statistics as Record<string, unknown>) : null) ?? root;
   const overview = (typeof dataRoot.overview === "object" && dataRoot.overview !== null ? (dataRoot.overview as Record<string, unknown>) : null) ?? dataRoot;
   return {
-    totalProjects: toNumber(overview.totalProjects ?? overview.total_projects),
-    totalTasks: toNumber(overview.totalTasks ?? overview.total_tasks),
-    completedTasks: toNumber(overview.completedTasks ?? overview.completed_tasks),
+    totalWarehouses: toNumber(overview.totalWarehouses ?? overview.total_warehouses),
+    totalProducts: toNumber(overview.totalProducts ?? overview.total_products),
+    totalUnits: toNumber(overview.totalUnits ?? overview.total_units),
+    lowStockItems: toNumber(overview.lowStockItems ?? overview.low_stock_items),
+    completedMovements: toNumber(overview.completedMovements ?? overview.completed_movements),
     completionRate: toNumber(overview.completionRate ?? overview.completion_rate),
     tasksByStatus: normalizeMetricRows(dataRoot.tasksByStatus ?? dataRoot.tasks_by_status),
     tasksByPriority: normalizeMetricRows(dataRoot.tasksByPriority ?? dataRoot.tasks_by_priority),
@@ -138,7 +145,7 @@ export function useDashboardStats() {
       if (showLoader) setLoading(true);
       setError(null);
       try {
-        const response = await api.get("/api/statistics");
+        const response = await api.get("/api/warehouse-statistics");
         setData(normalizeStatistics(response.data));
       } catch {
         setError("Could not load dashboard statistics.");
@@ -172,7 +179,7 @@ export function useDashboardStats() {
   const projectStats = useMemo(() => {
     const rows = Array.isArray(data?.projectStats) ? data.projectStats : [];
     return [...rows].sort((a, b) => {
-      const totalDiff = (b.totalTasks ?? 0) - (a.totalTasks ?? 0);
+      const totalDiff = (b.completedTasks ?? 0) - (a.completedTasks ?? 0);
       if (totalDiff !== 0) return totalDiff;
       const completionDiff = (b.completionRate ?? 0) - (a.completionRate ?? 0);
       if (completionDiff !== 0) return completionDiff;
@@ -181,7 +188,7 @@ export function useDashboardStats() {
   }, [data]);
   const userActivity = Array.isArray(data?.userActivity) ? data.userActivity : [];
 
-  const hasAnyData = Boolean(data) && ((data?.totalProjects ?? 0) > 0 || (data?.totalTasks ?? 0) > 0 || tasksByStatus.length > 0 || tasksByPriority.length > 0 || recentTasks.length > 0 || projectStats.length > 0 || userActivity.length > 0);
+  const hasAnyData = Boolean(data) && ((data?.totalWarehouses ?? 0) > 0 || (data?.totalProducts ?? 0) > 0 || (data?.totalUnits ?? 0) > 0 || tasksByStatus.length > 0 || tasksByPriority.length > 0 || recentTasks.length > 0 || projectStats.length > 0 || userActivity.length > 0);
 
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredRecentTasks = !normalizedQuery ? recentTasks : recentTasks.filter((task) => [task.title, task.status, task.priority, task.projectName, task.project?.name, task.assigneeName].some((value) => typeof value === "string" && value.toLowerCase().includes(normalizedQuery)));

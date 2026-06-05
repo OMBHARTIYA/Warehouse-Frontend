@@ -13,9 +13,9 @@ type NavItem = {
 };
 
 const baseNavItems: NavItem[] = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard },
-  { label: "Projects", href: "/projects", icon: FolderKanban },
-  { label: "Tasks", href: "/tasks", icon: ListTodo },
+  { label: "Overview", href: "/", icon: LayoutDashboard },
+  { label: "Warehouses", href: "/projects", icon: FolderKanban },
+  { label: "Movements", href: "/tasks", icon: ListTodo },
 ];
 
 export function getNavItems(isAdmin: boolean): NavItem[] {
