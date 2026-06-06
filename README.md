@@ -1,44 +1,128 @@
-# Warehouse Management App 
+# Warehouse Management App
 
-A practical warehouse management application built from the existing task-manager foundation and adapted for small-scale company operations.
+Warehouse Management App is a live full-stack inventory operations project built from an earlier task manager foundation and refactored into a warehouse workflow system for small teams.
 
-## Project Objective
-Create a live, multi-user warehouse system that supports:
-- warehouse/location management
-- product catalog management
+It is designed as a practical portfolio project that demonstrates:
+- full-stack product thinking
+- authentication and role-based access
+- cloud deployment on free-tier infrastructure
+- warehouse domain modeling
+- inventory movement and stock visibility workflows
+
+## Live Demo
+
+- Frontend: [project-ytm78.vercel.app](https://project-ytm78.vercel.app)
+- Backend API: [warehouse-backend-n8ds.onrender.com](https://warehouse-backend-n8ds.onrender.com)
+- API docs: [warehouse-backend-n8ds.onrender.com/api-docs](https://warehouse-backend-n8ds.onrender.com/api-docs)
+
+## What The App Does
+
+- user registration and login
+- admin and user roles
+- warehouse list and warehouse detail views
+- product catalog view
 - stock visibility by warehouse
-- inventory movement tracking (inbound, outbound, transfer, adjustment)
-- basic operational dashboard
+- movement history for inbound, outbound, transfer, and adjustment flows
+- operational dashboard for warehouse activity
 
-## Current Architecture
-- Frontend: Next.js (this repository)
-- Backend: Node.js + Express (local backend project)
-- Auth: JWT-based
+## Screens Included
 
-## Domain Transformation Plan
-- `projects` -> `warehouses`
-- `tasks` -> `inventory movements`
-- Keep `users` for roles and permissions
-- Add `products`, `stock`, and movement history tables
+- `Overview`
+- `Warehouses`
+- `Warehouse Details`
+- `Movements`
+- `Products`
+- `Stock`
+- `Users` (admin access)
 
-## Deployment Strategy (Free Validation Stage)
-For initial 2-3 user testing:
-- Frontend: Vercel Hobby (free)
-- Backend: Render free service or Railway trial
-- Database: Neon/Supabase free Postgres
+## Tech Stack
 
-## Important Note
-The current backend uses a local `sql.js` file database. Before live testing, migrate to managed Postgres for reliable cloud persistence.
+### Frontend
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Context for auth state
 
-## Roadmap
-1. Backend DB migration to Postgres
-2. Warehouse/Product/Stock/Movement APIs
-3. Frontend modules for warehouse workflows
-4. Deploy frontend/backend with environment variables
-5. Validate end-to-end with 2-3 users
+### Backend
+- Node.js
+- Express
+- TypeScript
+- PostgreSQL
+- JWT authentication
 
-## Project Document
-Detailed plan: `PROJECT_OVERVIEW.md`
+### Hosting
+- Vercel for frontend
+- Render for backend
+- Neon Postgres for database
 
-## Owner
-GitHub: `OMBHARTIYA`
+## Architecture
+
+```mermaid
+flowchart LR
+    U["User Browser"] --> F["Next.js Frontend (Vercel)"]
+    F --> B["Express API (Render)"]
+    B --> D["PostgreSQL (Neon)"]
+```
+
+## Main Warehouse Domain Model
+
+- `warehouses`
+- `products`
+- `stock`
+- `movements`
+- `users`
+
+The original task-manager entities were reworked into warehouse operations:
+- `projects` evolved into warehouse-facing management screens
+- `tasks` evolved into movement-facing operational flows
+
+## Security Work Completed
+
+- bcrypt password hashing
+- JWT-based authentication
+- protected API routes
+- production CORS fix for live frontend
+- production-disabled admin bootstrap route
+- rate limiting on auth endpoints
+- required JWT secret in production
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+Set the frontend environment variable:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+## Related Repository
+
+Backend source:
+- [OMBHARTIYA/Warehouse-Backend](https://github.com/OMBHARTIYA/Warehouse-Backend)
+
+## Why This Project Matters
+
+This project shows the ability to:
+- take an existing codebase and reshape it into a different product domain
+- deploy a working SaaS-style app on cloud services
+- move from local development to live multi-user access
+- identify and fix real deployment and security issues during launch
+
+## Current Status
+
+This project is live and usable.
+
+Current focus areas for future improvement:
+- stronger session security with HttpOnly cookies
+- warehouse creation/edit workflows polish
+- richer stock adjustment and movement creation UI
+- reporting and analytics expansion
+
+## Author
+
+Built by [OMBHARTIYA](https://github.com/OMBHARTIYA)
