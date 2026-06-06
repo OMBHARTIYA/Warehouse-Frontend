@@ -19,8 +19,8 @@ export default function Sidebar({ username, navItems, pathname, onLogout }: Side
             <CheckSquare size={18} aria-hidden="true" />
           </span>
           <div>
-            <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">JIRA</h1>
-            <p className="text-xs text-zinc-500 dark:text-zinc-300">Project workspace</p>
+            <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">Warehouse OS</h1>
+            <p className="text-xs text-zinc-500 dark:text-zinc-300">Operations workspace</p>
           </div>
         </div>
       </div>

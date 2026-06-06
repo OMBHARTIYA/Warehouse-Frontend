@@ -64,7 +64,7 @@ function StatusTooltip({
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm shadow-lg shadow-zinc-900/10 dark:border-zinc-700 dark:bg-zinc-900 dark:shadow-black/30">
       <p className="font-semibold text-zinc-900 dark:text-zinc-100">{formatStatusLabel(label)}</p>
-      <p className="text-zinc-600 dark:text-zinc-400">{value} tasks</p>
+      <p className="text-zinc-600 dark:text-zinc-400">{value} movements</p>
     </div>
   );
 }
@@ -196,7 +196,7 @@ export default function TaskStatusChart({ tasksByStatus }: { tasksByStatus: Metr
   }));
 
   return (
-    <ChartCard title="Tasks by Status" empty={tasksByStatus.length === 0} emptyText="No status data.">
+    <ChartCard title="Movements by Type" empty={tasksByStatus.length === 0} emptyText="No movement data.">
       <div className="flex h-full min-h-[1px] min-w-[1px] flex-col overflow-hidden">
         <div className="min-h-[1px] min-w-[1px] flex-1 rounded-2xl bg-gradient-to-b from-zinc-50/70 to-white pt-2 dark:from-zinc-900/80 dark:to-zinc-950/30">
           <ResponsiveContainer width="100%" height={260} minWidth={1} minHeight={1} debounce={50}>

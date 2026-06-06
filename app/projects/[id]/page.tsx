@@ -1,12 +1,11 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import ProjectDetailsView from "../../components/project-detail/ProjectDetailsView";
+import WarehouseDetailsView from "../../components/warehouses/WarehouseDetailsView";
 
-export default function ProjectDetailsPage() {
+export default function WarehouseDetailsPage() {
   const params = useParams<{ id: string }>();
-  const projectId = params?.id ?? "";
+  const warehouseId = params?.id ?? "";
 
-  return <ProjectDetailsView projectId={projectId} />;
+  return <WarehouseDetailsView warehouseId={warehouseId} />;
 }
-

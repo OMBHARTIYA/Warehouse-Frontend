@@ -83,8 +83,8 @@ export default function DashboardHeader({
     <section className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 shadow-sm transition-colors dark:shadow-black/20 sm:p-6">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="w-full">
-          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">Dashboard</h2>
-          <p className="mt-2 text-base text-zinc-500 dark:text-zinc-400 sm:text-lg">Plan, prioritize, and accomplish your tasks with ease.</p>
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">Warehouse Overview</h2>
+          <p className="mt-2 text-base text-zinc-500 dark:text-zinc-400 sm:text-lg">Monitor stock health, recent movements, and team activity across your warehouses.</p>
         </div>
       </div>
 
@@ -92,11 +92,11 @@ export default function DashboardHeader({
         <div className="relative w-full lg:max-w-xl">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 dark:text-zinc-400" size={18} aria-hidden="true" />
           <input
-            id="dashboard-task-search"
-            name="dashboardTaskSearch"
+            id="dashboard-warehouse-search"
+            name="dashboardWarehouseSearch"
             type="search"
-            aria-label="Search tasks"
-            placeholder="Search task"
+            aria-label="Search products or movements"
+            placeholder="Search product or movement"
             value={searchQuery}
             onChange={(event) => onSearchQueryChange(event.target.value)}
             onFocus={onSearchFocus}
@@ -115,13 +115,13 @@ export default function DashboardHeader({
                         className="flex w-full items-start justify-between gap-3 px-4 py-2 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800"
                       >
                         <span className="truncate text-sm font-medium text-zinc-800 dark:text-zinc-100">{task.title}</span>
-                        <span className="truncate text-xs text-zinc-500 dark:text-zinc-400">{task.projectName ?? task.project?.name ?? "Unknown project"}</span>
+                        <span className="truncate text-xs text-zinc-500 dark:text-zinc-400">{task.warehouseName ?? task.projectName ?? task.project?.name ?? "Unknown warehouse"}</span>
                       </button>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">No task suggestions.</p>
+                <p className="px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">No movement suggestions.</p>
               )}
             </div>
           )}

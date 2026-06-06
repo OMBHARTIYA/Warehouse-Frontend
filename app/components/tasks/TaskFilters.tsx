@@ -1,17 +1,16 @@
 import type { PriorityFilter, StatusFilter } from "./types";
 import FilterDropdown from "../common/FilterDropdown";
 
-const STATUS_OPTIONS: StatusFilter[] = ["all", "todo", "in_progress", "done"];
-const PRIORITY_OPTIONS: PriorityFilter[] = ["all", "low", "medium", "high", "critical"];
+const STATUS_OPTIONS: StatusFilter[] = ["all", "draft", "completed", "cancelled"];
+const PRIORITY_OPTIONS: PriorityFilter[] = ["all", "inbound", "outbound", "transfer", "adjustment"];
 
 function formatStatusOption(value: StatusFilter) {
   if (value === "all") return "All statuses";
-  if (value === "in_progress") return "In Progress";
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 function formatPriorityOption(value: PriorityFilter) {
-  if (value === "all") return "All priorities";
+  if (value === "all") return "All movement types";
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
@@ -44,7 +43,7 @@ export default function TaskFilters({
           />
           <FilterDropdown
             id="tasks-priority-filter"
-            label="Priority"
+            label="Movement Type"
             value={priorityFilter}
             options={PRIORITY_OPTIONS.map((value) => ({ value, label: formatPriorityOption(value) }))}
             onChange={onPriorityChange}

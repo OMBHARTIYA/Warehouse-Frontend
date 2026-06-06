@@ -10,12 +10,12 @@ import { useTasks } from "./hooks/useTasks";
 export default function TasksView() {
   const tasksState = useTasks();
   const filters = useTaskFilters(tasksState.tasks);
-  const completedCount = tasksState.tasks.filter((task) => task.status?.toLowerCase() === "done").length;
-  const unassignedCount = tasksState.tasks.filter((task) => !(task.assignee ?? task.assigneeName ?? task.assignee_name)).length;
+  const completedCount = tasksState.tasks.filter((task) => task.status?.toLowerCase() === "completed" || task.status?.toLowerCase() === "done").length;
+  const draftCount = tasksState.tasks.filter((task) => task.status?.toLowerCase() === "draft").length;
 
   return (
     <section className="space-y-6">
-      <TasksHeader total={tasksState.tasks.length} visible={filters.filteredTasks.length} completed={completedCount} unassigned={unassignedCount} />
+      <TasksHeader total={tasksState.tasks.length} visible={filters.filteredTasks.length} completed={completedCount} draft={draftCount} />
 
       {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length > 0 && (
         <TaskFilters
@@ -48,9 +48,9 @@ export default function TasksView() {
         </div>
       )}
 
-      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length === 0 && (<EmptyState title="No tasks yet" description="Tasks will appear here when they are created." />)}
+      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length === 0 && (<EmptyState title="No movements yet" description="Movements will appear here when stock activity is recorded." />)}
 
-      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length > 0 && filters.filteredTasks.length === 0 && (<EmptyState title="No tasks match these filters" description="Try changing status/priority filters or reset them." />)}
+      {!tasksState.isLoading && !tasksState.error && tasksState.tasks.length > 0 && filters.filteredTasks.length === 0 && (<EmptyState title="No movements match these filters" description="Try changing movement filters or reset them." />)}
 
       {!tasksState.isLoading && !tasksState.error && filters.filteredTasks.length > 0 && <TasksTable tasks={filters.filteredTasks} />}
     </section>

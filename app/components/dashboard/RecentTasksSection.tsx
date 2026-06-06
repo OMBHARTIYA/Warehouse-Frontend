@@ -18,19 +18,20 @@ function priorityBadgeClass(priority: string) {
 export default function RecentTasksSection({ tasks, emptyMessage }: { tasks: RecentTask[]; emptyMessage: string }) {
   return (
     <section className="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-colors dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:shadow-black/20 sm:p-5">
-      <h3 className="text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">Recent Tasks</h3>
+      <h3 className="text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">Recent Movements</h3>
       {tasks.length === 0 ? (
         <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">{emptyMessage}</p>
       ) : (
         <ul className="mt-3 space-y-2.5">
           {tasks.map((task, index) => (
             <li key={String(task.id ?? index)} className="rounded-xl border border-zinc-200/80 bg-zinc-50/70 px-3 py-2.5 transition-colors dark:border-zinc-700 dark:bg-zinc-900/60">
-              <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 sm:text-[15px]">{task.title}</p>
+              <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100 sm:text-[15px]">{task.title || task.productName || "Untitled movement"}</p>
               <p className="mt-1 truncate text-xs text-zinc-600 dark:text-zinc-400 sm:text-sm">
-                {task.projectName ??
+                {task.warehouseName ??
+                  task.projectName ??
                   (typeof task.project === "string" ? task.project : undefined) ??
                   task.project?.name ??
-                  (task.projectId ?? task.project?.id ? `Project #${String(task.projectId ?? task.project?.id)}` : "Unknown project")}
+                  (task.projectId ?? task.project?.id ? `Warehouse #${String(task.projectId ?? task.project?.id)}` : "Unknown warehouse")}
               </p>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 <span className={`inline-flex rounded-md px-2 py-0.5 text-[11px] font-medium capitalize ring-1 ${statusBadgeClass(task.status ?? "unknown")}`}>
@@ -39,6 +40,11 @@ export default function RecentTasksSection({ tasks, emptyMessage }: { tasks: Rec
                 <span className={`inline-flex rounded-md px-2 py-0.5 text-[11px] font-medium capitalize ring-1 ${priorityBadgeClass(task.priority ?? "unknown")}`}>
                   {task.priority ?? "Unknown priority"}
                 </span>
+                {typeof task.quantity === "number" && task.quantity !== 0 ? (
+                  <span className="inline-flex rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-700 ring-1 ring-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:ring-zinc-700">
+                    Qty {task.quantity}
+                  </span>
+                ) : null}
               </div>
             </li>
           ))}

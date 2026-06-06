@@ -10,13 +10,13 @@ export default function ProjectsHeader({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-red-strong)]">
-            Workspace
+            Warehouse Network
           </p>
           <h2 className="mt-1 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
-            Projects
+            Warehouses
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-500 dark:text-zinc-300 sm:text-base">
-            Manage your workspace projects, ownership, and delivery progress.
+            Manage storage locations, ownership, and warehouse capacity visibility.
           </p>
         </div>
 
@@ -25,7 +25,7 @@ export default function ProjectsHeader({
           onClick={onToggleCreate}
           className="inline-flex items-center justify-center rounded-full border border-[var(--brand-red-border)] bg-[var(--brand-red)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[var(--brand-red-strong)] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--brand-red-soft)]"
         >
-          {isCreateFormVisible ? "Cancel" : "Add Project"}
+          {isCreateFormVisible ? "Cancel" : "Add Warehouse"}
         </button>
       </div>
     </header>

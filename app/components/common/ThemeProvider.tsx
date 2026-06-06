@@ -4,8 +4,8 @@ import { useEffect, type ReactNode } from "react";
 
 type Theme = "light" | "dark";
 
-const STORAGE_KEY = "jira-theme";
-const THEME_EVENT = "jira-theme-change";
+const STORAGE_KEY = "warehouse-theme";
+const THEME_EVENT = "warehouse-theme-change";
 
 function getStoredTheme(): Theme {
   if (typeof window === "undefined") return "light";
