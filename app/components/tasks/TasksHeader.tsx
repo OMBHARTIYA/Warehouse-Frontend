@@ -1,9 +1,9 @@
-export default function TasksHeader({ total, visible, completed, unassigned }: { total: number; visible: number; completed: number; unassigned: number; }) {
+export default function TasksHeader({ total, visible, completed, draft }: { total: number; visible: number; completed: number; draft: number; }) {
   const cards = [
     { label: "Total Movements", value: total, tone: "from-rose-100 via-pink-50 to-white", darkTone: "dark:from-rose-950/45 dark:via-zinc-900 dark:to-zinc-950" },
     { label: "Visible", value: visible, tone: "from-orange-100 via-amber-50 to-white", darkTone: "dark:from-orange-950/35 dark:via-zinc-900 dark:to-zinc-950" },
     { label: "Completed", value: completed, tone: "from-emerald-100 via-green-50 to-white", darkTone: "dark:from-emerald-950/35 dark:via-zinc-900 dark:to-zinc-950" },
-    { label: "Unassigned", value: unassigned, tone: "from-violet-100 via-purple-50 to-white", darkTone: "dark:from-violet-950/35 dark:via-zinc-900 dark:to-zinc-950" },
+    { label: "Draft", value: draft, tone: "from-violet-100 via-purple-50 to-white", darkTone: "dark:from-violet-950/35 dark:via-zinc-900 dark:to-zinc-950" },
   ];
 
   return (

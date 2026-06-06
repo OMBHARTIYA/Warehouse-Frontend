@@ -1,9 +1,19 @@
 export type Task = {
   id: string | number;
-  title: string;
+  title?: string;
+  reference_code?: string | null;
+  movement_type?: string | null;
   description?: string | null;
   status: string;
-  priority: string;
+  priority?: string;
+  quantity?: number;
+  sku?: string | null;
+  product_name?: string | null;
+  warehouse_name?: string | null;
+  warehouse_code?: string | null;
+  source_warehouse_name?: string | null;
+  destination_warehouse_name?: string | null;
+  notes?: string | null;
   projectId?: string | number | null;
   project_id?: string | number | null;
   project?: string | null;
@@ -17,5 +27,5 @@ export type Task = {
   created_at?: string | null;
 };
 
-export type StatusFilter = "all" | "todo" | "in_progress" | "done";
-export type PriorityFilter = "all" | "low" | "medium" | "high" | "critical";
+export type StatusFilter = "all" | "draft" | "completed" | "cancelled";
+export type PriorityFilter = "all" | "inbound" | "outbound" | "transfer" | "adjustment";

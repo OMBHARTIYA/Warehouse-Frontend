@@ -1,19 +1,25 @@
 import { FormEvent } from "react";
 import ProjectForm from "./ProjectForm";
 
-export default function ProjectEditForm({ projectId, editName, editDescription, actionError, isSaving, onEditNameChange, onEditDescriptionChange, onSubmit, onCancel }: { projectId: string | number; editName: string; editDescription: string; actionError: string; isSaving: boolean; onEditNameChange: (value: string) => void; onEditDescriptionChange: (value: string) => void; onSubmit: (event: FormEvent<HTMLFormElement>, projectId: string | number) => void; onCancel: () => void; }) {
+export default function ProjectEditForm({ projectId, editCode, editName, editDescription, editAddress, actionError, isSaving, onEditCodeChange, onEditNameChange, onEditDescriptionChange, onEditAddressChange, onSubmit, onCancel }: { projectId: string | number; editCode: string; editName: string; editDescription: string; editAddress: string; actionError: string; isSaving: boolean; onEditCodeChange: (value: string) => void; onEditNameChange: (value: string) => void; onEditDescriptionChange: (value: string) => void; onEditAddressChange: (value: string) => void; onSubmit: (event: FormEvent<HTMLFormElement>, projectId: string | number) => void; onCancel: () => void; }) {
   return (
     <ProjectForm
+      code={editCode}
       name={editName}
       description={editDescription}
+      address={editAddress}
       error={actionError}
       isSubmitting={isSaving}
+      onCodeChange={onEditCodeChange}
       onNameChange={onEditNameChange}
       onDescriptionChange={onEditDescriptionChange}
+      onAddressChange={onEditAddressChange}
       onSubmit={(event) => onSubmit(event, projectId)}
       formClassName="space-y-4"
+      codeId={`edit-code-${projectId}`}
       nameId={`edit-name-${projectId}`}
       descriptionId={`edit-description-${projectId}`}
+      addressId={`edit-address-${projectId}`}
       submitLabel="Save"
       submittingLabel="Saving..."
       footer={

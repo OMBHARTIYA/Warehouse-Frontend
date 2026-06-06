@@ -25,12 +25,16 @@ export default function ProjectsView() {
 
       {projectsState.isCreateFormVisible && (
         <ProjectCreateForm
+          code={projectsState.code}
           name={projectsState.name}
           description={projectsState.description}
+          address={projectsState.address}
           createError={projectsState.createError}
           isSubmitting={projectsState.isSubmitting}
+          onCodeChange={projectsState.setCode}
           onNameChange={projectsState.setName}
           onDescriptionChange={projectsState.setDescription}
+          onAddressChange={projectsState.setAddress}
           onSubmit={projectsState.handleCreateProject}
         />
       )}
@@ -63,9 +67,9 @@ export default function ProjectsView() {
         />
       )}
 
-      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length === 0 && (<EmptyState title="No projects yet" description="Create your first project to start organizing tasks." />)}
+      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length === 0 && (<EmptyState title="No warehouses yet" description="Create your first warehouse to start tracking storage locations." />)}
 
-      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && filters.visibleProjects.length === 0 && (<EmptyState title="No projects match your search" description="Try a different name query or adjust sorting." />)}
+      {!projectsState.isLoading && !projectsState.error && projectsState.projects.length > 0 && filters.visibleProjects.length === 0 && (<EmptyState title="No warehouses match your search" description="Try a different name query or adjust sorting." />)}
 
       {!projectsState.isLoading && !projectsState.error && filters.visibleProjects.length > 0 && (
         <div className="grid gap-4 md:grid-cols-2">
@@ -73,18 +77,21 @@ export default function ProjectsView() {
             <ProjectCard
               key={project.id}
               project={project}
-              taskSummary={projectsState.projectTaskSummaries[String(project.id)]}
               canManage={projectsState.canManageProject(project)}
               isEditing={projectsState.editingProjectId === project.id}
+              editCode={projectsState.editCode}
               editName={projectsState.editName}
               editDescription={projectsState.editDescription}
+              editAddress={projectsState.editAddress}
               actionError={projectsState.activeActionProjectId === project.id ? projectsState.actionError : ""}
               isSaving={projectsState.activeActionProjectId === project.id && projectsState.activeActionType === "edit"}
               isDeleting={projectsState.activeActionProjectId === project.id && projectsState.activeActionType === "delete"}
               onStartEdit={projectsState.startEditProject}
               onDelete={setPendingDeleteProject}
+              onEditCodeChange={projectsState.setEditCode}
               onEditNameChange={projectsState.setEditName}
               onEditDescriptionChange={projectsState.setEditDescription}
+              onEditAddressChange={projectsState.setEditAddress}
               onEditSubmit={projectsState.handleEditProject}
               onCancelEdit={projectsState.cancelEditProject}
             />
@@ -94,9 +101,9 @@ export default function ProjectsView() {
 
       <ConfirmDialog
         isOpen={pendingDeleteProject !== null}
-        title="Delete project"
+        title="Delete warehouse"
         message="Are you sure you want to delete this item? This action cannot be undone."
-        confirmLabel="Delete project"
+        confirmLabel="Delete warehouse"
         onCancel={() => setPendingDeleteProject(null)}
         onConfirm={async () => {
           if (!pendingDeleteProject) return;
@@ -106,7 +113,7 @@ export default function ProjectsView() {
         isBusy={projectsState.activeActionType === "delete"}
       />
 
-      {projectsState.lastDeletedProject && <UndoBanner message="Project deleted." onUndo={() => { void projectsState.undoDeleteProject(); }} />}
+      {projectsState.lastDeletedProject && <UndoBanner message="Warehouse deleted." onUndo={() => { void projectsState.undoDeleteProject(); }} />}
     </section>
   );
 }

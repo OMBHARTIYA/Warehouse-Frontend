@@ -7,7 +7,7 @@ export function useTaskFilters(tasks: Task[]) {
 
   const filteredTasks = useMemo(() => tasks.filter((task) => {
     const matchesStatus = statusFilter === "all" || task.status === statusFilter;
-    const matchesPriority = priorityFilter === "all" || task.priority === priorityFilter;
+    const matchesPriority = priorityFilter === "all" || task.movement_type === priorityFilter || task.priority === priorityFilter;
     return matchesStatus && matchesPriority;
   }), [tasks, statusFilter, priorityFilter]);
 
