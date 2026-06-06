@@ -21,6 +21,11 @@ export default function StockView() {
   const [rows, setRows] = useState<StockRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const lowStockCount = rows.filter((row) => {
+    const quantity = Number(row.quantity ?? 0);
+    const reorderLevel = Number(row.reorder_level ?? 0);
+    return reorderLevel > 0 && quantity <= reorderLevel;
+  }).length;
 
   useEffect(() => {
     let ignore = false;
@@ -59,6 +64,14 @@ export default function StockView() {
         <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--brand-red-strong)]">Inventory</p>
         <h2 className="mt-1 text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">Stock</h2>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-300 sm:text-base">Review quantities, reserved stock, and reorder thresholds by warehouse.</p>
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-medium text-zinc-600 dark:text-zinc-300">
+          <span className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-2.5 py-1 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70">
+            Stock Rows: {rows.length}
+          </span>
+          <span className="inline-flex items-center rounded-full border border-amber-100 bg-amber-50 px-2.5 py-1 text-amber-700 shadow-sm dark:border-amber-900/70 dark:bg-amber-950/40 dark:text-amber-300">
+            Low Stock Alerts: {lowStockCount}
+          </span>
+        </div>
       </header>
       <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-[var(--surface-2)]">
         <div className="overflow-x-auto">
@@ -76,14 +89,18 @@ export default function StockView() {
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
               {rows.map((row) => (
-                <tr key={row.id}>
+                <tr key={row.id} className={Number(row.reorder_level ?? 0) > 0 && Number(row.quantity ?? 0) <= Number(row.reorder_level ?? 0) ? "bg-amber-50/50 dark:bg-amber-950/10" : undefined}>
                   <td className="px-4 py-4 font-semibold text-zinc-900 dark:text-zinc-100">{row.warehouse_name} {row.warehouse_code ? `(${row.warehouse_code})` : ""}</td>
                   <td className="px-4 py-4">{row.product_name} {row.sku ? `(${row.sku})` : ""}</td>
                   <td className="px-4 py-4">{row.category || "Uncategorized"}</td>
                   <td className="px-4 py-4">{row.unit || "pcs"}</td>
                   <td className="px-4 py-4">{Number(row.quantity ?? 0)}</td>
                   <td className="px-4 py-4">{Number(row.reserved_quantity ?? 0)}</td>
-                  <td className="px-4 py-4">{Number(row.reorder_level ?? 0)}</td>
+                  <td className="px-4 py-4">
+                    <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${Number(row.reorder_level ?? 0) > 0 && Number(row.quantity ?? 0) <= Number(row.reorder_level ?? 0) ? "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300" : "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"}`}>
+                      {Number(row.reorder_level ?? 0)}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -1,5 +1,11 @@
 # Warehouse Management App
 
+![Status](https://img.shields.io/badge/status-live-success)
+![Frontend](https://img.shields.io/badge/frontend-Next.js-black)
+![Backend](https://img.shields.io/badge/backend-Express-444)
+![Database](https://img.shields.io/badge/database-PostgreSQL-336791)
+![Deploy](https://img.shields.io/badge/deploy-Vercel%20%2B%20Render-blueviolet)
+
 Warehouse Management App is a live full-stack inventory operations project built from an earlier task manager foundation and refactored into a warehouse workflow system for small teams.
 
 It is designed as a practical portfolio project that demonstrates:
@@ -24,6 +30,14 @@ It is designed as a practical portfolio project that demonstrates:
 - stock visibility by warehouse
 - movement history for inbound, outbound, transfer, and adjustment flows
 - operational dashboard for warehouse activity
+
+## Highlights
+
+- live cloud deployment with separate frontend and backend services
+- warehouse, stock, movement, and product views connected to a real Postgres backend
+- admin and user role model with protected routes
+- production auth hardening and rate-limited login endpoints
+- portfolio-ready example of transforming an existing codebase into a different business domain
 
 ## Screens Included
 
