@@ -112,7 +112,8 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 
 ## Related Repository
 
-Clean backend source will be published from the fresh `Warehouse-Backend-Clean` project after deployment.
+Clean backend source:
+- [OMBHARTIYA/Warehouse-Backend-Clean](https://github.com/OMBHARTIYA/Warehouse-Backend-Clean)
 
 ## Why This Project Matters
 
