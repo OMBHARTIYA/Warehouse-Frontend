@@ -1,19 +1,20 @@
 # Warehouse Management App - Project Overview
 
 ## Goal
-Transform the current Task Manager application into a Warehouse Management application for small-scale company operations.
+Build a portfolio-safe Warehouse Management application for small-scale inventory operations.
 
 ## Current Status
 - Frontend: Next.js app (connected repository)
-- Backend: Node.js/Express app (local, separate folder)
-- Auth: JWT-based login already available
-- Existing entities: users, projects, tasks
+- Backend: clean-room Node.js/Express API in a separate fresh repository folder
+- Auth: JWT-based login available in the clean backend
+- Data: sanitized demonstration records only
 
-## Domain Migration Plan
-- `projects` -> `warehouses`
-- `tasks` -> `inventory movements` (inbound, outbound, transfer, adjustment)
-- Add `products` and `stock` models
-- Keep users/roles for operations access control
+## Domain Model
+- `warehouses`
+- `products`
+- `stock`
+- `movements`
+- `users`
 
 ## MVP Features
 1. Warehouse CRUD
@@ -24,18 +25,18 @@ Transform the current Task Manager application into a Warehouse Management appli
 
 ## Zero-Cost Deployment Plan (Validation Stage)
 - Frontend hosting: Vercel Hobby (free)
-- Backend hosting: Render free service (or Railway trial)
-- Database: Neon/Supabase free Postgres
+- Backend hosting: Render free service or another low-cost Node host
+- Data layer: sanitized demo dataset first, managed Postgres later if needed
 
 ## Important Technical Note
-Current backend uses local `sql.js` file database. Before public testing, migrate backend DB to managed Postgres for reliable multi-user cloud access.
+Do not publish private workplace datasets, screenshots, or source artifacts. Public portfolio data must remain synthetic and safe to share.
 
 ## Next Technical Steps
-1. Add Postgres support in backend
-2. Create warehouse/product/stock/movement tables
-3. Expose warehouse APIs
-4. Connect frontend to new APIs
-5. Deploy and test with 2-3 users
+1. Publish the clean backend repository from `Warehouse-Backend-Clean`
+2. Deploy the clean backend
+3. Update frontend environment variables to point to the clean backend
+4. Test the live frontend with demo login
+5. Keep non-public workplace examples separate from public repos
 
 ## Owner
 GitHub user: OMBHARTIYA

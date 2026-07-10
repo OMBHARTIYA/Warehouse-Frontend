@@ -3,7 +3,7 @@
 
 ## Project goal
 
-This is a beginner-friendly Jira-style Task Manager frontend built with Next.js. The backend API already exists and provides auth, RBAC, projects, tasks, users, and statistics.
+This is a warehouse management frontend built with Next.js. The clean backend API provides auth, RBAC, warehouses, products, stock, movements, users, and dashboard statistics with sanitized demo data.
 
 The main goal for agents is to keep the app easy to edit, easy to track, and split into small reusable components. Do not build huge page files. Pages should compose components, not contain all UI, fetching, forms, modals, tables, and drag-and-drop logic in one place.
 
@@ -88,30 +88,30 @@ PUT /api/users/:id
 DELETE /api/users/:id
 ```
 
-Projects:
+Warehouses:
 
 ```txt
-GET /api/projects
-POST /api/projects
-GET /api/projects/:id
-PUT /api/projects/:id
-DELETE /api/projects/:id
+GET /api/warehouses
+POST /api/warehouses
+GET /api/warehouses/:id
+PUT /api/warehouses/:id
+DELETE /api/warehouses/:id
 ```
 
-Tasks:
+Inventory:
 
 ```txt
-GET /api/tasks
-GET /api/tasks?projectId=:id
-POST /api/tasks
-PUT /api/tasks/:id
-DELETE /api/tasks/:id
+GET /api/products
+GET /api/stock
+GET /api/stock?warehouseId=:id
+GET /api/movements
+GET /api/movements?warehouseId=:id
 ```
 
 Statistics:
 
 ```txt
-GET /api/statistics
+GET /api/warehouse-statistics
 ```
 
 Every request except login/register needs:
@@ -407,7 +407,7 @@ export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
 - On 403, show a permission error toast.
 - Never trust client-side role checks as security. They are for UX only; backend RBAC is the source of truth.
 - Admin-only UI should check `user.role === "admin"`.
-- Owner-only project actions should compare current user id with `owner_id` when available.
+- Owner-only warehouse actions should compare current user id with `owner_id` when available.
 
 ## Forms and validation
 
@@ -415,15 +415,15 @@ export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
 - Use `zod` when validation becomes more than simple required fields.
 - Login fields: username, password.
 - Register fields: username, email, password.
-- Project form fields: name, description.
-- Task form fields: title, description, priority, status when editing, assigneeId.
+- Warehouse form fields: code, name, description, address.
+- Movement display fields: reference code, type, status, product, warehouse, quantity.
 - Passwords must be at least 6 characters where the frontend validates them.
 - Use proper input types: `email`, `password`, `text`.
 
 ## UI and responsive rules
 
 - Use Tailwind classes consistently.
-- Keep the Jira/task-manager style clean, dense, and readable.
+- Keep the warehouse operations style clean, dense, and readable.
 - Tables must have mobile horizontal scrolling.
 - Modals should close on Escape and backdrop click.
 - Modals should focus the first input on open.

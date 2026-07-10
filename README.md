@@ -1,25 +1,26 @@
 # Warehouse Management App
 
-![Status](https://img.shields.io/badge/status-live-success)
+![Status](https://img.shields.io/badge/status-frontend%20ready-success)
 ![Frontend](https://img.shields.io/badge/frontend-Next.js-black)
 ![Backend](https://img.shields.io/badge/backend-Express-444)
-![Database](https://img.shields.io/badge/database-PostgreSQL-336791)
-![Deploy](https://img.shields.io/badge/deploy-Vercel%20%2B%20Render-blueviolet)
+![Data](https://img.shields.io/badge/data-sanitized%20demo-336791)
+![Deploy](https://img.shields.io/badge/deploy-Vercel-blueviolet)
 
-Warehouse Management App is a live full-stack inventory operations project built from an earlier task manager foundation and refactored into a warehouse workflow system for small teams.
+Warehouse Management App is a portfolio inventory operations interface for small-team warehouse workflows.
 
 It is designed as a practical portfolio project that demonstrates:
 - full-stack product thinking
 - authentication and role-based access
-- cloud deployment on free-tier infrastructure
+- API-driven frontend architecture
 - warehouse domain modeling
 - inventory movement and stock visibility workflows
+- clear dashboards for operational reporting
 
 ## Live Demo
 
 - Frontend: [project-ytm78.vercel.app](https://project-ytm78.vercel.app)
-- Backend API: [warehouse-backend-n8ds.onrender.com](https://warehouse-backend-n8ds.onrender.com)
-- API docs: [warehouse-backend-n8ds.onrender.com/api-docs](https://warehouse-backend-n8ds.onrender.com/api-docs)
+
+The public backend is being replaced with a clean-room API that uses sanitized demonstration data only. Until that redeployment is complete, treat this repository as the frontend showcase.
 
 ## What The App Does
 
@@ -33,11 +34,11 @@ It is designed as a practical portfolio project that demonstrates:
 
 ## Highlights
 
-- live cloud deployment with separate frontend and backend services
-- warehouse, stock, movement, and product views connected to a real Postgres backend
+- responsive warehouse operations UI
+- warehouse, stock, movement, and product views connected through reusable API services
 - admin and user role model with protected routes
-- production auth hardening and rate-limited login endpoints
-- portfolio-ready example of transforming an existing codebase into a different business domain
+- dashboard widgets for stock health, movement mix, recent activity, and user activity
+- portfolio-ready example of business workflow modeling for inventory operations
 
 ## Screens Included
 
@@ -62,21 +63,20 @@ It is designed as a practical portfolio project that demonstrates:
 - Node.js
 - Express
 - TypeScript
-- PostgreSQL
 - JWT authentication
+- sanitized demo data
 
 ### Hosting
 - Vercel for frontend
-- Render for backend
-- Neon Postgres for database
+- clean backend deployment pending
 
 ## Architecture
 
 ```mermaid
 flowchart LR
     U["User Browser"] --> F["Next.js Frontend (Vercel)"]
-    F --> B["Express API (Render)"]
-    B --> D["PostgreSQL (Neon)"]
+    F --> B["Clean Express API"]
+    B --> D["Sanitized Demo Dataset"]
 ```
 
 ## Main Warehouse Domain Model
@@ -86,10 +86,6 @@ flowchart LR
 - `stock`
 - `movements`
 - `users`
-
-The original task-manager entities were reworked into warehouse operations:
-- `projects` evolved into warehouse-facing management screens
-- `tasks` evolved into movement-facing operational flows
 
 ## Security Work Completed
 
@@ -116,20 +112,19 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 
 ## Related Repository
 
-Backend source:
-- [OMBHARTIYA/Warehouse-Backend](https://github.com/OMBHARTIYA/Warehouse-Backend)
+Clean backend source will be published from the fresh `Warehouse-Backend-Clean` project after deployment.
 
 ## Why This Project Matters
 
 This project shows the ability to:
-- take an existing codebase and reshape it into a different product domain
-- deploy a working SaaS-style app on cloud services
-- move from local development to live multi-user access
-- identify and fix real deployment and security issues during launch
+- translate operational requirements into a usable dashboard workflow
+- structure frontend code around reusable services, hooks, and UI components
+- present inventory, stock, and movement data in a way operators can scan quickly
+- separate portfolio-safe demo data from non-public workplace examples
 
 ## Current Status
 
-This project is live and usable.
+The frontend is live. The backend is being replaced with a clean-room service before public linking.
 
 Current focus areas for future improvement:
 - stronger session security with HttpOnly cookies
