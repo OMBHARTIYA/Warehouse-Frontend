@@ -25,6 +25,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const TOKEN_STORAGE_KEY = "token";
+const LOGIN_TIMEOUT_MS = 90_000;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -96,7 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [logout]);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    const response = await api.post("/api/auth/login", credentials);
+    const response = await api.post("/api/auth/login", credentials, {
+      timeout: LOGIN_TIMEOUT_MS,
+    });
     const nextToken = response.data?.token;
 
     if (!nextToken || typeof nextToken !== "string") {
