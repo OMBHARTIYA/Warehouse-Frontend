@@ -4,15 +4,6 @@ import type { User } from "@/types/auth";
 import { createProject, deleteProject, getProjects, updateProject } from "../services/projectService";
 import type { Project, ProjectTaskSummary } from "../types";
 
-function createEmptySummary(): ProjectTaskSummary {
-  return {
-    total: 0,
-    completed: 0,
-    inProgress: 0,
-    critical: 0,
-  };
-}
-
 function buildWarehouseSummaries(projects: Project[]) {
   return projects.reduce<Record<string, ProjectTaskSummary>>((summaries, project) => {
     const key = String(project.id);
