@@ -6,7 +6,7 @@ type TopBarProps = {
 
 export default function TopBar({ onOpenMenu }: TopBarProps) {
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[var(--border-soft)] bg-[var(--surface)]/95 p-4 backdrop-blur lg:hidden">
+    <header className="sticky top-0 z-20 flex items-center justify-between border-b border-[var(--border-soft)] bg-[var(--surface)]/95 p-4 backdrop-blur md:hidden">
       <h1 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">Warehouse OS</h1>
       <button
         type="button"

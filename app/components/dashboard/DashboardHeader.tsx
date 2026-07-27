@@ -80,15 +80,15 @@ export default function DashboardHeader({
   }, []);
 
   return (
-    <section className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-4 shadow-sm transition-colors dark:shadow-black/20 sm:p-5">
-      <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+    <section className="rounded-3xl border border-[var(--border-soft)] bg-[var(--surface-2)] p-5 shadow-sm transition-colors dark:shadow-black/20 sm:p-6">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="w-full">
-          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">Warehouse Overview</h2>
-          <p className="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400 sm:text-base">Monitor stock health, recent movements, and team activity across your warehouses.</p>
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl lg:text-5xl">Warehouse Overview</h2>
+          <p className="mt-2 text-base text-zinc-500 dark:text-zinc-400 sm:text-lg">Monitor stock health, recent movements, and team activity across your warehouses.</p>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-700 lg:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="mt-5 grid gap-4 border-t border-zinc-200 pt-5 dark:border-zinc-700 lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="relative w-full lg:max-w-xl">
           <Search className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 dark:text-zinc-400" size={18} aria-hidden="true" />
           <input
@@ -101,7 +101,7 @@ export default function DashboardHeader({
             onChange={(event) => onSearchQueryChange(event.target.value)}
             onFocus={onSearchFocus}
             onBlur={onSearchBlur}
-            className="h-11 w-full rounded-full border border-[var(--border-soft)] bg-[var(--surface)] pl-11 pr-4 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:text-zinc-100 dark:placeholder:text-zinc-500"
+            className="h-12 w-full rounded-full border border-[var(--border-soft)] bg-[var(--surface)] pl-11 pr-4 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-[var(--brand-red-border)] focus:ring-2 focus:ring-[var(--brand-red-soft)] dark:text-zinc-100 dark:placeholder:text-zinc-500"
           />
           {shouldShowSuggestions && (
             <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:shadow-black/30">
