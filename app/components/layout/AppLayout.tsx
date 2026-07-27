@@ -29,8 +29,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] md:h-screen md:overflow-hidden">
-      <div className="mx-auto max-w-[1600px] md:flex md:h-full md:w-full md:gap-4 md:p-4">
+    <div className="min-h-screen bg-[var(--background)] lg:h-screen lg:overflow-hidden">
+      <div className="mx-auto max-w-[1600px] lg:flex lg:h-full lg:w-full lg:gap-4 lg:p-4">
       <TopBar onOpenMenu={() => setIsMobileMenuOpen(true)} />
 
       <MobileSidebar
@@ -44,7 +44,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
       <Sidebar username={username} navItems={navItems} pathname={pathname} onLogout={handleLogout} />
 
-      <main className="flex-1 p-4 sm:p-5 md:h-full md:overflow-y-auto md:rounded-[28px] md:border md:border-[var(--border-soft)] md:bg-[var(--surface)] md:p-4 lg:p-5">{children}</main>
+      <main className="flex-1 p-4 sm:p-5 lg:h-full lg:overflow-y-auto lg:rounded-[28px] lg:border lg:border-[var(--border-soft)] lg:bg-[var(--surface)] lg:p-5">{children}</main>
       </div>
     </div>
   );
