@@ -28,11 +28,11 @@ export default function MobileSidebar({
     <>
       <button
         type="button"
-        className="fixed inset-0 z-30 bg-black/50 backdrop-blur-[2px] lg:hidden"
+        className="fixed inset-0 z-30 bg-black/50 backdrop-blur-[2px] md:hidden"
         onClick={onClose}
         aria-label="Close navigation menu"
       />
-      <aside className="fixed inset-y-0 left-0 z-40 m-3 flex w-[calc(100%-1.5rem)] max-w-72 flex-col overflow-y-auto rounded-[28px] border border-zinc-200 bg-white p-5 shadow-2xl shadow-black/20 dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:shadow-black/50 lg:hidden">
+      <aside className="fixed inset-y-0 left-0 z-40 m-3 flex w-[calc(100%-1.5rem)] max-w-72 flex-col overflow-y-auto rounded-[28px] border border-zinc-200 bg-white p-5 shadow-2xl shadow-black/20 dark:border-zinc-700 dark:bg-[var(--surface-2)] dark:shadow-black/50 md:hidden">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <h1 className="truncate text-xl font-bold text-zinc-900 dark:text-zinc-50">Warehouse OS</h1>
