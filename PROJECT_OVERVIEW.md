@@ -1,42 +1,50 @@
-# Warehouse Management App - Project Overview
+# Warehouse OS — Project Overview
 
 ## Goal
-Build a portfolio-safe Warehouse Management application for small-scale inventory operations.
 
-## Current Status
-- Frontend: Next.js app (connected repository)
-- Backend: clean-room Node.js/Express API in a separate fresh repository folder
-- Auth: JWT-based login available in the clean backend
-- Data: sanitized demonstration records only
+Warehouse OS is a portfolio-safe application for small-team inventory operations.
+Only synthetic demonstration data belongs in its public repositories and hosted
+demo.
 
-## Domain Model
-- `warehouses`
-- `products`
-- `stock`
-- `movements`
-- `users`
+## Current deployment
 
-## MVP Features
-1. Warehouse CRUD
-2. Product catalog (SKU, name, category, reorder level)
-3. Stock by warehouse
-4. Inventory movement logs
-5. Basic dashboard (low stock, inbound/outbound counts)
+- Frontend repository: `OMBHARTIYA/Warehouse-Frontend`
+- Frontend host: Vercel project `warehouse-os`
+- Production frontend: `https://warehouse-os-app.vercel.app`
+- Backend repository: `OMBHARTIYA/Warehouse-Backend`
+- Production API: `https://warehouse-backend-n8ds.onrender.com`
 
-## Zero-Cost Deployment Plan (Validation Stage)
-- Frontend hosting: Vercel Hobby (free)
-- Backend hosting: Render free service or another low-cost Node host
-- Data layer: sanitized demo dataset first, managed Postgres later if needed
+## Domain model
 
-## Important Technical Note
-Do not publish private workplace datasets, screenshots, or source artifacts. Public portfolio data must remain synthetic and safe to share.
+- warehouses
+- products
+- stock
+- movements
+- users
 
-## Next Technical Steps
-1. Publish the clean backend repository from `Warehouse-Backend-Clean`
-2. Deploy the clean backend
-3. Update frontend environment variables to point to the clean backend
-4. Test the live frontend with demo login
-5. Keep non-public workplace examples separate from public repos
+## Current features
+
+- JWT authentication and admin/user roles
+- warehouse creation, reading, editing, and deletion
+- product catalogue and stock by warehouse
+- inventory movement history
+- dashboard summaries and admin user management
+
+## Data and security boundary
+
+The hosted version is a demonstration system with in-memory synthetic data. It is
+not approved for confidential or business-critical data. A production system
+would need durable storage, HttpOnly cookie sessions, audit logs, backups, account
+recovery, monitoring, and a formal security review.
+
+## Next improvements
+
+1. Move authentication from browser local storage to secure HttpOnly cookies.
+2. Add a durable database with migrations and backups.
+3. Add automated authorization and API integration tests.
+4. Add audit logging for administrative and inventory changes.
+5. Expand stock adjustment and movement creation workflows.
 
 ## Owner
-GitHub user: OMBHARTIYA
+
+GitHub user: `OMBHARTIYA`

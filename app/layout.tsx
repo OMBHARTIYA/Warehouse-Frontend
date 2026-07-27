@@ -20,8 +20,8 @@ const themeScript = `
 `;
 
 export const metadata: Metadata = {
-  title: "Warehouse Management",
-  description: "Small-team warehouse management application",
+  title: "Warehouse OS",
+  description: "Warehouse OS for small-team inventory operations",
 };
 
 export default function RootLayout({
