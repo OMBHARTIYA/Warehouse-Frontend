@@ -12,8 +12,8 @@ type SidebarProps = {
 
 export default function Sidebar({ username, navItems, pathname, onLogout }: SidebarProps) {
   return (
-    <aside className="hidden border-b border-[var(--border-soft)] bg-gradient-to-b from-[var(--surface)] via-[var(--surface)] to-[var(--surface-2)] p-4 md:flex md:h-full md:w-72 md:flex-col md:rounded-[28px] md:border md:p-6">
-      <div className="rounded-2xl border border-zinc-200/80 bg-gradient-to-br from-white via-white to-rose-50 p-4 shadow-sm dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-rose-950/30 dark:shadow-black/20">
+    <aside className="hidden border-b border-[var(--border-soft)] bg-gradient-to-b from-[var(--surface)] via-[var(--surface)] to-[var(--surface-2)] p-4 md:flex md:h-full md:w-64 md:flex-col md:rounded-[28px] md:border md:p-5 xl:w-72">
+      <div className="rounded-2xl border border-zinc-200/80 bg-gradient-to-br from-white via-white to-rose-50 p-3.5 shadow-sm dark:border-zinc-700 dark:from-zinc-900 dark:via-zinc-900 dark:to-rose-950/30 dark:shadow-black/20">
         <div className="flex items-center gap-2.5">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-red-soft)] text-[var(--brand-red-strong)]">
             <CheckSquare size={18} aria-hidden="true" />
@@ -25,7 +25,7 @@ export default function Sidebar({ username, navItems, pathname, onLogout }: Side
         </div>
       </div>
 
-      <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-300">Main</p>
+      <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-300">Main</p>
 
       <SidebarNav
         navItems={navItems}

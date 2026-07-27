@@ -44,7 +44,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
       <Sidebar username={username} navItems={navItems} pathname={pathname} onLogout={handleLogout} />
 
-      <main className="flex-1 p-4 sm:p-6 md:h-full md:overflow-y-auto md:rounded-[28px] md:border md:border-[var(--border-soft)] md:bg-[var(--surface)] md:p-5 lg:p-6">{children}</main>
+      <main className="flex-1 p-4 sm:p-5 md:h-full md:overflow-y-auto md:rounded-[28px] md:border md:border-[var(--border-soft)] md:bg-[var(--surface)] md:p-4 lg:p-5">{children}</main>
       </div>
     </div>
   );
