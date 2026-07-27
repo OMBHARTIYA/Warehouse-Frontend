@@ -48,6 +48,19 @@ html[data-theme="dark"] {
 
 html {
   background: var(--background);
+  font-size: 100%;
+}
+
+@media (min-width: 48rem) {
+  html {
+    font-size: 93.75%;
+  }
+}
+
+@media (min-width: 64rem) {
+  html {
+    font-size: 87.5%;
+  }
 }
 
 body {
